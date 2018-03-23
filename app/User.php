@@ -42,7 +42,7 @@ class User extends Authenticatable
 
     public function userInterests()
     {
-        return $this->hasMany('', '');
+        return $this->hasMany('App\UserInterest', (['userId','interestId']));
     }
 
 

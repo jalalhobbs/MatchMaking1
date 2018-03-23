@@ -5,9 +5,46 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
 class User extends Authenticatable
 {
     use Notifiable;
+
+    public function gender()
+    {
+        return $this->hasOne('App\Gender', 'id');
+    }
+
+    public function religion()
+    {
+        return $this->hasOne('App\Religion', 'id');
+    }
+
+    public function bodyType()
+    {
+        return $this->hasOne('App\BodyType', 'id');
+    }
+
+    public function targetGender()
+    {
+        return $this->hasOne('App\Gender', 'id');
+    }
+
+    public function targetReligion()
+    {
+        return $this->hasOne('App\Religion', 'id');
+    }
+
+    public function targetBodyType()
+    {
+        return $this->hasOne('App\BodyType', 'id');
+    }
+
+    public function userInterests()
+    {
+        return $this->hasMany('', '');
+    }
+
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +52,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstName', 'lastName', 'email', 'password',
     ];
 
     /**

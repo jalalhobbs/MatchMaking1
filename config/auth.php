@@ -35,16 +35,25 @@ return [
     |
     */
 
+    /* Admin function additions,
+    //Code inspired by https://www.youtube.com/watch?v=iKRLrJXNN4M&list=PLwAKR305CRO9S6KVHMJYqZpjPzGPWuQ7Q */
+
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
 
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
     ],
 
     /*
@@ -68,6 +77,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
         ],
 
         // 'users' => [
@@ -96,6 +109,11 @@ return [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 10,
         ],
     ],
 

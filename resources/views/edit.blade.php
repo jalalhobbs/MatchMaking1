@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Personal Profile</div>
+                    <div class="card-header">Edit Profile</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -13,8 +13,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                            <h3>Justin Test</h3>
-                            Male, 35
+                        <h3>Edit Profile</h3>
                     </div>
                 </div>
             </div>

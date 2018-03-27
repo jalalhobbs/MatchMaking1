@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-
-
     /**
      *
      *
@@ -23,8 +21,5 @@ class DatabaseSeeder extends Seeder
             'email' => str_random(10).'@gmail.com',
             'password' => bcrypt('secret'),
         ]);
-
-
-
     }
 }

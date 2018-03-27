@@ -1,6 +1,8 @@
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url('https://fonts.googleapis.com/css?family=Berkshire+Swash');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 // Variables
 @import "variables";
@@ -9,6 +11,30 @@
 @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
-  background-color: #fff;
+  background-color: darken($body-bg, 25%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
+  .navbar-brand {
+    font-family: 'Berkshire Swash', cursive;
+    color: rgba(32, 105, 167, 1);
+
+  }
 }
+
+.card{
+  opacity: 0.7;
+
+  .card-header {
+    font-family: 'Berkshire Swash', cursive;
+    color: rgba(242, 16, 45, 1);
+
+  }
+}
+
+.btn-primary {
+  background-color: #49525e;
+  border-color: #49525e;
+}
+
+
+

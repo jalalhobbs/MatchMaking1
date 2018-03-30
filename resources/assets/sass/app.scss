@@ -1,6 +1,8 @@
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url('https://fonts.googleapis.com/css?family=Berkshire+Swash');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 // Variables
 @import "variables";
@@ -9,6 +11,75 @@
 @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
-  background-color: #fff;
+  background-color: rgba(250, 179, 34, 1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
+  .navbar-brand {
+    font-family: 'Berkshire Swash', cursive;
+    color: rgba(32, 105, 167, 1);
+    font-size: 175%
+
+  }
 }
+
+.card{
+  opacity: 0.5;
+
+  .card-header {
+    font-family: 'Berkshire Swash', cursive;
+    font-size: 125%;
+    color: rgba(242, 16, 45, 1);
+
+  }
+}
+
+.btn-primary {
+  background-color: #49525e;
+  border-color: #49525e;
+}
+
+
+.footer {
+
+  padding-top: 15px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: left;
+
+}
+
+.footerList {
+  list-style: none;
+}
+
+body {
+  background-color: $body-bg;
+  //background-image: url('/images/bg.jpg');
+  background-image: url("https://images.unsplash.com/photo-1496602910407-bacda74a0fe4?ixlib=rb-0.3.5&s=6407ebd98a2da2c81175044807df13f1&auto=format&fit=crop&w=1000&q=80");
+  //background-image: url("https://lh3.googleusercontent.com/42QIlcXoUluAhS0eynkRhU4HEKhUFtxPQ7RzSGv6P4sNPbqD0Dd4dOdMmkVAEsieJK_LGUpANwJ8WOXRR3sP=w1680-h937-rw");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+
+
+
+}
+
+
+
+//html{
+
+
+ // background-image: url("/public/images/images/background/background.jpg") no-repeat center center fixed;
+ // -webkit-background-size: cover;
+ // -moz-background-size: cover;
+ // -o-background-size: cover;)
+
+
+//}
+
+
+

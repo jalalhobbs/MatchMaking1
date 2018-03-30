@@ -1,8 +1,15 @@
 
 // Body
-$body-bg: #f5f8fa;
+$body-bg: rgba(253, 222, 159, 1);
 
-// Typography
-$font-family-sans-serif: "Raleway", sans-serif;
+//rgba(253, 222, 159, 0);
+
+// Typography from Bootstrap = Dont touch.
+$font-family-sans-serif: "Roboto", sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+
+
+//Daz's variables
+$headings-font-family: "Berkshire Swash", cursive;
+// MatchMaker One Heading

@@ -13,34 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- Facebook Register Button -->
 
-    <script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-
-    <script>
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId            : 'your-app-id',
-                autoLogAppEvents : true,
-                xfbml            : true,
-                version          : 'v2.12'
-            });
-        };
-
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
 </head>
 <body>
     <div id="fb-root"></div>
@@ -93,9 +66,98 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <footer class="footer navbar-fixed-bottom">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                            <ul class="footerList">
+                                <li>
+                                    <a>About Match Maker One</a>
+                                </li>
+                                <li>
+                                    <a>FAQ</a>
+                                </li>
+                                <li>
+                                    <a>Help</a>
+                                </li>
+                            </ul>
+
+
+                    </div>
+                    <div class="col-md-4">
+
+                        <ul class="footerList">
+                            <li>
+                                <a>Dating Advice</a>
+                            </li>
+                            <li>
+                                <a>Dating Safety</a>
+                            </li>
+                            <li>
+                                <a></a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="col-md-4">
+
+                        <ul class="footerList">
+                            <li>
+                                <a></a>
+                            </li>
+                            <li>
+                                <a></a>
+                            </li>
+                            <li>
+                                <a></a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <p>&copy; 2018 Match Maker One</p>
+                </div>
+
+            </div>
+
+
+        </footer>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    <!-- Facebook Register Button -->
+
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId            : 'your-app-id',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v2.12'
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
 </body>
 </html>

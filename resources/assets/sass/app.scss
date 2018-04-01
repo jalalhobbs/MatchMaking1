@@ -42,7 +42,6 @@
 .footer {
 
   padding-top: 15px;
-  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -50,7 +49,21 @@
   color: white;
   text-align: left;
 
+
+
 }
+
+@media screen and (min-width: 768px) {
+  .footer {
+    position: inherit;
+  }
+
+  .card {
+    opacity: 0.5;
+    margin-bottom: 45%;
+  }
+}
+
 
 .footerList {
   list-style: none;
@@ -62,7 +75,7 @@ body {
   background-image: url("https://images.unsplash.com/photo-1496602910407-bacda74a0fe4?ixlib=rb-0.3.5&s=6407ebd98a2da2c81175044807df13f1&auto=format&fit=crop&w=1000&q=80");
   //background-image: url("https://lh3.googleusercontent.com/42QIlcXoUluAhS0eynkRhU4HEKhUFtxPQ7RzSGv6P4sNPbqD0Dd4dOdMmkVAEsieJK_LGUpANwJ8WOXRR3sP=w1680-h937-rw");
   background-repeat: no-repeat;
-  background-size: 100% auto;
+  background-size: cover;
 
 
 

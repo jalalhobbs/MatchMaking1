@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
+use Socialite;
 
 class RegisterController extends Controller
 {
@@ -76,6 +77,24 @@ class RegisterController extends Controller
         Mail::to($data['email'])->send(new WelcomeMail($user));
 
         return $user;
+    }
+
+    public function redirectToProvider()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback()
+    {
+        $user = Socialite::driver('facebook')->user();
+
+        return $user->getEmail();
+        // $user->token;
     }
 
 }

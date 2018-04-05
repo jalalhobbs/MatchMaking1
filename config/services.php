@@ -36,12 +36,12 @@ return [
     ],
 
     'facebook' => [
-//        'client_id' => ('192062384737487'),         // Your facebook Client ID
-//        'client_secret' => env('a8213c4c9163e0415b941a83cf070ed8'), // Your facebook Client Secret
-//        'redirect' => 'https://localhost/auth/facebook/callback',
-        'client_id' => ('424529497975253'),         // Your facebook Client ID
-        'client_secret' => env('CLIENT_SECRET'), // Your facebook Client Secret // //fc1d69a1769eaaaaf261c555318c2d7b
-        'redirect' => 'https://localhost/login/facebook/callback/',
+        'client_id' => env('CLIENT_ID'),         // Need to update .enc file with CLIENT_ID
+        'client_secret' => env('CLIENT_SECRET'), // need to update .env file with CLIENT_SECRET
+        'redirect' => env('CLIENT_REDIRECT'),  // need to update .enc file with CLIENT_REDIRECT link needs to be https!
+//        'client_id' => ('424529497975253'),         // Your facebook Client ID
+ //       'client_secret' => env('CLIENT_SECRET'), // Your facebook Client Secret // //fc1d69a1769eaaaaf261c555318c2d7b
+//        'redirect' => 'https://localhost/login/facebook/callback/',
     ],
 
 ];

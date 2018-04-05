@@ -27,9 +27,6 @@ Route::resource('profile', 'ProfileController');
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('facebook.login');
 Route::get('login/facebook/callback/', 'Auth\LoginController@handleProviderCallback');
 
-//Route::get('login/facebook', 'Auth\RegisterController@redirectToProvider');
-//Route::get('login/facebook/callback', 'Auth\RegisterController@handleProviderCallback');
-
 //DO NOT DELETE THE FOLLOWING COMMENTED LINES ---- Work In Progress - SUSPEND - M-400 SPRINT-INTERRUPT 26.03.2018
 //halt: V3 07:30
 //Code inspired by https://www.youtube.com/watch?v=iKRLrJXNN4M&list=PLwAKR305CRO9S6KVHMJYqZpjPzGPWuQ7Q

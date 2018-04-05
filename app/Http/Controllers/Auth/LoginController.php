@@ -58,6 +58,7 @@ class LoginController extends Controller
     {
         $user = Socialite::driver('facebook')->user();
 
+        echo $user->getName();
 //        $user->getId();
         // $user->token;
     }

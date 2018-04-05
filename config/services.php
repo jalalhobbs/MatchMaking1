@@ -36,9 +36,12 @@ return [
     ],
 
     'facebook' => [
-        'client_id' => ('192062384737487'),         // Your facebook Client ID
-        'client_secret' => env('a8213c4c9163e0415b941a83cf070ed8'), // Your facebook Client Secret
-        'redirect' => 'http://localhost/auth/facebook/callback',
+//        'client_id' => ('192062384737487'),         // Your facebook Client ID
+//        'client_secret' => env('a8213c4c9163e0415b941a83cf070ed8'), // Your facebook Client Secret
+//        'redirect' => 'https://localhost/auth/facebook/callback',
+        'client_id' => ('424529497975253'),         // Your facebook Client ID
+        'client_secret' => env('fc1d69a1769eaaaaf261c555318c2d7b'), // Your facebook Client Secret
+        'redirect' => 'https://localhost/login/facebook/callback/',
     ],
 
 ];

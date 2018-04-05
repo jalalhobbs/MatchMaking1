@@ -56,9 +56,24 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('facebook')->user();
+        $driver = Socialite::driver('facebook')->fields([
+            'name',
+            'first_name',
+            'last_name',
+            'email',
+            'gender',
+            'verified'
+        ]);
 
-        echo $user->getName();
+        // following is what we can get for facebook public_profile. See https://developers.facebook.com/docs/facebook-login/permissions#reference-public-profile
+        $user = $driver->user();
+
+        //cho $user->getId();
+        //echo $user->getName();
+        echo $user->user['first_name'];
+        //echo $user->getNickname();
+        //echo $user->getEmail();
+        //echo $user->getAvatar();
 //        $user->getId();
         // $user->token;
     }

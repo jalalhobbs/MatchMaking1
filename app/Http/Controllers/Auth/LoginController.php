@@ -5,6 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
+use Auth;
+use App\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 class LoginController extends Controller
@@ -49,6 +56,9 @@ class LoginController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
+
+
+
     /**
      * Obtain the user information from Facebook.
      *
@@ -56,25 +66,44 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-        $driver = Socialite::driver('facebook')->fields([
+        $facebookUser = Socialite::driver('facebook')->fields([
             'name',
             'first_name',
             'last_name',
             'email',
             'gender',
             'verified'
-        ]);
+        ])->user();
 
-        // following is what we can get for facebook public_profile. See https://developers.facebook.com/docs/facebook-login/permissions#reference-public-profile
-        $user = $driver->user();
+        if ($user = User::where('facebookProfileLink', $facebookUser->getId())) { // find account with facebook ID attached
+            $authUser = $user;
+        } elseif ($user = User::where('email', $facebookUser->getEmail())) { // enforce facebook if no facebook
+//            enforceFacebookUserStats($facebookUser);
+            $authUser = $user;
+        } else { // create
+            $authUser = User::create([
+                'firstName' => $facebookUser->user['first_name'],
+                'lastName' => $facebookUser->user['last_name'],
+                'email' => $facebookUser->getEmail,
+                'facebookProfileLink' => $facebookUser->getId(),
+                'password' => 'foobar',
+            ]);
+        }
+//        echo json_encode($authUser);
+//        echo $facebookUser->user['first_name'];
+        if ($authUser) {
+            Auth::login($authUser);
+            return Redirect::to('home');
+        }
 
-        //cho $user->getId();
-        //echo $user->getName();
-        echo $user->user['first_name'];
-        //echo $user->getNickname();
-        //echo $user->getEmail();
-        //echo $user->getAvatar();
-//        $user->getId();
-        // $user->token;
+
+
+
+//        echo $user->getId();
+//        echo $user->getName();
+//        echo $user->user['first_name'];
+//        echo $user->getNickname();
+//        echo $user->getEmail();
+//        echo $user->getAvatar();
     }
 }

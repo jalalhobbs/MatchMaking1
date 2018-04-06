@@ -7,11 +7,9 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
 use Auth;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 
 class LoginController extends Controller
@@ -56,9 +54,6 @@ class LoginController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
-
-
-
     /**
      * Obtain the user information from Facebook.
      *
@@ -75,35 +70,36 @@ class LoginController extends Controller
             'verified'
         ])->user();
 
-        if ($user = User::where('facebookProfileLink', $facebookUser->getId())) { // find account with facebook ID attached
-            $authUser = $user;
-        } elseif ($user = User::where('email', $facebookUser->getEmail())) { // enforce facebook if no facebook
-//            enforceFacebookUserStats($facebookUser);
-            $authUser = $user;
-        } else { // create
-            $authUser = User::create([
-                'firstName' => $facebookUser->user['first_name'],
-                'lastName' => $facebookUser->user['last_name'],
-                'email' => $facebookUser->getEmail,
-                'facebookProfileLink' => $facebookUser->getId(),
-                'password' => 'foobar',
-            ]);
-        }
-//        echo json_encode($authUser);
-//        echo $facebookUser->user['first_name'];
-        if ($authUser) {
-            Auth::login($authUser);
-            return Redirect::to('home');
+        if (!$authUser = $this->facebookUserCheck($facebookUser)) {
+            $authUser = $this->create($facebookUser);
         }
 
+        Auth::login($authUser);
+        return redirect('/home');
+    }
 
+    private function create($facebookUser)
+    {
+        $user = User::create([
+            'firstName' => $facebookUser->user['first_name'],
+            'lastName' => $facebookUser->user['last_name'],
+            'email' => $facebookUser->user['email'],
+            'facebookProfileLink' => $facebookUser->getId(),
+            'password' => Hash::make("fakeP!assword123"),
+            // TODO: null password out on creation of facebook user
+        ]);
 
+        Mail::to($facebookUser->user['email'])->send(new WelcomeMail($user));
+        return $user;
+    }
 
-//        echo $user->getId();
-//        echo $user->getName();
-//        echo $user->user['first_name'];
-//        echo $user->getNickname();
-//        echo $user->getEmail();
-//        echo $user->getAvatar();
+    private function facebookUserCheck($facebookUser) {
+        if ($user = User::where('facebookProfileLink', $facebookUser->getId())->first()) { // find account with facebook ID attached
+            return $user;
+        } elseif ($user = User::where('email', $facebookUser->user['email'])->first()) { // enforce facebook if no facebook
+            // TODO: function enforceFacebookUserStats($facebookUser);
+            return $user;
+        }
+        return false;
     }
 }

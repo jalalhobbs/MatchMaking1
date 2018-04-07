@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\DB;
 
-class ProfileController extends Controller
+class ConstraintController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -28,7 +28,7 @@ class ProfileController extends Controller
     {
         //Typing public/profile will bring you to the profile.edit page if you are logged in
         // If youre not logged in the middleware will kick you out to the login screen.
-        return redirect(route('profile.edit', [auth()->user()->id]));
+        return redirect(route('looking-for.edit', [auth()->user()->id]));
         //https://stackoverflow.com/questions/36276634/laravel-5-redirect-to-controller-actions
 
     }
@@ -85,7 +85,7 @@ class ProfileController extends Controller
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
 
-            return view('profile.profile')
+            return view('constraint.constraint')
                 ->with('user', $user)
                 ->with('religions', $religions)
                 ->with('genders', $genders)
@@ -118,14 +118,20 @@ class ProfileController extends Controller
         //https://stackoverflow.com/questions/23081654/check-users-age-with-laravel-validation-rules
         //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
 
-       $request->validate([
-            'dob' => 'required|after:1900-01-01|before:-18years',
-            'genderId' => 'required|integer|min:1',
-            'height' => 'required|integer|min:0|max:300',
-            'bodyTypeId' => 'required|integer|min:1',
-            'religionId' => 'required|integer|min:1'],
+        $request->validate([
 
-           [ 'dob.before' => 'You must be 18 to use this site.']
+            'targetGenderId' => 'required|integer|min:1',
+            'targetMinAge' => 'required|integer|min:18|max:"targetMaxAge"',
+            'targetMaxAge' => 'required|integer|min:"targetMinAge"|max:120',
+            'targetMinHeight' => 'required|integer|min:50|max:"targetMaxHeight"',
+            'targetMaxHeight' => 'required|integer|min:targetMinHeight|max:300',
+            'targetBodyTypeId' => 'required|integer|min:1',
+            'targetReligionId' => 'required|integer|min:1'],
+
+            [   'targetMinAge.min' => 'You must be 18 to use this site.',
+
+
+                ]
         );
 
 
@@ -134,23 +140,31 @@ class ProfileController extends Controller
         DB::transaction(function() use ($request) {
             DB::table('users')
                 ->where('id', auth()->user()->id)
-                ->update(['dob' => $request->dob]);
+                ->update(['targetGenderId' => $request->targetGenderId]);
 
             DB::table('users')
                 ->where('id', auth()->user()->id)
-                ->update(['genderId' => $request->genderId]);
+                ->update(['targetMinAge' => $request->targetMinAge]);
 
             DB::table('users')
                 ->where('id', auth()->user()->id)
-                ->update(['height' => $request->height]);
+                ->update(['targetMaxAge' => $request->targetMaxAge]);
 
             DB::table('users')
                 ->where('id', auth()->user()->id)
-                ->update(['bodyTypeId' => $request->bodyTypeId]);
+                ->update(['targetMinHeight' => $request->targetMinHeight]);
 
             DB::table('users')
                 ->where('id', auth()->user()->id)
-                ->update(['religionId' => $request->religionId]);
+                ->update(['targetMaxHeight' => $request->targetMaxHeight]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['targetBodyTypeId' => $request->targetBodyTypeId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['targetReligionId' => $request->targetReligionId]);
 
 
         });
@@ -163,10 +177,12 @@ class ProfileController extends Controller
         //Determines where to go next
         $user = DB::table('users')->where('id', auth()->user()->id)->first();
 
-
+        //Get Ready to flash a message on the next page
+        $request->session()->flash('status', 'Your Matchmaking "Looking for a....." preferences have been updated.');
 
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
+        //Modify this when next feature is added.
         if (($user->targetGenderId === null)||
             ($user->targetMinAge === null)||
             ($user->targetMaxAge === null)||
@@ -175,16 +191,13 @@ class ProfileController extends Controller
             ($user->targetBodyTypeId === null)||
             ($user->targetReligionId === null))
         {
-            //Get Ready to flash a message on the next page
-            $request->session()->flash('status', 'Your Profile has been updated. Please complete your "Looking for a..." preferences below.');
-            return redirect(route('looking-for.edit', [auth()->user()->id]));
+            //return redirect(route('lookingfor.edit'));
+            return redirect(route('home'));
         }
         else
         {
             //Account Already Setup?
             //redirect home page.
-            //Get Ready to flash a message on the next page
-            $request->session()->flash('status', 'Your Profile has been updated.');
             return redirect(route('home'));
         }
 

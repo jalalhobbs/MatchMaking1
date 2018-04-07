@@ -46,8 +46,16 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        {{ __('Home') }}
+                                    </a>
+
                                     <a class="dropdown-item" href="{{ route('profile.edit', [Auth::user()->id]) }}">
                                         {{ __('My Profile') }}
+                                    </a>
+
+                                    <a class="dropdown-item" href="{{ route('looking-for.edit', [Auth::user()->id]) }}">
+                                        {{ __('Looking for.....') }}
                                     </a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"

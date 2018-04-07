@@ -52,7 +52,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstName', 'lastName', 'email', 'password',
+        'firstName', 'lastName', 'email', 'password', 'facebookProfileLink'
     ];
 
     /**
@@ -63,4 +63,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    function socialProviders()
+    {
+        return $this->hasMany(SocialProvider::class);
+    }
+
 }

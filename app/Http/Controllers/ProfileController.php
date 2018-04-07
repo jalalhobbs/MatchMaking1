@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -23,7 +26,11 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('profile');
+        //Typing public/profile will bring you to the profile.edit page if you are logged in
+        // If youre not logged in the middleware will kick you out to the login screen.
+        return redirect(route('profile.edit', [auth()->user()->id]));
+        //https://stackoverflow.com/questions/36276634/laravel-5-redirect-to-controller-actions
+
     }
 
     /**
@@ -33,8 +40,9 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        //Functionality Disabled by routes page
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -44,8 +52,9 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Functionality Disabled by routes page
     }
+
 
     /**
      * Display the specified resource.
@@ -55,8 +64,9 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        //
+        //Functionality Disabled by routes page
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -66,7 +76,31 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        if (auth()->user()->id == $id)
+        {
+
+
+            $user = DB::table('users')->where('id', auth()->user()->id)->first();
+            $religions = DB::table('religions')->get();
+            $genders = DB::table('genders')->get();
+            $bodyTypes = DB::table('body_types')->get();
+
+            return view('profile.profile')
+                ->with('user', $user)
+                ->with('religions', $religions)
+                ->with('genders', $genders)
+                ->with('bodyTypes', $bodyTypes);
+
+
+        }
+        else
+        {
+            //Prevents other users from modifying your profile information
+            return redirect('home');
+
+        }
+        //https://stackoverflow.com/questions/20110757/laravel-pass-more-than-one-variable-to-view
+
     }
 
     /**
@@ -78,7 +112,104 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Validate the $request
+        //return $request->all();
+        //https://laravel.com/docs/5.6/validation
+/*
+
+        $validator = Validator::make($request->all(), [
+            'dob' => 'required|before:today|after:1970-01-01',
+            'genderId' => 'required|integer|min:1',
+            'height' => 'required|integer|min:0|max:300',
+            'bodyTypeId' => 'required|integer|min:1',
+            'religionId' => 'required|integer|min:1',
+        ]);
+*/
+
+//        if ($validator->fails())
+        {
+            //return redirect(route('profile.edit', [auth()->user()->id]))
+             //   ->withInput()
+             //   ->withErrors($validator);
+
+            //return redirect('profile/'.auth()->user()->id.'/edit')->withInput();
+
+            //return back() -> withInput() -> withErrors($validator);
+
+        }
+
+        //https://stackoverflow.com/questions/23081654/check-users-age-with-laravel-validation-rules
+        //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
+
+       $request->validate([
+            'dob' => 'required|after:1900-01-01|before:-18years',
+            'genderId' => 'required|integer|min:1',
+            'height' => 'required|integer|min:0|max:300',
+            'bodyTypeId' => 'required|integer|min:1',
+            'religionId' => 'required|integer|min:1'],
+
+           [ 'dob.before' => 'You must be 18 to use this site.']
+        );
+
+
+        //Writes update  to the DB
+        //https://stackoverflow.com/questions/17084723/how-to-pass-parameter-to-laravel-dbtransaction
+        DB::transaction(function() use ($request) {
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['dob' => $request->dob]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['genderId' => $request->genderId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['height' => $request->height]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['bodyTypeId' => $request->bodyTypeId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['religionId' => $request->religionId]);
+
+
+        });
+
+
+
+
+
+
+        //Determines where to go next
+        $user = DB::table('users')->where('id', auth()->user()->id)->first();
+
+        //Get Ready to flash a message on the next page
+        $request->session()->flash('status', 'Your Profile Information has been updated.');
+
+        //Initial setup?
+        //Target (constraint) attributes are null.
+        if ($user->targetGenderId === null)
+        {
+            return redirect(route('lookingfor.edit'));
+        }
+        else
+        {
+            return redirect(route('home'));
+        }
+
+        //Account Already Setup?
+        //redirect home page.
+
+
+
+
+
+
+
+
     }
 
     /**
@@ -89,6 +220,7 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Functionality Disabled by routes page
+        //User not admin, so not implemented.
     }
 }

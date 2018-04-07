@@ -117,18 +117,32 @@ class ConstraintController extends Controller
         //https://laravel.com/docs/5.6/validation
         //https://stackoverflow.com/questions/23081654/check-users-age-with-laravel-validation-rules
         //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
-
+//.(int)$request->targetMaxAge .(int)$request->targetMinAge.
         $request->validate([
 
             'targetGenderId' => 'required|integer|min:1',
-            'targetMinAge' => 'required|integer|min:18|max:"targetMaxAge"',
-            'targetMaxAge' => 'required|integer|min:"targetMinAge"|max:120',
-            'targetMinHeight' => 'required|integer|min:50|max:"targetMaxHeight"',
-            'targetMaxHeight' => 'required|integer|min:targetMinHeight|max:300',
+            'targetMinAge' => 'required|integer|between: 18, 120|max:'.(int)$request->targetMaxAge,
+            'targetMaxAge' => 'required|integer|between: 18, 120|min:'.(int)$request->targetMinAge,
+            'targetMinHeight' => 'required|integer|between: 50, 300|max:'.(int)$request->targetMaxHeight,
+            'targetMaxHeight' => 'required|integer|between: 50, 300|min:'.(int)$request->targetMinHeight,
             'targetBodyTypeId' => 'required|integer|min:1',
             'targetReligionId' => 'required|integer|min:1'],
 
-            [   'targetMinAge.min' => 'You must be 18 to use this site.',
+
+                [
+
+                'targetMinAge.between' => 'Ages must be between 18 and 120 to use this site.',
+                'targetMaxAge.between' => 'Ages must be between 18 and 120 to use this site.',
+                'targetMinHeight.between' => 'Heights entered should be betwen 50 to 300cm.',
+                'targetMaxHeight.between' => 'Heights entered should be betwen 50 to 300cm.',
+                'targetMinAge.max' => 'The minimum age must not be greater than maximum age.',
+                'targetMaxAge.min' => 'The maximum age must not be less than minimum age.',
+                'targetMinHeight.max' => 'The minimum height must not be greater than maximum height.',
+                'targetMaxHeight.min' => 'The maximum height must not be less than minimum height.',
+                'targetMinAge.integer' => 'The minimum age must be a whole number.',
+                'targetMaxAge.integer' => 'The maximum age must be a whole number.',
+                'targetMinHeight.integer' => 'The minimum height must be a whole number.',
+                'targetMaxHeight.integer' => 'The maximum height must be a whole number.',
 
 
                 ]

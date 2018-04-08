@@ -179,7 +179,7 @@ class ConstraintController extends Controller
             DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetReligionId' => $request->targetReligionId]);
-
+//hello.
 
         });
 

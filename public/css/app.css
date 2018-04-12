@@ -10008,6 +10008,8 @@ a.text-dark:focus {
 
 .card {
   opacity: 0.5;
+  margin-bottom: 0%;
+  min-height: 20vh;
 }
 
 .card .card-header {
@@ -10021,8 +10023,19 @@ a.text-dark:focus {
   border-color: #49525e;
 }
 
+@media screen and (min-width: 768px) {
+  .footer {
+    position: static;
+  }
+
+  .card {
+    opacity: 0.5;
+    margin-bottom: 0%;
+  }
+}
+
 .footer {
-  position: fixed;
+  position: static;
   padding-top: 15px;
   left: 0;
   bottom: 0;
@@ -10030,18 +10043,9 @@ a.text-dark:focus {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   text-align: left;
-}
-
-@media screen and (min-width: 768px) {
-  .footer {
-    position: fixed;
-    bottom: 0;
-  }
-
-  .card {
-    opacity: 0.5;
-    margin-bottom: 45%;
-  }
+  max-height: 30%;
+  min-height: auto;
+  margin-top: 600px;
 }
 
 .footerList {
@@ -10051,8 +10055,9 @@ a.text-dark:focus {
 body {
   background-color: #fdde9f;
   background-image: url(/images/bg.jpg?f9b3dc0cc6fc20e524693b4d04c78435);
-  background-repeat: repeat;
+  background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  height: 100%;
 }
 

@@ -10008,6 +10008,8 @@ a.text-dark:focus {
 
 .card {
   opacity: 0.5;
+  margin-bottom: 0%;
+  min-height: 20vh;
 }
 
 .card .card-header {
@@ -10021,7 +10023,19 @@ a.text-dark:focus {
   border-color: #49525e;
 }
 
+@media screen and (min-width: 768px) {
+  .footer {
+    position: static;
+  }
+
+  .card {
+    opacity: 0.5;
+    margin-bottom: 0%;
+  }
+}
+
 .footer {
+  position: static;
   padding-top: 15px;
   left: 0;
   bottom: 0;
@@ -10029,17 +10043,9 @@ a.text-dark:focus {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   text-align: left;
-}
-
-@media screen and (min-width: 768px) {
-  .footer {
-    position: inherit;
-  }
-
-  .card {
-    opacity: 0.5;
-    margin-bottom: 45%;
-  }
+  max-height: 30%;
+  min-height: auto;
+  margin-top: 80vh;
 }
 
 .footerList {
@@ -10048,9 +10054,11 @@ a.text-dark:focus {
 
 body {
   background-color: #fdde9f;
-  background-image: url("https://images.unsplash.com/photo-1496602910407-bacda74a0fe4?ixlib=rb-0.3.5&s=6407ebd98a2da2c81175044807df13f1&auto=format&fit=crop&w=1000&q=80");
+  background-image: url(/images/bg.jpg?f9b3dc0cc6fc20e524693b4d04c78435);
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
 }
 
 .flex-row {

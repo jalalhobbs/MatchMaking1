@@ -64,7 +64,17 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        //Functionality Disabled by routes page
+
+        $user = DB::table('users')->where('id', $id)->first();
+        $religions = DB::table('religions')->get();
+        $genders = DB::table('genders')->get();
+        $bodyTypes = DB::table('body_types')->get();
+
+        return view('profile.show')
+            ->with('user', $user)
+            ->with('religions', $religions)
+            ->with('genders', $genders)
+            ->with('bodyTypes', $bodyTypes);
     }
 
 
@@ -85,7 +95,7 @@ class ProfileController extends Controller
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
 
-            return view('profile.profile')
+            return view('profile.edit')
                 ->with('user', $user)
                 ->with('religions', $religions)
                 ->with('genders', $genders)

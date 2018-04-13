@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -67,6 +68,12 @@ class User extends Authenticatable
     function socialProviders()
     {
         return $this->hasMany(SocialProvider::class);
+    }
+
+
+
+    public function age() {
+        return $this->dob->diffInYears(\Carbon::now());
     }
 
 }

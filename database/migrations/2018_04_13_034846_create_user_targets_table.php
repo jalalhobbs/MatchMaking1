@@ -22,12 +22,18 @@ class CreateUserTargetsTable extends Migration
             $table->integer('targetMaxHeight')->nullable();
             $table->integer('targetBodyTypeId')->nullable();
             $table->integer('targetReligionId')->nullable();
+            $table->integer('targetCountryId')->nullable();
+            $table->integer('targetEthnicityId')->nullable();
+            $table->integer('targetHairColourId')->nullable();
             $table->timestamps();
 
             $table->foreign('id')->references('id')->on('users');
             $table->foreign('targetGenderId')->references('id')->on('body_types');
             $table->foreign('targetBodyTypeId')->references('id')->on('body_types');
             $table->foreign('targetReligionId')->references('id')->on('religions');
+            $table->foreign('targetCountryId')->references('id')->on('countries');
+            $table->foreign('targetEthnicityId')->references('id')->on('ethnicities');
+            $table->foreign('targetHairColourId')->references('id')->on('hair_colours');
         });
     }
 

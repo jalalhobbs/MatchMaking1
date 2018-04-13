@@ -22,4 +22,19 @@ class UserTarget extends Model
     {
         return $this->hasOne('App\BodyType', 'id');
     }
+
+    public function targetCountry()
+    {
+        return $this->hasOne('App\Country', 'id');
+    }
+
+    public function targetEthnicity()
+    {
+        return $this->hasOne('App\Ethnicity', 'id');
+    }
+
+    public function targetHairColour()
+    {
+        return $this->hasOne('App\HairColour', 'id');
+    }
 }

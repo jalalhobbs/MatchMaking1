@@ -26,6 +26,21 @@ class User extends Authenticatable
         return $this->hasOne('App\BodyType', 'id');
     }
 
+    public function country()
+    {
+        return $this->hasOne('App\Country', 'id');
+    }
+
+    public function ethnicity()
+    {
+        return $this->hasOne('App\Ethnicity', 'id');
+    }
+
+    public function hairColour()
+    {
+        return $this->hasOne('App\HairColour', 'id');
+    }
+
     public function userTarget()
     {
         return $this->hasOne('App\UserTarget', 'id');

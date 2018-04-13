@@ -22,9 +22,12 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->date('dob')->nullable();
             $table->integer('genderId')->nullable();
-            $table->integer('height')->nullable();
             $table->integer('bodyTypeId')->nullable();
             $table->integer('religionId')->nullable();
+            $table->integer('countryId')->nullable();
+            $table->integer('ethnicityId')->nullable();
+            $table->integer('hairColourId')->nullable();
+            $table->integer('height')->nullable();
             $table->boolean('verified')->nullable();
             $table->string('facebookProfileLink')->nullable();
             $table->string('document1')->nullable();
@@ -38,6 +41,9 @@ class CreateUsersTable extends Migration
             $table->foreign('genderId')->references('id')->on('genders');
             $table->foreign('religionId')->references('id')->on('religions');
             $table->foreign('bodyTypeId')->references('id')->on('body_types');
+            $table->foreign('countryId')->references('id')->on('countries');
+            $table->foreign('ethnicityId')->references('id')->on('ethnicities');
+            $table->foreign('hairColourId')->references('id')->on('hair_colours');
 
 
 

@@ -193,17 +193,26 @@ class ProfileController extends Controller
 
 
 
+
+
+        //Determines where to go next
+        $userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
+
+        //Get Ready to flash a message on the next page
+        $request->session()->flash('status', 'Your Matchmaking "Looking for a....." preferences have been updated.');
+
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
-        if (($user->targetGenderId === null)||
-            ($user->targetMinAge === null)||
-            ($user->targetMaxAge === null)||
-            ($user->targetMinHeight === null)||
-            ($user->targetMaxHeight === null)||
-            ($user->targetBodyTypeId === null)||
-            ($user->targetReligionId === null))
+        //Modify this when next feature is added.
+        if (($userTargets->targetGenderId === null)||
+            ($userTargets->targetMinAge === null)||
+            ($userTargets->targetMaxAge === null)||
+            ($userTargets->targetMinHeight === null)||
+            ($userTargets->targetMaxHeight === null)||
+            ($userTargets->targetBodyTypeId === null)||
+            ($userTargets->targetReligionId === null))
         {
-            //Get Ready to flash a message on the next page
+            //return redirect(route('lookingfor.edit'));
             $request->session()->flash('status', 'Your Profile has been updated. Please complete your "Looking for a..." preferences below.');
             return redirect(route('looking-for.edit', [auth()->user()->id]));
         }
@@ -211,16 +220,9 @@ class ProfileController extends Controller
         {
             //Account Already Setup?
             //redirect home page.
-            //Get Ready to flash a message on the next page
             $request->session()->flash('status', 'Your Profile has been updated.');
             return redirect(route('home'));
         }
-
-
-
-
-
-
 
 
 

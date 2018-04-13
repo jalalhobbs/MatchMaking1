@@ -26,24 +26,14 @@ class User extends Authenticatable
         return $this->hasOne('App\BodyType', 'id');
     }
 
-    public function targetGender()
+    public function userTarget()
     {
-        return $this->hasOne('App\Gender', 'id');
+        return $this->hasOne('App\UserTarget', 'id');
     }
 
-    public function targetReligion()
+    public function userPreferences()
     {
-        return $this->hasOne('App\Religion', 'id');
-    }
-
-    public function targetBodyType()
-    {
-        return $this->hasOne('App\BodyType', 'id');
-    }
-
-    public function userInterests()
-    {
-        return $this->hasMany('App\UserInterest', (['userId','interestId']));
+        return $this->hasMany('App\UserPreference', (['userId','interestId']));
     }
 
 

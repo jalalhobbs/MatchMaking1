@@ -81,12 +81,14 @@ class ConstraintController extends Controller
 
 
             $user = DB::table('users')->where('id', auth()->user()->id)->first();
+            $userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
             $religions = DB::table('religions')->get();
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
 
             return view('constraint.constraint')
                 ->with('user', $user)
+                ->with('userTargets', $userTargets)
                 ->with('religions', $religions)
                 ->with('genders', $genders)
                 ->with('bodyTypes', $bodyTypes);
@@ -152,31 +154,31 @@ class ConstraintController extends Controller
         //Writes update  to the DB
         //https://stackoverflow.com/questions/17084723/how-to-pass-parameter-to-laravel-dbtransaction
         DB::transaction(function() use ($request) {
-            DB::table('users')
+            DB::table('user_targets')
                 ->where('id', auth()->user()->id)
                 ->update(['targetGenderId' => $request->targetGenderId]);
 
-            DB::table('users')
+            DB::table('user_targets')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMinAge' => $request->targetMinAge]);
 
-            DB::table('users')
+            DB::table('user_targets')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMaxAge' => $request->targetMaxAge]);
 
-            DB::table('users')
+            DB::table('user_targets')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMinHeight' => $request->targetMinHeight]);
 
-            DB::table('users')
+            DB::table('user_targets')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMaxHeight' => $request->targetMaxHeight]);
 
-            DB::table('users')
+            DB::table('user_targets')
                 ->where('id', auth()->user()->id)
                 ->update(['targetBodyTypeId' => $request->targetBodyTypeId]);
 
-            DB::table('users')
+            DB::table('user_targets')
                 ->where('id', auth()->user()->id)
                 ->update(['targetReligionId' => $request->targetReligionId]);
 
@@ -189,7 +191,7 @@ class ConstraintController extends Controller
 
 
         //Determines where to go next
-        $user = DB::table('users')->where('id', auth()->user()->id)->first();
+        $userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
 
         //Get Ready to flash a message on the next page
         $request->session()->flash('status', 'Your Matchmaking "Looking for a....." preferences have been updated.');
@@ -197,13 +199,13 @@ class ConstraintController extends Controller
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
         //Modify this when next feature is added.
-        if (($user->targetGenderId === null)||
-            ($user->targetMinAge === null)||
-            ($user->targetMaxAge === null)||
-            ($user->targetMinHeight === null)||
-            ($user->targetMaxHeight === null)||
-            ($user->targetBodyTypeId === null)||
-            ($user->targetReligionId === null))
+        if (($userTargets->targetGenderId === null)||
+            ($userTargets->targetMinAge === null)||
+            ($userTargets->targetMaxAge === null)||
+            ($userTargets->targetMinHeight === null)||
+            ($userTargets->targetMaxHeight === null)||
+            ($userTargets->targetBodyTypeId === null)||
+            ($userTargets->targetReligionId === null))
         {
             //return redirect(route('lookingfor.edit'));
             return redirect(route('home'));

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPreference extends Model
 {
-    protected $primaryKey = (['userId','preferenceId']);
+    //protected $primaryKey = (['userId','preferenceId']);
 
     protected $fillable = [
         'userId', 'preferenceId', 'answer', 'answerWeight'

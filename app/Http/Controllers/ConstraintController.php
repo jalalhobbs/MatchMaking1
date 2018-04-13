@@ -81,7 +81,7 @@ class ConstraintController extends Controller
 
 
             $user = DB::table('users')->where('id', auth()->user()->id)->first();
-            $userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
+            //$userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
             $religions = DB::table('religions')->get();
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
@@ -92,7 +92,7 @@ class ConstraintController extends Controller
 
             return view('constraint.constraint')
                 ->with('user', $user)
-                ->with('userTargets', $userTargets)
+                //->with('userTargets', $userTargets)
                 ->with('religions', $religions)
                 ->with('genders', $genders)
                 ->with('bodyTypes', $bodyTypes)
@@ -164,43 +164,43 @@ class ConstraintController extends Controller
         //Writes update  to the DB
         //https://stackoverflow.com/questions/17084723/how-to-pass-parameter-to-laravel-dbtransaction
         DB::transaction(function() use ($request) {
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetGenderId' => $request->targetGenderId]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMinAge' => $request->targetMinAge]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMaxAge' => $request->targetMaxAge]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMinHeight' => $request->targetMinHeight]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMaxHeight' => $request->targetMaxHeight]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetBodyTypeId' => $request->targetBodyTypeId]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetReligionId' => $request->targetReligionId]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetCountryId' => $request->targetCountryId]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetEthnicityId' => $request->targetEthnicityId]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetHairColourId' => $request->targetHairColourId]);
 
@@ -213,7 +213,7 @@ class ConstraintController extends Controller
 
 
         //Determines where to go next
-        $userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
+        $userTargets = DB::table('users')->where('id', auth()->user()->id)->first();
 
 
 

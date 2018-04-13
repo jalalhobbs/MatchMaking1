@@ -23,14 +23,14 @@
 
                                     <div class="col-md-6">
                                         <select id="targetGenderId" class="form-control{{ $errors->has('targetGenderId') ? ' is-invalid' : '' }}" name="targetGenderId" required>
-                                            @if($user->targetGenderId === null)
+                                            @if($userTargets->targetGenderId === null)
                                                 <option selected value=""></option>
                                             @endif
                                             @foreach($genders as $gender)
                                                 @if(old('targetGenderId') == $gender->id)
                                                     <option selected value="{{ old('targetGenderId') }}">{{$gender->genderName}}</option>
-                                                @elseif($user->targetGenderId == $gender->id)
-                                                    <option selected value="{{$user->targetGenderId}}">{{$gender->genderName}}</option>
+                                                @elseif($userTargets->targetGenderId == $gender->id)
+                                                    <option selected value="{{$userTargets->targetGenderId}}">{{$gender->genderName}}</option>
                                                 @else
                                                     <option value="{{$gender->id}}">{{$gender->genderName}}</option>
                                                 @endif
@@ -49,7 +49,7 @@
                                     <label for="targetMinAge" class="col-md-4 col-form-label text-md-right">{{ __('Minimum Age') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="targetMinAge" type="text" class="form-control{{ $errors->has('targetMinAge') ? ' is-invalid' : '' }}" name="targetMinAge" value="{{ old('targetMinAge', $user->targetMinAge) }}" required>
+                                        <input id="targetMinAge" type="text" class="form-control{{ $errors->has('targetMinAge') ? ' is-invalid' : '' }}" name="targetMinAge" value="{{ old('targetMinAge', $userTargets->targetMinAge) }}" required>
 
                                         @if ($errors->has('targetMinAge'))
                                             <span class="invalid-feedback">
@@ -63,7 +63,7 @@
                                     <label for="targetMaxAge" class="col-md-4 col-form-label text-md-right">{{ __('Maximum Age') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="targetMaxAge" type="text" class="form-control{{ $errors->has('targetMaxAge') ? ' is-invalid' : '' }}" name="targetMaxAge" value="{{ old('targetMaxAge', $user->targetMaxAge) }}" required>
+                                        <input id="targetMaxAge" type="text" class="form-control{{ $errors->has('targetMaxAge') ? ' is-invalid' : '' }}" name="targetMaxAge" value="{{ old('targetMaxAge', $userTargets->targetMaxAge) }}" required>
 
                                         @if ($errors->has('targetMaxAge'))
                                             <span class="invalid-feedback">
@@ -77,7 +77,7 @@
                                     <label for="targetMinHeight" class="col-md-4 col-form-label text-md-right">{{ __('Minimum Height (cm)') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="targetMinHeight" type="text" class="form-control{{ $errors->has('targetMinHeight') ? ' is-invalid' : '' }}" name="targetMinHeight" value="{{ old('targetMinHeight', $user->targetMinHeight) }}" required>
+                                        <input id="targetMinHeight" type="text" class="form-control{{ $errors->has('targetMinHeight') ? ' is-invalid' : '' }}" name="targetMinHeight" value="{{ old('targetMinHeight', $userTargets->targetMinHeight) }}" required>
 
                                         @if ($errors->has('targetMinHeight'))
                                             <span class="invalid-feedback">
@@ -91,7 +91,7 @@
                                     <label for="targetMaxHeight" class="col-md-4 col-form-label text-md-right">{{ __('Maximum Height (cm)') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="targetMaxHeight" type="text" class="form-control{{ $errors->has('targetMaxHeight') ? ' is-invalid' : '' }}" name="targetMaxHeight" value="{{ old('targetMaxHeight', $user->targetMaxHeight) }}" required>
+                                        <input id="targetMaxHeight" type="text" class="form-control{{ $errors->has('targetMaxHeight') ? ' is-invalid' : '' }}" name="targetMaxHeight" value="{{ old('targetMaxHeight', $userTargets->targetMaxHeight) }}" required>
 
                                         @if ($errors->has('targetMaxHeight'))
                                             <span class="invalid-feedback">
@@ -106,14 +106,14 @@
 
                                     <div class="col-md-6">
                                         <select id="targetBodyTypeId" class="form-control{{ $errors->has('targetBodyTypeId') ? ' is-invalid' : '' }}" name="targetBodyTypeId" required>
-                                            @if($user->targetBodyTypeId === null)
+                                            @if($userTargets->targetBodyTypeId === null)
                                                 <option selected value=""></option>
                                             @endif
                                             @foreach($bodyTypes as $bodyType)
                                                     @if(old('targetBodyTypeId') == $bodyType->id)
                                                         <option selected value="{{ old('targetBodyTypeId') }}">{{$bodyType->bodyTypeName}}</option>
-                                                    @elseif($user->targetBodyTypeId == $bodyType->id)
-                                                        <option selected value="{{$user->targetBodyTypeId}}">{{$bodyType->bodyTypeName}}</option>
+                                                    @elseif($userTargets->targetBodyTypeId == $bodyType->id)
+                                                        <option selected value="{{$userTargets->targetBodyTypeId}}">{{$bodyType->bodyTypeName}}</option>
                                                     @else
                                                         <option value="{{$bodyType->id}}">{{$bodyType->bodyTypeName}}</option>
                                                     @endif
@@ -131,15 +131,15 @@
 
                                     <div class="col-md-6">
                                         <select id="targetReligionId" class="form-control{{ $errors->has('targetReligionId') ? ' is-invalid' : '' }}" name="targetReligionId" required>
-                                            @if($user->targetReligionId === null)
+                                            @if($userTargets->targetReligionId === null)
                                                 <option selected value=""></option>
                                             @endif
                                             @foreach($religions as $religion)
 
                                                 @if(old('targetReligionId') == $religion->id)
                                                     <option selected value="{{ old('targetReligionId') }}">{{$religion->religionName}}</option>
-                                                @elseif($user->targetReligionId == $religion->id)
-                                                    <option selected value="{{$user->targetReligionId}}">{{$religion->religionName}}</option>
+                                                @elseif($userTargets->targetReligionId == $religion->id)
+                                                    <option selected value="{{$userTargets->targetReligionId}}">{{$religion->religionName}}</option>
                                                 @else
                                                     <option value="{{$religion->id}}">{{$religion->religionName}}</option>
                                                 @endif

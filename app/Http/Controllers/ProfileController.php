@@ -74,7 +74,11 @@ class ProfileController extends Controller
         $religions = DB::table('religions')->get();
         $genders = DB::table('genders')->get();
         $bodyTypes = DB::table('body_types')->get();
+        $countries = DB::table('countries')->get();
+        $ethnicities = DB::table('ethnicities')->get();
+        $hairColours = DB::table('hair_colours')->get();
         $age = $this->getAge($user->dob);
+
 
         //Load view profile.show with data as needed.
         return view('profile.show')
@@ -82,6 +86,9 @@ class ProfileController extends Controller
             ->with('religions', $religions)
             ->with('genders', $genders)
             ->with('bodyTypes', $bodyTypes)
+            ->with('countries', $countries)
+            ->with('ethnicities', $ethnicities)
+            ->with('hairColours', $hairColours)
             ->with('age', $age);
     }
 
@@ -102,13 +109,19 @@ class ProfileController extends Controller
             $religions = DB::table('religions')->get();
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
+            $countries = DB::table('countries')->get();
+            $ethnicities = DB::table('ethnicities')->get();
+            $hairColours = DB::table('hair_colours')->get();
 
 
             return view('profile.edit')
                 ->with('user', $user)
                 ->with('religions', $religions)
                 ->with('genders', $genders)
-                ->with('bodyTypes', $bodyTypes);
+                ->with('bodyTypes', $bodyTypes)
+                ->with('countries', $countries)
+                ->with('ethnicities', $ethnicities)
+                ->with('hairColours', $hairColours);
 
 
 
@@ -145,7 +158,11 @@ class ProfileController extends Controller
             'genderId' => 'required|integer|min:1',
             'height' => 'required|integer|min:0|max:300',
             'bodyTypeId' => 'required|integer|min:1',
-            'religionId' => 'required|integer|min:1'],
+            'religionId' => 'required|integer|min:1',
+            'countryId' => 'required|integer|min:1',
+            'ethnicityId' => 'required|integer|min:1',
+            'hairColourId' => 'required|integer|min:1'],
+
 
            [ 'dob.before' => 'You must be 18 to use this site.']
         );
@@ -180,6 +197,20 @@ class ProfileController extends Controller
                 ->where('id', auth()->user()->id)
                 ->update(['religionId' => $request->religionId]);
 
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['countryId' => $request->countryId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['ethnicityId' => $request->ethnicityId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['hairColourId' => $request->hairColourId]);
+
+
+
 
         });
 
@@ -198,8 +229,7 @@ class ProfileController extends Controller
         //Determines where to go next
         $userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
 
-        //Get Ready to flash a message on the next page
-        $request->session()->flash('status', 'Your Matchmaking "Looking for a....." preferences have been updated.');
+
 
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
@@ -210,16 +240,23 @@ class ProfileController extends Controller
             ($userTargets->targetMinHeight === null)||
             ($userTargets->targetMaxHeight === null)||
             ($userTargets->targetBodyTypeId === null)||
-            ($userTargets->targetReligionId === null))
+            ($userTargets->targetReligionId === null)||
+            ($userTargets->targetCountryId === null)||
+            ($userTargets->targetEthnicityId === null)||
+            ($userTargets->targetHairColourId === null))
         {
             //return redirect(route('lookingfor.edit'));
-            $request->session()->flash('status', 'Your Profile has been updated. Please complete your "Looking for a..." preferences below.');
+            //Get Ready to flash a message on the next page
+
+            $request->session()->flash('status', 'Your Profile has been updated. Please complete your "Looking for a..." information below.');
             return redirect(route('looking-for.edit', [auth()->user()->id]));
         }
         else
         {
             //Account Already Setup?
             //redirect home page.
+            //Get Ready to flash a message on the next page
+
             $request->session()->flash('status', 'Your Profile has been updated.');
             return redirect(route('home'));
         }

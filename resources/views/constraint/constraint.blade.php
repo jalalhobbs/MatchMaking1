@@ -72,7 +72,60 @@
                                         @endif
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="targetCountryId" class="col-md-4 col-form-label text-md-right">{{ __('Country of Lover') }}</label>
 
+                                    <div class="col-md-6">
+                                        <select id="targetCountryId" class="form-control{{ $errors->has('targetCountryId') ? ' is-invalid' : '' }}" name="targetCountryId" required>
+                                            @if($userTargets->targetCountryId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($countries as $country)
+
+                                                @if(old('targetCountryId') == $country->id)
+                                                    <option selected value="{{ old('targetCountryId') }}">{{$country->countryName}}</option>
+                                                @elseif($userTargets->targetCountryId == $country->id)
+                                                    <option selected value="{{$userTargets->targetCountryId}}">{{$country->countryName}}</option>
+                                                @else
+                                                    <option value="{{$country->id}}">{{$country->countryName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('targetCountryId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('targetCountryId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="targetEthnicityId" class="col-md-4 col-form-label text-md-right">{{ __('Ethnicity of Lover') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select id="" class="form-control{{ $errors->has('targetEthnicityId') ? ' is-invalid' : '' }}" name="targetEthnicityId" required>
+                                            @if($userTargets->targetEthnicityId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($ethnicities as $ethnicity)
+
+                                                @if(old('targetEthnicityId') == $ethnicity->id)
+                                                    <option selected value="{{ old('targetEthnicityId') }}">{{$ethnicity->ethnicityName}}</option>
+                                                @elseif($userTargets->targetEthnicityId == $ethnicity->id)
+                                                    <option selected value="{{$userTargets->targetEthnicityId}}">{{$ethnicity->ethnicityName}}</option>
+                                                @else
+                                                    <option value="{{$ethnicity->id}}">{{$ethnicity->ethnicityName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('targetEthnicityId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('targetEthnicityId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label for="targetMinHeight" class="col-md-4 col-form-label text-md-right">{{ __('Minimum Height (cm)') }}</label>
 
@@ -149,6 +202,34 @@
                                         @if ($errors->has('targetReligionId'))
                                             <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('targetReligionId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="targetHairColourId" class="col-md-4 col-form-label text-md-right">{{ __('Hair Colour of Lover') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select id="targetHairColourId" class="form-control{{ $errors->has('targetHairColourId') ? ' is-invalid' : '' }}" name="targetHairColourId" required>
+                                            @if($userTargets->targetHairColourId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($hairColours as $hairColour)
+
+                                                @if(old('targetHairColourId') == $hairColour->id)
+                                                    <option selected value="{{ old('targetHairColourId') }}">{{$hairColour->hairColourName}}</option>
+                                                @elseif($userTargets->targetHairColourId == $hairColour->id)
+                                                    <option selected value="{{$userTargets->targetHairColourId}}">{{$hairColour->hairColourName}}</option>
+                                                @else
+                                                    <option value="{{$hairColour->id}}">{{$hairColour->hairColourName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('targetHairColourId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('targetHairColourId') }}</strong>
                                             </span>
                                         @endif
                                     </div>

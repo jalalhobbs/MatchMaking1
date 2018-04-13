@@ -59,6 +59,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="profilepicture" class="col-md-4 col-form-label text-md-right">{{ __('Profile Picture') }}</label>
+
+                                    <div class="col-md-6">
+                                        <img src="{{ old('profilePicture', $user->profilePicture) }}" alt="Your Display Picture" height="150">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="profilePicture" class="col-md-4 col-form-label text-md-right">{{ __('Profile Picture Link') }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="profilePicture" type="text" class="form-control{{ $errors->has('profilePicture') ? ' is-invalid' : '' }}" name="profilePicture" value="{{ old('profilePicture', $user->profilePicture) }}" required>
+
+                                        @if ($errors->has('profilePicture'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('profilePicture') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="genderId" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
 
                                     <div class="col-md-6">

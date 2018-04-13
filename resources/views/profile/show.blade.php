@@ -26,7 +26,7 @@
                                     <label for="profilepicture" class="col-md-4 col-form-label text-md-right">{{ __('Profile Picture') }}</label>
 
                                     <div class="col-md-6">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Face-plain.svg" alt="Face-plain.svg by The Tango! Desktop Project (CC0)">
+                                        <img src="{{ $user->profilePicture }}" alt="Profile Picture for {{$user->firstName}} {{$user->lastName}}" height="150">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -56,14 +56,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
+                                    <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('Age') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="dob" type="date" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" value="{{ old('dob', $user->dob) }}" required disabled>
+                                        <input id="age" type="text" class="form-control{{ $errors->has('age') ? ' is-invalid' : '' }}" name="age" value="{{ $age }}" required disabled>
 
-                                        @if ($errors->has('dob'))
+                                    @if ($errors->has('age'))
                                             <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('dob') }}</strong>
+                                                <strong>{{ $errors->first('age') }}</strong>
                                             </span>
                                         @endif
                                     </div>

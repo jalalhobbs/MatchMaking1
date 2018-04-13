@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -25,24 +26,29 @@ class User extends Authenticatable
         return $this->hasOne('App\BodyType', 'id');
     }
 
-    public function targetGender()
+    public function country()
     {
-        return $this->hasOne('App\Gender', 'id');
+        return $this->hasOne('App\Country', 'id');
     }
 
-    public function targetReligion()
+    public function ethnicity()
     {
-        return $this->hasOne('App\Religion', 'id');
+        return $this->hasOne('App\Ethnicity', 'id');
     }
 
-    public function targetBodyType()
+    public function hairColour()
     {
-        return $this->hasOne('App\BodyType', 'id');
+        return $this->hasOne('App\HairColour', 'id');
     }
 
-    public function userInterests()
+    public function userTarget()
     {
-        return $this->hasMany('App\UserInterest', (['userId','interestId']));
+        return $this->hasOne('App\UserTarget', 'id');
+    }
+
+    public function userPreferences()
+    {
+        return $this->hasMany('App\UserPreference', (['userId','interestId']));
     }
 
 
@@ -67,6 +73,12 @@ class User extends Authenticatable
     function socialProviders()
     {
         return $this->hasMany(SocialProvider::class);
+    }
+
+
+
+    public function age() {
+        return $this->dob->diffInYears(\Carbon::now());
     }
 
 }

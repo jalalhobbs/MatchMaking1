@@ -81,15 +81,24 @@ class ConstraintController extends Controller
 
 
             $user = DB::table('users')->where('id', auth()->user()->id)->first();
+            //$userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
             $religions = DB::table('religions')->get();
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
+            $countries = DB::table('countries')->get();
+            $ethnicities = DB::table('ethnicities')->get();
+            $hairColours = DB::table('hair_colours')->get();
+
 
             return view('constraint.constraint')
                 ->with('user', $user)
+                //->with('userTargets', $userTargets)
                 ->with('religions', $religions)
                 ->with('genders', $genders)
-                ->with('bodyTypes', $bodyTypes);
+                ->with('bodyTypes', $bodyTypes)
+                ->with('countries', $countries)
+                ->with('ethnicities', $ethnicities)
+                ->with('hairColours', $hairColours);
 
 
         }
@@ -126,7 +135,10 @@ class ConstraintController extends Controller
             'targetMinHeight' => 'required|integer|between: 50, 300|max:'.(int)$request->targetMaxHeight,
             'targetMaxHeight' => 'required|integer|between: 50, 300|min:'.(int)$request->targetMinHeight,
             'targetBodyTypeId' => 'required|integer|min:1',
-            'targetReligionId' => 'required|integer|min:1'],
+            'targetReligionId' => 'required|integer|min:1',
+            'targetCountryId' => 'required|integer|min:1',
+            'targetEthnicityId' => 'required|integer|min:1',
+            'targetHairColourId' => 'required|integer|min:1'],
 
 
                 [
@@ -180,6 +192,18 @@ class ConstraintController extends Controller
                 ->where('id', auth()->user()->id)
                 ->update(['targetReligionId' => $request->targetReligionId]);
 
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['targetCountryId' => $request->targetCountryId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['targetEthnicityId' => $request->targetEthnicityId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['targetHairColourId' => $request->targetHairColourId]);
+
 
         });
 
@@ -189,21 +213,23 @@ class ConstraintController extends Controller
 
 
         //Determines where to go next
-        $user = DB::table('users')->where('id', auth()->user()->id)->first();
+        $userTargets = DB::table('users')->where('id', auth()->user()->id)->first();
 
-        //Get Ready to flash a message on the next page
-        $request->session()->flash('status', 'Your Matchmaking "Looking for a....." preferences have been updated.');
+
 
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
         //Modify this when next feature is added.
-        if (($user->targetGenderId === null)||
-            ($user->targetMinAge === null)||
-            ($user->targetMaxAge === null)||
-            ($user->targetMinHeight === null)||
-            ($user->targetMaxHeight === null)||
-            ($user->targetBodyTypeId === null)||
-            ($user->targetReligionId === null))
+        if (($userTargets->targetGenderId === null)||
+            ($userTargets->targetMinAge === null)||
+            ($userTargets->targetMaxAge === null)||
+            ($userTargets->targetMinHeight === null)||
+            ($userTargets->targetMaxHeight === null)||
+            ($userTargets->targetBodyTypeId === null)||
+            ($userTargets->targetReligionId === null)||
+            ($userTargets->targetCountryId === null)||
+            ($userTargets->targetEthnicityId === null)||
+            ($userTargets->targetHairColourId === null))
         {
             //return redirect(route('lookingfor.edit'));
             return redirect(route('home'));
@@ -211,6 +237,8 @@ class ConstraintController extends Controller
         else
         {
             //Account Already Setup?
+            //Get Ready to flash a message on the next page
+            $request->session()->flash('status', 'Your Matchmaking "Looking for a....." information has been updated.');
             //redirect home page.
             return redirect(route('home'));
         }

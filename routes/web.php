@@ -22,8 +22,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Route::get('/profile', 'ProfileController@index')->name('profile');
 
-Route::resource('profile', 'ProfileController')->only(['index', 'edit', 'update']);
+Route::resource('profile', 'ProfileController')->only(['index', 'edit', 'update', 'show']);
 Route::resource('looking-for', 'ConstraintController')->only(['index', 'edit', 'update']);
+Route::resource('preferences', 'PreferenceController')->only(['index', 'edit', 'update']);
+
 
 //https://laravel.com/docs/5.6/controllers#restful-partial-resource-routes
 

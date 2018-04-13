@@ -75,26 +75,22 @@ class PreferenceController extends Controller
 
             //Retrieve Data from DB
             $preferences = DB::table('preferences')->orderBy('preferenceCategoryId', 'asc')->get();
-            $preferenceCategories = DB::table('preference_categories')->get();
-            $preferenceTypes = DB::table('preference_types')->get();
-            $userPreferences = DB::table('user_preferences')->where('id', auth()->user()->id)->get();
+
+
 
 
             //Determine which preferences have not been set
             foreach($preferences as $preference)
             {
-                //dd($preference);
 
-                $userPreference = DB::table('user_preferences')->where('id', auth()->user()->id)
+                $userPreference = DB::table('user_preferences')->where('userId', auth()->user()->id)
                     ->where('preferenceId', $preference->id)->first();
 
                 //dd($userPreference);
 
                 if ($userPreference === null)
                 {
-                    //return "You suck";
-
-
+                    //Creates a new entry
                     DB::table('user_preferences')->insert([
 
                         'userId' => auth()->user()->id,
@@ -102,29 +98,58 @@ class PreferenceController extends Controller
 
 
                     ]);
-
-                    $userPreference = DB::table('user_preferences')->where('id', auth()->user()->id)
-                        ->where('preferenceId', $preference->id)->first();
-
-                    //dd($userPreference);
-                    echo("Inner Loop");
-                    echo($userPreference->id);
-                    echo($userPreference->userId);
-                    echo($userPreference->preferenceId);
-
-
+                    //echo("Inner Loop");
 
                 }
-                echo("Outer Loop");
-                echo($userPreference->id);
-                echo($userPreference->userId);
-                echo($userPreference->preferenceId);
+
+                //Obtained the $userPreference
+                $userPreference = DB::table('user_preferences')->where('userId', auth()->user()->id)->where('preferenceId', $preference->id)->first();
+                //echo $preference->id;
+                //echo $preference->preferenceName;
+                //echo $preference->preferenceCategoryId;
+                //echo $preference->preferenceTypeId;
+
+
+                $preferenceCategories = DB::table('preference_categories')->where('id', $preference->preferenceCategoryId)->first();
+                $preferenceTypes = DB::table('preference_types')->where('id', $preference->preferenceTypeId)->first();
+                $preferenceName = $preference->preferenceName;
+                //Determine type of question
+                //Pull up an appropriate view given the answer to above.
+                echo $preferenceTypes->preferenceTypeName;
+                return view('preference.edit')
+                    ->with('preferenceCategories', $preferenceCategories)
+                    ->with('preferenceTypes', $preferenceTypes)
+                    ->with('userPreference', $userPreference)
+                    ->with('preferenceName', $preferenceName);
+
+                /*switch ($preferenceTypes->preferenceTypeName)
+                {
+                    case ("Normal"):
+                        return view('preference.edit')
+                            ->with('preferenceCategories', $preferenceCategories)
+                            ->with('preferenceTypes', $preferenceTypes)
+                            ->with('userPreference', $userPreference);
+                        break;
+                    case ("Boolean"):
+                        return view('preference.boolean')
+                            ->with('preferenceCategories', $preferenceCategories)
+                            ->with('preferenceTypes', $preferenceTypes)
+                            ->with('userPreference', $userPreference);
+                        break;
+                    default:
+                        return view('home');
+                        break;
+
+
+                } */
+
+
+
+
 
             }
 
-            //Determine type of question
 
-            //Pull up an appropriate view given the answer to above.
 
         }
 

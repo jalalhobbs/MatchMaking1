@@ -154,7 +154,8 @@ class ProfileController extends Controller
 
        $request->validate([
             'dob' => 'required|after:1900-01-01|before:-18years',
-            'profilePicture' => array('required', 'active_url', 'regex:/[a-zA-Z]+\/((([\w\/-]+)\/)?[\w.-]+\.(png|gif|jpe?g)$)/'),
+            'profilePicture' => array('required',
+                'regex:/https\:\/\/graph\.facebook\.com\/v2\.10\/[0-9]+\/picture\?type\=normal|[a-zA-Z]+\/((([\w\/-]+)\/)?[\w.-]+\.(png|gif|jpe?g))$/'),
             'genderId' => 'required|integer|min:1',
             'height' => 'required|integer|min:0|max:300',
             'bodyTypeId' => 'required|integer|min:1',

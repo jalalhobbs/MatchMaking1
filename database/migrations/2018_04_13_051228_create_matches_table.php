@@ -15,8 +15,8 @@ class CreateMatchesTable extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->integer('userId');
-            $table->integer('matchId');
-            $table->tinyInteger('likeStatus')->default(1); // 0 = dislike; 1 = undecided; 2 = like
+            $table->integer('targetId');
+            $table->tinyInteger('likeStatus')->default('1'); // 0 = dislike; 1 = undecided; 2 = like
             $table->dateTime('expiryDateTime')->nullable();
             $table->timestamps();
 
@@ -24,11 +24,11 @@ class CreateMatchesTable extends Migration
             //Inspired by: https://stackoverflow.com/questions/20065697/schema-builder-laravel-migrations-unique-on-two-columns
 
             $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('matchId')->references('id')->on('users');
+            $table->foreign('targetId')->references('id')->on('users');
 
             //Establish primary key as userId and interestId
             //Inspired by: https://stackoverflow.com/questions/20065697/schema-builder-laravel-migrations-unique-on-two-columns
-            $table->primary(['userId', 'matchId']);
+            $table->primary(['userId', 'targetId']);
         });
     }
 

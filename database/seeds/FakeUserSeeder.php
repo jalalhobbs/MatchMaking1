@@ -11,8 +11,12 @@ class FakeUserSeeder extends Seeder
      */
     public function run()
     {
+        $maxUsers = 500;
         $year = 1940;
-        for ($x = 0; $x <= 500; $x++) {
+        for ($x = 0; $x <= $maxUsers; $x++) {
+
+            $fName = "Tom" . $x;
+            $sName = "Thumb" . $x;
 
             $genderId = rand(1, 3);
             if ($genderId === 1)
@@ -53,7 +57,7 @@ class FakeUserSeeder extends Seeder
                     }
                     elseif ($targetMaxAge > 114)
                     {
-                        $targetMinAge = targetMinAge - 5;
+                        $targetMinAge = $targetMinAge - 5;
                     }
 
                 }
@@ -78,7 +82,7 @@ class FakeUserSeeder extends Seeder
                     }
                     elseif ($targetMaxHeight > 244)
                     {
-                        $targetMinHeight = targetMinHeight - 5;
+                        $targetMinHeight = $targetMinHeight - 5;
                     }
 
                 }

@@ -273,7 +273,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like sports Cleaning?',
+            'preferenceName' => 'How much do you like Cleaning?',
             'preferenceCategoryId' => 2,
             'preferenceTypeId' => 1,
 
@@ -288,14 +288,14 @@ class DatabaseSeeder extends Seeder
     ]);
 
         DB::table('preferences')->insert([
-            'preferenceName' => 'Do you drink?',
+            'preferenceName' => 'Do you like to drink?',
             'preferenceCategoryId' => 3,
             'preferenceTypeId' => 2,
 
         ]);
 
         DB::table('preferences')->insert([
-            'preferenceName' => 'Do you smoke?',
+            'preferenceName' => 'Do you like to smoke?',
             'preferenceCategoryId' => 3,
             'preferenceTypeId' => 2,
 
@@ -309,7 +309,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('preferences')->insert([
-            'preferenceName' => 'Have you have children?',
+            'preferenceName' => 'Have you had children?',
             'preferenceCategoryId' => 3,
             'preferenceTypeId' => 2,
 

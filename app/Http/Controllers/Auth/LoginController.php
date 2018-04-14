@@ -85,6 +85,7 @@ class LoginController extends Controller
             'lastName' => $facebookUser->user['last_name'],
             'email' => $facebookUser->user['email'],
             'facebookProfileLink' => $facebookUser->getId(),
+            'profilePicture' => $facebookUser->getAvatar(),
             'password' => Hash::make("fakeP!assword123"),
             // TODO: null password out on creation of facebook user
         ]);

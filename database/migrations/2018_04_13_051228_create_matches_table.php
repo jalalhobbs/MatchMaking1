@@ -16,6 +16,8 @@ class CreateMatchesTable extends Migration
         Schema::create('matches', function (Blueprint $table) {
             $table->integer('userId');
             $table->integer('matchId');
+            $table->tinyInteger('likeStatus'); // 0 = dislike; 1 = undecided; 2 = like
+            $table->dateTime('expiryDateTime')->nullable();
             $table->timestamps();
 
             //Establish Foreign Relationship

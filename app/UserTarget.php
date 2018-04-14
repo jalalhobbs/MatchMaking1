@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserTarget extends Model
 {
+    protected $primaryKey = 'id';
 
 
     public function targetGender()

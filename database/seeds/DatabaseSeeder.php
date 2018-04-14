@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('religions')->insert([
-            'religionName' => 'Catholicism',
+            'religionName' => 'Catholic',
 
         ]);
 
@@ -95,6 +95,100 @@ class DatabaseSeeder extends Seeder
 
         DB::table('body_types')->insert([
             'bodyTypeName' => 'Giant',
+
+        ]);
+
+        //Country Table Seed
+
+
+        DB::table('countries')->insert([
+            'countryName' => 'Australia',
+
+        ]);
+
+        DB::table('countries')->insert([
+            'countryName' => 'America',
+
+        ]);
+
+        DB::table('countries')->insert([
+            'countryName' => 'United Kingdom',
+
+        ]);
+
+        DB::table('countries')->insert([
+            'countryName' => 'Europe',
+
+        ]);
+
+        DB::table('countries')->insert([
+            'countryName' => 'Other',
+
+        ]);
+
+        //Ethnicity Table Seed
+
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Australian',
+
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'American',
+
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Asian',
+
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'European',
+
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Other',
+
+        ]);
+
+        //Hair Colour Table Seed
+
+
+        DB::table('hair_colours')->insert([
+            'hairColourName' => 'Blonde',
+
+        ]);
+
+        DB::table('hair_colours')->insert([
+            'hairColourName' => 'Brown',
+
+        ]);
+
+        DB::table('hair_colours')->insert([
+            'hairColourName' => 'Black',
+
+        ]);
+
+        DB::table('hair_colours')->insert([
+            'hairColourName' => 'Red',
+
+        ]);
+
+        DB::table('hair_colours')->insert([
+            'hairColourName' => 'Grey',
+
+        ]);
+
+        DB::table('hair_colours')->insert([
+            'hairColourName' => 'White',
+
+        ]);
+
+        DB::table('hair_colours')->insert([
+            'hairColourName' => 'Other',
 
         ]);
 
@@ -179,7 +273,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like sports Cleaning?',
+            'preferenceName' => 'How much do you like Cleaning?',
             'preferenceCategoryId' => 2,
             'preferenceTypeId' => 1,
 
@@ -194,14 +288,14 @@ class DatabaseSeeder extends Seeder
     ]);
 
         DB::table('preferences')->insert([
-            'preferenceName' => 'Do you drink?',
+            'preferenceName' => 'Do you like to drink?',
             'preferenceCategoryId' => 3,
             'preferenceTypeId' => 2,
 
         ]);
 
         DB::table('preferences')->insert([
-            'preferenceName' => 'Do you smoke?',
+            'preferenceName' => 'Do you like to smoke?',
             'preferenceCategoryId' => 3,
             'preferenceTypeId' => 2,
 
@@ -215,7 +309,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('preferences')->insert([
-            'preferenceName' => 'Have you have children?',
+            'preferenceName' => 'Have you had children?',
             'preferenceCategoryId' => 3,
             'preferenceTypeId' => 2,
 

@@ -81,17 +81,24 @@ class ConstraintController extends Controller
 
 
             $user = DB::table('users')->where('id', auth()->user()->id)->first();
-            $userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
+            //$userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
             $religions = DB::table('religions')->get();
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
+            $countries = DB::table('countries')->get();
+            $ethnicities = DB::table('ethnicities')->get();
+            $hairColours = DB::table('hair_colours')->get();
+
 
             return view('constraint.constraint')
                 ->with('user', $user)
-                ->with('userTargets', $userTargets)
+                //->with('userTargets', $userTargets)
                 ->with('religions', $religions)
                 ->with('genders', $genders)
-                ->with('bodyTypes', $bodyTypes);
+                ->with('bodyTypes', $bodyTypes)
+                ->with('countries', $countries)
+                ->with('ethnicities', $ethnicities)
+                ->with('hairColours', $hairColours);
 
 
         }
@@ -128,7 +135,10 @@ class ConstraintController extends Controller
             'targetMinHeight' => 'required|integer|between: 50, 300|max:'.(int)$request->targetMaxHeight,
             'targetMaxHeight' => 'required|integer|between: 50, 300|min:'.(int)$request->targetMinHeight,
             'targetBodyTypeId' => 'required|integer|min:1',
-            'targetReligionId' => 'required|integer|min:1'],
+            'targetReligionId' => 'required|integer|min:1',
+            'targetCountryId' => 'required|integer|min:1',
+            'targetEthnicityId' => 'required|integer|min:1',
+            'targetHairColourId' => 'required|integer|min:1'],
 
 
                 [
@@ -154,33 +164,45 @@ class ConstraintController extends Controller
         //Writes update  to the DB
         //https://stackoverflow.com/questions/17084723/how-to-pass-parameter-to-laravel-dbtransaction
         DB::transaction(function() use ($request) {
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetGenderId' => $request->targetGenderId]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMinAge' => $request->targetMinAge]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMaxAge' => $request->targetMaxAge]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMinHeight' => $request->targetMinHeight]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetMaxHeight' => $request->targetMaxHeight]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetBodyTypeId' => $request->targetBodyTypeId]);
 
-            DB::table('user_targets')
+            DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['targetReligionId' => $request->targetReligionId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['targetCountryId' => $request->targetCountryId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['targetEthnicityId' => $request->targetEthnicityId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['targetHairColourId' => $request->targetHairColourId]);
 
 
         });
@@ -191,10 +213,9 @@ class ConstraintController extends Controller
 
 
         //Determines where to go next
-        $userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
+        $userTargets = DB::table('users')->where('id', auth()->user()->id)->first();
 
-        //Get Ready to flash a message on the next page
-        $request->session()->flash('status', 'Your Matchmaking "Looking for a....." preferences have been updated.');
+
 
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
@@ -205,7 +226,10 @@ class ConstraintController extends Controller
             ($userTargets->targetMinHeight === null)||
             ($userTargets->targetMaxHeight === null)||
             ($userTargets->targetBodyTypeId === null)||
-            ($userTargets->targetReligionId === null))
+            ($userTargets->targetReligionId === null)||
+            ($userTargets->targetCountryId === null)||
+            ($userTargets->targetEthnicityId === null)||
+            ($userTargets->targetHairColourId === null))
         {
             //return redirect(route('lookingfor.edit'));
             return redirect(route('home'));
@@ -213,6 +237,8 @@ class ConstraintController extends Controller
         else
         {
             //Account Already Setup?
+            //Get Ready to flash a message on the next page
+            $request->session()->flash('status', 'Your Matchmaking "Looking for a....." information has been updated.');
             //redirect home page.
             return redirect(route('home'));
         }

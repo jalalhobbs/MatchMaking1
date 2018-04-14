@@ -192,8 +192,8 @@ class PreferenceController extends Controller
 
             //$preferences->session()->flash('status', '');
             //redirect home page.
-            Session::flash('status', 'Your Preferences have been updated.');
-            return redirect(route('home'));
+            Session::flash('status', 'Your Preferences are complete.');
+            return redirect(route('preferences.show', [auth()->user()->id]));
 
 
 

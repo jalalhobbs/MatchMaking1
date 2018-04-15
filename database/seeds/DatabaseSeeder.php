@@ -324,6 +324,12 @@ class DatabaseSeeder extends Seeder
 
 
 
+        $this->call([
+            FakeUserSeeder::class,
+        ]);
+
+
+
 
     }
 }

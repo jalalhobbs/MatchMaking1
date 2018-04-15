@@ -84,9 +84,57 @@ body {
 }
 
 
-//html{
-// background-image: url("/public/images/images/background/background.jpg") no-repeat center center fixed;
-// -webkit-background-size: cover;
-// -moz-background-size: cover;
-// -o-background-size: cover;)
-//}
+//flexibox starts here - ref https://codepen.io/bootstrapped/pen/OMNYpq
+
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-row > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row .thumbnail,
+.flex-row .caption {
+  flex-direction: column;
+  display: flex;
+  flex: 1 0 auto;
+  height: auto;
+  position: relative;
+}
+.flex-text {
+  flex-grow: 1;
+}
+.flex-row img {
+  min-width: 0;
+  width: 100%;
+}
+
+.flex-row  {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.thumbnail {
+  padding: 0.25rem;
+  margin-bottom: 25px;
+  background-color: #ede7fb;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* Extra Media Query Below for Retina Iphones and Smaller */
+@media only screen and (max-width : 480px){
+  .flex-row > [class*='col-'] {
+    width: 100%;
+  }
+  .flex-row  {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+

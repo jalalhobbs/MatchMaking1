@@ -18,6 +18,8 @@
                                 @if($potentialMatches)
                                     @foreach($potentialMatches as $potentialMatch)
                                         @component('profile-card', ['firstName' => $potentialMatch->firstName,
+                                                                    'profilePic' => $potentialMatch->profilePicture,
+                                                                    'dob' => $potentialMatch->dob,
                                                                     'gender' => $potentialMatch->genderName])
                                         @endcomponent
                                     @endforeach

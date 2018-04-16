@@ -10,6 +10,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// custom scss imports
+@import 'welcomepage';
+@import 'header';
 
 .navbar-laravel {
   background-color: rgba(250, 179, 34, 1);

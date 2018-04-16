@@ -13897,6 +13897,11 @@ var app = new Vue({
   el: '#app'
 });
 
+$('input[name=likeStatus]').change(function () {
+  $('form').submit();
+  return false;
+});
+
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {

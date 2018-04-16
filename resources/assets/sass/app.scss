@@ -14,6 +14,9 @@
 @import 'welcomepage';
 @import 'header';
 
+// imports
+@import 'profile-card';
+
 .navbar-laravel {
   background-color: rgba(250, 179, 34, 1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -27,7 +30,7 @@
 
 
 .card {
-  opacity: 0.5;
+  //opacity: 0.5;
   margin-bottom: 0%;
   min-height: 20vh;
 
@@ -50,7 +53,7 @@
   }
 
   .card {
-    opacity: 0.5;
+    //opacity: 0.5;
     margin-bottom: 0%;
   }
 }

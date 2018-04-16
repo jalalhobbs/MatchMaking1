@@ -15,7 +15,7 @@ class FakeMatchesSeeder extends Seeder
         $maxUsers = 500;
         for ($userId = 1; $userId <= $maxUsers; $userId++) {
 
-            if($maxUsers < 10)
+            if($userId < 10)
             {
                 $maxMatches = 10;
             }

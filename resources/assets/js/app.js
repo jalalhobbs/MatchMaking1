@@ -20,3 +20,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 const app = new Vue({
     el: '#app'
 });
+
+$('input[name=likeStatus]').change(function() {
+    $('form').submit();
+    return false;
+});

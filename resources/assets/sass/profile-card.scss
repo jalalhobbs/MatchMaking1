@@ -1,0 +1,27 @@
+$like: rgb(0, 128, 0);
+$noLikeStatus: rgb(232, 232, 0);
+$dislike: rgb(164, 0, 0);
+
+.btn-like {
+  background-color: rgba($like, 0.55);
+  &.active {
+    background-color: $like;
+    font-weight: bold;
+  }
+}
+
+.btn-no-like-status {
+  background-color: rgba($noLikeStatus, 0.55);
+  &.active {
+    background-color: $noLikeStatus;
+    font-weight: bold;
+  }
+}
+
+.btn-dislike {
+  background-color: rgba($dislike, 0.55);
+  &.active {
+    background-color: $dislike;
+    font-weight: bold;
+  }
+}

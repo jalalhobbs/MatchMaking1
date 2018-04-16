@@ -20,6 +20,8 @@
                                         @component('profile-card', ['firstName' => $potentialMatch->firstName,
                                                                     'profilePic' => $potentialMatch->profilePicture,
                                                                     'dob' => $potentialMatch->dob,
+                                                                    'userId' => $potentialMatch->id,
+                                                                    'likeStatus' => $potentialMatch->likeStatus,
                                                                     'gender' => $potentialMatch->genderName])
                                         @endcomponent
                                     @endforeach

@@ -13,7 +13,23 @@
                         </div>
                     @endif
                     Welcome {{ Auth::user()->firstName }}!
+                        <div class="container">
+                            <div class="flex-row row">
+                                @if($potentialMatches)
+                                    @foreach($potentialMatches as $potentialMatch)
+                                        @component('profile-card', ['firstName' => $potentialMatch->firstName,
+                                                                    'profilePic' => $potentialMatch->profilePicture,
+                                                                    'dob' => $potentialMatch->dob,
+                                                                    'gender' => $potentialMatch->genderName])
+                                        @endcomponent
+                                    @endforeach
+                                @endif
+                            </div>
+                            <!-- /.flex-row  -->
+                        </div>
+                        <!-- /.container  -->
                 </div>
+
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePreferenceCategoriesTable extends Migration
+class CreatePersonalityTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreatePreferenceCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('preference_categories', function (Blueprint $table) {
+        Schema::create('personality_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('preferenceCategoryName');
+            $table->string('personalityTypeName');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreatePreferenceCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('preference_categories');
+        Schema::dropIfExists('personality_types');
     }
 }

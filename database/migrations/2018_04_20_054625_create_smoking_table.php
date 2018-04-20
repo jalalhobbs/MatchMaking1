@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePreferenceTypesTable extends Migration
+class CreateSmokingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreatePreferenceTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('preference_types', function (Blueprint $table) {
+        Schema::create('smoking', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('preferenceTypeName');
+            $table->string('smokingPrefName');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreatePreferenceTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('preference_types');
+        Schema::dropIfExists('smoking');
     }
 }

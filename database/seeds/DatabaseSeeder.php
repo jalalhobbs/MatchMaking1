@@ -28,10 +28,6 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        DB::table('genders')->insert([
-            'genderName' => 'Other',
-
-        ]);
 
         //Religion Table Seed
         //https://www.newsmax.com/thewire/most-popular-religions-sects-images/2014/05/01/id/569022/
@@ -65,21 +61,12 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        DB::table('religions')->insert([
-            'religionName' => 'Other',
-
-        ]);
 
         //Body Type Table Seed
 
 
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Very Slim',
-
-        ]);
-
-        DB::table('body_types')->insert([
-            'bodyTypeName' => 'Slim',
+            'bodyTypeName' => 'Thin',
 
         ]);
 
@@ -89,12 +76,27 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Larger than Average',
+            'bodyTypeName' => 'Athletic',
 
         ]);
 
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Giant',
+            'bodyTypeName' => 'Muscular',
+
+        ]);
+
+        DB::table('body_types')->insert([
+        'bodyTypeName' => 'A Bit Overweight',
+
+         ]);
+
+        DB::table('body_types')->insert([
+            'bodyTypeName' => 'Overweight',
+
+        ]);
+
+        DB::table('body_types')->insert([
+            'bodyTypeName' => 'Very Overweight',
 
         ]);
 
@@ -121,10 +123,6 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        DB::table('countries')->insert([
-            'countryName' => 'Other',
-
-        ]);
 
         //Ethnicity Table Seed
 
@@ -149,10 +147,7 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        DB::table('ethnicities')->insert([
-            'ethnicityName' => 'Other',
 
-        ]);
 
         //Hair Colour Table Seed
 
@@ -187,140 +182,153 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        DB::table('hair_colours')->insert([
-            'hairColourName' => 'Other',
+        //Eye Colour Table Seed
+        //https://www.edow.com/general-eye-care/eyecolor/
+
+
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Brown',
 
         ]);
 
-        //Preference Types Seed
-
-        DB::table('preference_types')->insert([
-            'preferenceTypeName' => 'Normal',
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Blue',
 
         ]);
 
-        DB::table('preference_types')->insert([
-            'preferenceTypeName' => 'Boolean',
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Green',
 
         ]);
 
-        //Preference Categories Seed
-        DB::table('preference_categories')->insert([
-            'preferenceCategoryName' => 'Sports',
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Red',
 
         ]);
 
-        DB::table('preference_categories')->insert([
-            'preferenceCategoryName' => 'Hobbies',
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Hazel',
 
         ]);
 
-        DB::table('preference_categories')->insert([
-            'preferenceCategoryName' => 'Personal',
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Grey',
+
+        ]);
+
+        //Drinking Table Seed
+
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Never',
+
+        ]);
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Rarely',
+
+        ]);
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Socially',
+
+        ]);
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Weekly',
+
+        ]);
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Daily',
+
+        ]);
+
+        //Smoking Table Seed
+
+
+        DB::table('smoking')->insert([
+            'smokingPrefName' => 'No',
+
+        ]);
+
+        DB::table('smoking')->insert([
+            'smokingPrefName' => 'Yes',
+
+        ]);
+
+        //Education Table Seed
+        DB::table('education')->insert([
+            'educationName' => 'High School',
+
+        ]);
+
+        DB::table('education')->insert([
+            'educationName' => 'Certicate',
+
+        ]);
+
+        DB::table('education')->insert([
+            'educationName' => 'Diploma',
+
+        ]);
+
+        DB::table('education')->insert([
+            'educationName' => 'Degree',
 
         ]);
 
 
-        //Preference Seed for Category 1 = Sports
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like sports in General?',
-            'preferenceCategoryId' => 1,
-            'preferenceTypeId' => 1,
+        //Leisure Time Seeder
+        DB::table('leisures')->insert([
+            'leisureName' => 'Mostly sedentary (eg watching TV, playing video games)',
 
         ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like Basketball?',
-            'preferenceCategoryId' => 1,
-            'preferenceTypeId' => 1,
+        DB::table('leisures')->insert([
+            'leisureName' => 'Moderately active (eg long walks, casual bike rides, swimming)',
 
         ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like Soccer?',
-            'preferenceCategoryId' => 1,
-            'preferenceTypeId' => 1,
+        DB::table('leisures')->insert([
+            'leisureName' => 'Active (eg bushwalking, mountain biking, surfing)',
 
         ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like Rugby?',
-            'preferenceCategoryId' => 1,
-            'preferenceTypeId' => 1,
+        DB::table('leisures')->insert([
+            'leisureName' => 'Sporty (eg Play organised sport such as football, jetskiing, rock climbing)',
 
         ]);
 
-        //Preference Seed for Category 2 = Hobbies
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like hobbies in General?',
-            'preferenceCategoryId' => 2,
-            'preferenceTypeId' => 1,
+        DB::table('leisures')->insert([
+            'leisureName' => 'Adrenaline (eg skydiving, bungee jumping)',
 
         ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like Gardening?',
-            'preferenceCategoryId' => 2,
-            'preferenceTypeId' => 1,
+        //Personality Type Seeder
+
+        DB::table('personality_types')->insert([
+            'personalityTypeName' => 'Romantic',
 
         ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like Gaming?',
-            'preferenceCategoryId' => 2,
-            'preferenceTypeId' => 1,
+        DB::table('personality_types')->insert([
+            'personalityTypeName' => 'Outgoing',
 
         ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How much do you like Cleaning?',
-            'preferenceCategoryId' => 2,
-            'preferenceTypeId' => 1,
+        DB::table('personality_types')->insert([
+            'personalityTypeName' => 'Stubborn',
 
         ]);
 
-        //Preference Seed for Category 3 = Personal
-        DB::table('preferences')->insert([
-        'preferenceName' => 'Am I sociable?',
-        'preferenceCategoryId' => 3,
-        'preferenceTypeId' => 2,
 
-    ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'Do you like to drink?',
-            'preferenceCategoryId' => 3,
-            'preferenceTypeId' => 2,
 
-        ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'Do you like to smoke?',
-            'preferenceCategoryId' => 3,
-            'preferenceTypeId' => 2,
 
-        ]);
 
-        DB::table('preferences')->insert([
-            'preferenceName' => 'Are you married?',
-            'preferenceCategoryId' => 3,
-            'preferenceTypeId' => 2,
 
-        ]);
-
-        DB::table('preferences')->insert([
-            'preferenceName' => 'Have you had children?',
-            'preferenceCategoryId' => 3,
-            'preferenceTypeId' => 2,
-
-        ]);
-
-        DB::table('preferences')->insert([
-            'preferenceName' => 'How important to you is education?',
-            'preferenceCategoryId' => 3,
-            'preferenceTypeId' => 1,
-
-        ]);
 
 
 

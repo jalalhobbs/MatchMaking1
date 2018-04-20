@@ -168,6 +168,35 @@
                                 </div>
 
                                 <div class="form-group row">
+                                    <label for="educationId" class="col-md-4 col-form-label text-md-right">{{ __('Education') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select id="educationId" class="form-control{{ $errors->has('educationId') ? ' is-invalid' : '' }}" name="educationId" required disabled>
+                                            @if($user->educationId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($educations as $education)
+
+                                                @if(old('educationId') == $education->id)
+                                                    <option selected value="{{ old('educationId') }}">{{$education->educationName}}</option>
+                                                @elseif($user->educationId == $education->id)
+                                                    <option selected value="{{$user->educationId}}">{{$education->educationName}}</option>
+                                                @else
+                                                    <option value="{{$education->id}}">{{$education->educationName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('educationId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('educationId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
                                     <label for="bodyTypeId" class="col-md-4 col-form-label text-md-right">{{ __('Body Type') }}</label>
 
 
@@ -249,6 +278,146 @@
                                     </div>
                                 </div>
 
+
+                                <div class="form-group row">
+                                    <label for="eyeColourId" class="col-md-4 col-form-label text-md-right">{{ __('Eye Colour') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select id="eyeColourId" class="form-control{{ $errors->has('eyeColourId') ? ' is-invalid' : '' }}" name="eyeColourId" required disabled>
+                                            @if($user->eyeColourId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($eyeColours as $eyeColour)
+
+                                                @if(old('eyeColourId') == $eyeColour->id)
+                                                    <option selected value="{{ old('eyeColourId') }}">{{$eyeColour->eyeColourName}}</option>
+                                                @elseif($user->eyeColourId == $eyeColour->id)
+                                                    <option selected value="{{$user->eyeColourId}}">{{$eyeColour->eyeColourName}}</option>
+                                                @else
+                                                    <option value="{{$eyeColour->id}}">{{$eyeColour->eyeColourName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('eyeColourId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('eyeColourId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="drinkingId" class="col-md-4 col-form-label text-md-right">{{ __('Drinking') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select id="drinkingId" class="form-control{{ $errors->has('drinkingId') ? ' is-invalid' : '' }}" name="drinkingId" required disabled>
+                                            @if($user->drinkingId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($drinkings as $drinking)
+
+                                                @if(old('eyeColourId') == $drinking->id)
+                                                    <option selected value="{{ old('eyeColourId') }}">{{$drinking->drinkingPrefName}}</option>
+                                                @elseif($user->drinkingId == $drinking->id)
+                                                    <option selected value="{{$user->drinkingId}}">{{$drinking->drinkingPrefName}}</option>
+                                                @else
+                                                    <option value="{{$drinking->id}}">{{$drinking->drinkingPrefName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('drinkingId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('drinkingId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="smokingId" class="col-md-4 col-form-label text-md-right">{{ __('Smoking') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select id="smokingId" class="form-control{{ $errors->has('smokingId') ? ' is-invalid' : '' }}" name="smokingId" required disabled>
+                                            @if($user->smokingId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($smokings as $smoking)
+
+                                                @if(old('eyeColourId') == $smoking->id)
+                                                    <option selected value="{{ old('smokingId') }}">{{$smoking->smokingPrefName}}</option>
+                                                @elseif($user->smokingId == $smoking->id)
+                                                    <option selected value="{{$user->smokingId}}">{{$smoking->smokingPrefName}}</option>
+                                                @else
+                                                    <option value="{{$smoking->id}}">{{$smoking->smokingPrefName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('smokingId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('smokingId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="leisureId" class="col-md-4 col-form-label text-md-right">{{ __('Leisure') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select id="leisureId" class="form-control{{ $errors->has('leisureId') ? ' is-invalid' : '' }}" name="leisureId" required disabled>
+                                            @if($user->leisureId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($leisures as $leisure)
+
+                                                @if(old('leisureId') == $leisure->id)
+                                                    <option selected value="{{ old('leisureId') }}">{{$leisure->leisureName}}</option>
+                                                @elseif($user->leisureId == $leisure->id)
+                                                    <option selected value="{{$user->leisureId}}">{{$leisure->leisureName}}</option>
+                                                @else
+                                                    <option value="{{$leisure->id}}">{{$leisure->leisureName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('leisureId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('leisureId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="personalityTypeId" class="col-md-4 col-form-label text-md-right">{{ __('Personality Type') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select id="personalityTypeId" class="form-control{{ $errors->has('personalityTypeId') ? ' is-invalid' : '' }}" name="personalityTypeId" required disabled>
+                                            @if($user->personalityTypeId === null)
+                                                <option selected value=""></option>
+                                            @endif
+                                            @foreach($personalityTypes as $personalityType)
+
+                                                @if(old('personalityTypeId') == $personalityType->id)
+                                                    <option selected value="{{ old('personalityTypeId') }}">{{$personalityType->personalityTypeName}}</option>
+                                                @elseif($user->personalityTypeId == $personalityType->id)
+                                                    <option selected value="{{$user->personalityTypeId}}">{{$personalityType->personalityTypeName}}</option>
+                                                @else
+                                                    <option value="{{$personalityType->id}}">{{$personalityType->personalityTypeName}}</option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('personalityTypeId'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('personalityTypeId') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
 
 
 

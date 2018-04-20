@@ -24,7 +24,7 @@ Route::post('updateLikeStatus', 'LikeController@update')->name('updateLikeStatus
 
 Route::resource('profile', 'ProfileController')->only(['index', 'edit', 'update', 'show']);
 Route::resource('looking-for', 'ConstraintController')->only(['index', 'edit', 'update']);
-Route::resource('preferences', 'PreferenceController')->only(['index', 'edit', 'update', 'show']);
+
 
 
 //https://laravel.com/docs/5.6/controllers#restful-partial-resource-routes

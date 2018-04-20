@@ -25,9 +25,15 @@ class CreateUsersTable extends Migration
             $table->integer('bodyTypeId')->nullable();
             $table->integer('religionId')->nullable();
             $table->integer('countryId')->nullable();
-            $table->integer('educationId')->nullable();
+
             $table->integer('ethnicityId')->nullable();
             $table->integer('hairColourId')->nullable();
+            $table->integer('eyeColourId')->nullable();
+            $table->integer('educationId')->nullable();
+            $table->integer('drinkingId')->nullable();
+            $table->integer('smokingId')->nullable();
+            $table->integer('leisureId')->nullable();
+            $table->integer('personalityTypeId')->nullable();
             $table->integer('height')->nullable();
             $table->boolean('verified')->nullable();
             $table->string('facebookProfileLink')->nullable();
@@ -45,7 +51,12 @@ class CreateUsersTable extends Migration
             $table->integer('targetCountryId')->nullable();
             $table->integer('targetEthnicityId')->nullable();
             $table->integer('targetHairColourId')->nullable();
+            $table->integer('targetEyeColourId')->nullable();
             $table->integer('targetEducationId')->nullable();
+            $table->integer('targetDrinkingId')->nullable();
+            $table->integer('targetSmnokingId')->nullable();
+            $table->integer('targetLeisureId')->nullable();
+            $table->integer('targetPersonalityTypeId')->nullable();
 
 
             $table->rememberToken();

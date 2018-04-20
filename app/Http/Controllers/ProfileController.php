@@ -49,7 +49,7 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -61,7 +61,7 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,6 +77,12 @@ class ProfileController extends Controller
         $countries = DB::table('countries')->get();
         $ethnicities = DB::table('ethnicities')->get();
         $hairColours = DB::table('hair_colours')->get();
+        $eyeColours = DB::table('eye_colours')->get();
+        $educations = DB::table('education')->get();
+        $drinkings = DB::table('drinking')->get();
+        $smokings = DB::table('smoking')->get();
+        $leisures = DB::table('leisures')->get();
+        $personalityTypes = DB::table('personality_types')->get();
         $age = $this->getAge($user->dob);
 
 
@@ -89,6 +95,12 @@ class ProfileController extends Controller
             ->with('countries', $countries)
             ->with('ethnicities', $ethnicities)
             ->with('hairColours', $hairColours)
+            ->with('eyeColours', $eyeColours)
+            ->with('educations', $educations)
+            ->with('drinkings', $drinkings)
+            ->with('smokings', $smokings)
+            ->with('leisures', $leisures)
+            ->with('personalityTypes', $personalityTypes)
             ->with('age', $age);
     }
 
@@ -96,13 +108,12 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (auth()->user()->id == $id)
-        {
+        if (auth()->user()->id == $id) {
 
 
             $user = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -112,6 +123,12 @@ class ProfileController extends Controller
             $countries = DB::table('countries')->get();
             $ethnicities = DB::table('ethnicities')->get();
             $hairColours = DB::table('hair_colours')->get();
+            $eyeColours = DB::table('eye_colours')->get();
+            $educations = DB::table('education')->get();
+            $drinkings = DB::table('drinking')->get();
+            $smokings = DB::table('smoking')->get();
+            $leisures = DB::table('leisures')->get();
+            $personalityTypes = DB::table('personality_types')->get();
 
 
             return view('profile.edit')
@@ -121,13 +138,16 @@ class ProfileController extends Controller
                 ->with('bodyTypes', $bodyTypes)
                 ->with('countries', $countries)
                 ->with('ethnicities', $ethnicities)
-                ->with('hairColours', $hairColours);
+                ->with('hairColours', $hairColours)
+                ->with('eyeColours', $eyeColours)
+                ->with('educations', $educations)
+                ->with('drinkings', $drinkings)
+                ->with('smokings', $smokings)
+                ->with('leisures', $leisures)
+                ->with('personalityTypes', $personalityTypes);
 
 
-
-        }
-        else
-        {
+        } else {
             //Prevents other users from modifying your profile information
             return redirect('home');
 
@@ -139,8 +159,8 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -152,7 +172,7 @@ class ProfileController extends Controller
         //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
         //https://stackoverflow.com/questions/25473823/laravel-regex-match-url-with-jpg-not-working
 
-       $request->validate([
+        $request->validate([
             'dob' => 'required|after:1900-01-01|before:-18years',
             'profilePicture' => array('required',
                 'regex:/https\:\/\/graph\.facebook\.com\/v2\.10\/[0-9]+\/picture\?type\=normal|[a-zA-Z]+\/((([\w\/-]+)\/)?[\w.-]+\.(png|gif|jpe?g))$/'),
@@ -162,18 +182,25 @@ class ProfileController extends Controller
             'religionId' => 'required|integer|min:1',
             'countryId' => 'required|integer|min:1',
             'ethnicityId' => 'required|integer|min:1',
-            'hairColourId' => 'required|integer|min:1'],
+            'hairColourId' => 'required|integer|min:1',
+            'eyeColourId' => 'required|integer|min:1',
+            'educationId' => 'required|integer|min:1',
+            'drinkingId' => 'required|integer|min:1',
+            'smokingId' => 'required|integer|min:1',
+            'leisureId' => 'required|integer|min:1',
+            'personalityTypeId' => 'required|integer|min:1',
 
 
-           [ 'dob.before' => 'You must be 18 to use this site.']
+        ],
+
+
+            ['dob.before' => 'You must be 18 to use this site.']
         );
-
-
 
 
         //Writes update  to the DB
         //https://stackoverflow.com/questions/17084723/how-to-pass-parameter-to-laravel-dbtransaction
-        DB::transaction(function() use ($request) {
+        DB::transaction(function () use ($request) {
             DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['dob' => $request->dob]);
@@ -210,50 +237,62 @@ class ProfileController extends Controller
                 ->where('id', auth()->user()->id)
                 ->update(['hairColourId' => $request->hairColourId]);
 
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['eyeColourId' => $request->eyeColourId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['educationId' => $request->educationId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['drinkingId' => $request->drinkingId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['smokingId' => $request->smokingId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['leisureId' => $request->leisureId]);
+
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['personalityTypeId' => $request->personalityTypeId]);
 
 
 
         });
 
 
-
-
-
-
         //Determines where to go next
         $user = DB::table('users')->where('id', auth()->user()->id)->first();
-
-
-
 
 
         //Determines where to go next
         $userTargets = DB::table('users')->where('id', auth()->user()->id)->first();
 
 
-
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
         //Modify this when next feature is added.
-        if (($userTargets->targetGenderId === null)||
-            ($userTargets->targetMinAge === null)||
-            ($userTargets->targetMaxAge === null)||
-            ($userTargets->targetMinHeight === null)||
-            ($userTargets->targetMaxHeight === null)||
-            ($userTargets->targetBodyTypeId === null)||
-            ($userTargets->targetReligionId === null)||
-            ($userTargets->targetCountryId === null)||
-            ($userTargets->targetEthnicityId === null)||
-            ($userTargets->targetHairColourId === null))
-        {
+        if (($userTargets->targetGenderId === null) ||
+            ($userTargets->targetMinAge === null) ||
+            ($userTargets->targetMaxAge === null) ||
+            ($userTargets->targetMinHeight === null) ||
+            ($userTargets->targetMaxHeight === null) ||
+            ($userTargets->targetBodyTypeId === null) ||
+            ($userTargets->targetReligionId === null) ||
+            ($userTargets->targetCountryId === null) ||
+            ($userTargets->targetEthnicityId === null) ||
+            ($userTargets->targetHairColourId === null)) {
             //return redirect(route('lookingfor.edit'));
             //Get Ready to flash a message on the next page
 
             $request->session()->flash('status', 'Your Profile has been updated. Please complete your "Looking for a..." information below.');
             return redirect(route('looking-for.edit', [auth()->user()->id]));
-        }
-        else
-        {
+        } else {
             //Account Already Setup?
             //redirect home page.
             //Get Ready to flash a message on the next page
@@ -263,14 +302,12 @@ class ProfileController extends Controller
         }
 
 
-
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

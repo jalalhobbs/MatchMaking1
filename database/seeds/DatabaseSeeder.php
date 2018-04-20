@@ -66,12 +66,7 @@ class DatabaseSeeder extends Seeder
 
 
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Very Slim',
-
-        ]);
-
-        DB::table('body_types')->insert([
-            'bodyTypeName' => 'Slim',
+            'bodyTypeName' => 'Thin',
 
         ]);
 
@@ -81,12 +76,27 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Larger than Average',
+            'bodyTypeName' => 'Athletic',
 
         ]);
 
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Giant',
+            'bodyTypeName' => 'Muscular',
+
+        ]);
+
+        DB::table('body_types')->insert([
+        'bodyTypeName' => 'A Bit Overweight',
+
+         ]);
+
+        DB::table('body_types')->insert([
+            'bodyTypeName' => 'Overweight',
+
+        ]);
+
+        DB::table('body_types')->insert([
+            'bodyTypeName' => 'Very Overweight',
 
         ]);
 
@@ -178,6 +188,151 @@ class DatabaseSeeder extends Seeder
             'hairColourName' => 'White',
 
         ]);
+
+        //Eye Colour Table Seed
+        //https://www.edow.com/general-eye-care/eyecolor/
+
+
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Brown',
+
+        ]);
+
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Blue',
+
+        ]);
+
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Green',
+
+        ]);
+
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Red',
+
+        ]);
+
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Hazel',
+
+        ]);
+
+        DB::table('eye_colours')->insert([
+            'eyeColourName' => 'Grey',
+
+        ]);
+
+        //Drinking Table Seed
+
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Never',
+
+        ]);
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Rarely',
+
+        ]);
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Socially',
+
+        ]);
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Weekly',
+
+        ]);
+
+        DB::table('drinking')->insert([
+            'drinkingPrefName' => 'Daily',
+
+        ]);
+
+        //Smoking Table Seed
+
+
+        DB::table('smoking')->insert([
+            'smokingPrefName' => 'No',
+
+        ]);
+
+        DB::table('smoking')->insert([
+            'smokingPrefName' => 'Yes',
+
+        ]);
+
+        //Education Table Seed
+        DB::table('education')->insert([
+            'educationName' => 'High School',
+
+        ]);
+
+        DB::table('education')->insert([
+            'educationName' => 'Certicate',
+
+        ]);
+
+        DB::table('education')->insert([
+            'educationName' => 'Diploma',
+
+        ]);
+
+        DB::table('education')->insert([
+            'educationName' => 'Degree',
+
+        ]);
+
+
+        //Leisure Time Seeder
+        DB::table('leisures')->insert([
+            'leisureName' => 'Mostly sedentary (eg watching TV, playing video games)',
+
+        ]);
+
+        DB::table('leisures')->insert([
+            'leisureName' => 'Moderately active (eg long walks, casual bike rides, swimming)',
+
+        ]);
+
+        DB::table('leisures')->insert([
+            'leisureName' => 'Active (eg bushwalking, mountain biking, surfing)',
+
+        ]);
+
+        DB::table('leisures')->insert([
+            'leisureName' => 'Sporty (eg Play organised sport such as football, jetskiing, rock climbing)',
+
+        ]);
+
+        DB::table('leisures')->insert([
+            'leisureName' => 'Adrenaline (eg skydiving, bungee jumping)',
+
+        ]);
+
+        //Personality Type Seeder
+
+        DB::table('personality_types')->insert([
+            'personalityTypeName' => 'Romantic',
+
+        ]);
+
+        DB::table('personality_types')->insert([
+            'personalityTypeName' => 'Outgoing',
+
+        ]);
+
+        DB::table('personality_types')->insert([
+            'personalityTypeName' => 'Stubborn',
+
+        ]);
+
+
+
+
+
 
 
 

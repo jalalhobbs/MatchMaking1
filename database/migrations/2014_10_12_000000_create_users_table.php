@@ -69,6 +69,12 @@ class CreateUsersTable extends Migration
             $table->foreign('countryId')->references('id')->on('countries');
             $table->foreign('ethnicityId')->references('id')->on('ethnicities');
             $table->foreign('hairColourId')->references('id')->on('hair_colours');
+            $table->foreign('eyeColourId')->references('id')->on('eye_colours');
+            $table->foreign('educationId')->references('id')->on('education');
+            $table->foreign('drinkingId')->references('id')->on('drinking');
+            $table->foreign('smokingId')->references('id')->on('smoking');
+            $table->foreign('leisureId')->references('id')->on('leisures');
+            $table->foreign('personalityTypeId')->references('id')->on('personality_types');
 
             $table->foreign('targetGenderId')->references('id')->on('genders');
             $table->foreign('targetBodyTypeId')->references('id')->on('body_types');
@@ -76,6 +82,13 @@ class CreateUsersTable extends Migration
             $table->foreign('targetCountryId')->references('id')->on('countries');
             $table->foreign('targetEthnicityId')->references('id')->on('ethnicities');
             $table->foreign('targetHairColourId')->references('id')->on('hair_colours');
+            $table->foreign('targetEyeColourId')->references('id')->on('eye_colours');
+            $table->foreign('targetEducationId')->references('id')->on('education');
+            $table->foreign('targetDrinkingId')->references('id')->on('drinking');
+            $table->foreign('targetSmokingId')->references('id')->on('smoking');
+            $table->foreign('targetLeisureId')->references('id')->on('leisures');
+            $table->foreign('targetPersonalityTypeId')->references('id')->on('personality_types');
+
 
 
 

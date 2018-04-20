@@ -379,7 +379,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="targetPersonalityTypeId" class="col-md-4 col-form-label text-md-right">{{ __('Personality type?') }}</label>
+                                    <label for="targetPersonalityTypeId" class="col-md-4 col-form-label text-md-right">{{ __('Personality type') }}</label>
 
                                     <div class="col-md-6">
                                         <select id="targetPersonalityTypeId" class="form-control{{ $errors->has('targetPersonalityTypeId') ? ' is-invalid' : '' }}" name="targetPersonalityTypeId">

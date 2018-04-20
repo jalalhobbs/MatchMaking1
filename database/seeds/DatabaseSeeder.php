@@ -123,10 +123,6 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        DB::table('countries')->insert([
-            'countryName' => 'Other',
-
-        ]);
 
         //Ethnicity Table Seed
 
@@ -151,10 +147,7 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        DB::table('ethnicities')->insert([
-            'ethnicityName' => 'Other',
 
-        ]);
 
         //Hair Colour Table Seed
 

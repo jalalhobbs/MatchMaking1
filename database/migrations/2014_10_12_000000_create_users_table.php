@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->integer('bodyTypeId')->nullable();
             $table->integer('religionId')->nullable();
             $table->integer('countryId')->nullable();
+            $table->integer('educationId')->nullable();
             $table->integer('ethnicityId')->nullable();
             $table->integer('hairColourId')->nullable();
             $table->integer('height')->nullable();
@@ -44,6 +45,8 @@ class CreateUsersTable extends Migration
             $table->integer('targetCountryId')->nullable();
             $table->integer('targetEthnicityId')->nullable();
             $table->integer('targetHairColourId')->nullable();
+            $table->integer('targetEducationId')->nullable();
+
 
             $table->rememberToken();
             $table->timestamps();

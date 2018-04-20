@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserTarget extends Model
+class Leisure extends Model
 {
     protected $primaryKey = 'id';
 
-
-
+    protected $fillable = [
+        'id', 'leisureName',
+    ];
 }

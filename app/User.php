@@ -6,7 +6,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-
 class User extends Authenticatable
 {
     use Notifiable;
@@ -41,15 +40,99 @@ class User extends Authenticatable
         return $this->hasOne('App\HairColour', 'id');
     }
 
-    public function userTarget()
+    public function eyeColour()
     {
-        return $this->hasOne('App\UserTarget', 'id');
+        return $this->hasOne('App\EyeColour', 'id');
     }
 
-    public function userPreferences()
+    public function education()
     {
-        return $this->hasMany('App\UserPreference', (['userId','interestId']));
+        return $this->hasOne('App\Education', 'id');
     }
+
+    public function drinking()
+    {
+        return $this->hasOne('App\Drinking', 'id');
+    }
+
+    public function smoking()
+    {
+        return $this->hasOne('App\Drinking', 'id');
+    }
+
+    public function leisure()
+    {
+        return $this->hasOne('App\Leisure', 'id');
+    }
+
+    public function personalityType()
+    {
+        return $this->hasOne('App\PersonalityType', 'id');
+    }
+
+
+    //Targets
+
+    public function targetGender()
+    {
+        return $this->hasOne('App\Gender', 'id');
+    }
+
+    public function targetReligion()
+    {
+        return $this->hasOne('App\Religion', 'id');
+    }
+
+    public function targetBodyType()
+    {
+        return $this->hasOne('App\BodyType', 'id');
+    }
+
+    public function targetCountry()
+    {
+        return $this->hasOne('App\Country', 'id');
+    }
+
+    public function targetEthnicity()
+    {
+        return $this->hasOne('App\Ethnicity', 'id');
+    }
+
+    public function targetHairColour()
+    {
+        return $this->hasOne('App\HairColour', 'id');
+    }
+
+    public function targetEyeColour()
+    {
+        return $this->hasOne('App\EyeColour', 'id');
+    }
+
+    public function targetEducation()
+    {
+        return $this->hasOne('App\Education', 'id');
+    }
+
+    public function targetDrinking()
+    {
+        return $this->hasOne('App\Drinking', 'id');
+    }
+
+    public function targetSmoking()
+    {
+        return $this->hasOne('App\Smoking', 'id');
+    }
+
+    public function targetLeisure()
+    {
+        return $this->hasOne('App\Leisure', 'id');
+    }
+
+    public function targetPersonalityType()
+    {
+        return $this->hasOne('App\PersonalityType', 'id');
+    }
+
 
 
     /**
@@ -76,8 +159,8 @@ class User extends Authenticatable
     }
 
 
-
-    public function age() {
+    public function age()
+    {
         return $this->dob->diffInYears(\Carbon::now());
     }
 

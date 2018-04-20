@@ -59,7 +59,7 @@
                                         {{ __('Looking for.....') }}
                                     </a>
 
-                                   
+
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

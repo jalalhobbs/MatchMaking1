@@ -88,6 +88,12 @@ class ConstraintController extends Controller
             $countries = DB::table('countries')->get();
             $ethnicities = DB::table('ethnicities')->get();
             $hairColours = DB::table('hair_colours')->get();
+            $eyeColours = DB::table('eye_colours')->get();
+            $educations = DB::table('education')->get();
+            $drinkings = DB::table('drinking')->get();
+            $smokings = DB::table('smoking')->get();
+            $leisures = DB::table('leisures')->get();
+            $personalityTypes = DB::table('personality_types')->get();
 
 
             return view('constraint.constraint')
@@ -98,7 +104,14 @@ class ConstraintController extends Controller
                 ->with('bodyTypes', $bodyTypes)
                 ->with('countries', $countries)
                 ->with('ethnicities', $ethnicities)
-                ->with('hairColours', $hairColours);
+                ->with('hairColours', $hairColours)
+                ->with('hairColours', $hairColours)
+                ->with('eyeColours', $eyeColours)
+                ->with('educations', $educations)
+                ->with('drinkings', $drinkings)
+                ->with('smokings', $smokings)
+                ->with('leisures', $leisures)
+                ->with('personalityTypes', $personalityTypes);
 
 
         }
@@ -121,6 +134,7 @@ class ConstraintController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         //Validate the $request
         //return $request->all();
         //https://laravel.com/docs/5.6/validation
@@ -129,16 +143,24 @@ class ConstraintController extends Controller
 //.(int)$request->targetMaxAge .(int)$request->targetMinAge.
         $request->validate([
 
-            'targetGenderId' => 'integer|min:1',
+
+
+            'targetGenderId' => '',
             'targetMinAge' => 'integer|between: 18, 120|max:'.(int)$request->targetMaxAge,
             'targetMaxAge' => 'integer|between: 18, 120|min:'.(int)$request->targetMinAge,
             'targetMinHeight' => 'integer|between: 50, 300|max:'.(int)$request->targetMaxHeight,
             'targetMaxHeight' => 'integer|between: 50, 300|min:'.(int)$request->targetMinHeight,
-            'targetBodyTypeId' => 'integer|min:1',
-            'targetReligionId' => 'integer|min:1',
-            'targetCountryId' => 'integer|min:1',
-            'targetEthnicityId' => 'integer|min:1',
-            'targetHairColourId' => 'integer|min:1'],
+            'targetBodyTypeId' => '',
+            'targetReligionId' => '',
+            'targetCountryId' => '',
+            'targetEthnicityId' => '',
+            'targetHairColourId' => '',
+            'targetEyeColourId' => '',
+            'targetEducationId' => '',
+            'targetDrinkingId' => '',
+            'targetSmokingId' => '',
+            'targetLeisureId' => '',
+            'targetPersonalityTypeId' => ''],
 
 
                 [

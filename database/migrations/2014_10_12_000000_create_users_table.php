@@ -54,7 +54,7 @@ class CreateUsersTable extends Migration
             $table->integer('targetEyeColourId')->nullable();
             $table->integer('targetEducationId')->nullable();
             $table->integer('targetDrinkingId')->nullable();
-            $table->integer('targetSmnokingId')->nullable();
+            $table->integer('targetSmokingId')->nullable();
             $table->integer('targetLeisureId')->nullable();
             $table->integer('targetPersonalityTypeId')->nullable();
 

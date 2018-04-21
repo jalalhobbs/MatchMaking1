@@ -30,43 +30,51 @@ class DatabaseSeeder extends Seeder
 
 
         //Religion Table Seed
-        //https://www.newsmax.com/thewire/most-popular-religions-sects-images/2014/05/01/id/569022/
-        DB::table('religions')->insert([
-            'religionName' => 'None',
+        //https://www.newsmax.com/thewire/most-popular-religions-sects-images/2014/05/01/id/569022
 
+        DB::table('religions')->insert([
+            'religionName' => 'Christian',
         ]);
 
         DB::table('religions')->insert([
-            'religionName' => 'Christianity',
-
+            'religionName' => 'Atheist',
         ]);
 
         DB::table('religions')->insert([
-            'religionName' => 'Catholic',
-
+            'religionName' => 'Agnostic',
         ]);
 
         DB::table('religions')->insert([
-            'religionName' => 'Islam',
-
+            'religionName' => 'Jewish',
         ]);
 
         DB::table('religions')->insert([
-            'religionName' => 'Hinduism',
-
+            'religionName' => 'Islamic',
         ]);
 
         DB::table('religions')->insert([
-            'religionName' => 'Agnosticism',
-
+            'religionName' => 'Buddhist',
         ]);
+
+        DB::table('religions')->insert([
+            'religionName' => 'Hindu',
+        ]);
+
+        DB::table('religions')->insert([
+            'religionName' => 'Sikh',
+        ]);
+
+        DB::table('religions')->insert([
+            'religionName' => 'Other Religion',
+        ]);
+
+
 
 
         //Body Type Table Seed
 
-
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Thin',
+            'bodyTypeName' => 'Slim',
 
         ]);
 
@@ -81,24 +89,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Muscular',
+            'bodyTypeName' => 'Well Padded',
 
         ]);
 
-        DB::table('body_types')->insert([
-        'bodyTypeName' => 'A Bit Overweight',
-
-         ]);
-
-        DB::table('body_types')->insert([
-            'bodyTypeName' => 'Overweight',
-
-        ]);
-
-        DB::table('body_types')->insert([
-            'bodyTypeName' => 'Very Overweight',
-
-        ]);
 
         //Country Table Seed
 
@@ -128,27 +122,52 @@ class DatabaseSeeder extends Seeder
 
 
         DB::table('ethnicities')->insert([
-            'ethnicityName' => 'Australian',
-
-        ]);
-
-        DB::table('ethnicities')->insert([
-            'ethnicityName' => 'American',
-
-        ]);
-
-        DB::table('ethnicities')->insert([
             'ethnicityName' => 'Asian',
 
         ]);
 
         DB::table('ethnicities')->insert([
-            'ethnicityName' => 'European',
+            'ethnicityName' => 'Indian',
 
         ]);
 
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Middle Eastern',
+
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Black/African',
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'White/Caucasian',
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Hispanic/Latino',
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Maori',
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Aboriginal/Torres Strait Islander',
+        ]);
 
 
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Pacific Islander',
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Mixed ethnicity',
+        ]);
+
+        DB::table('ethnicities')->insert([
+            'ethnicityName' => 'Other background',
+        ]);
         //Hair Colour Table Seed
 
 
@@ -169,18 +188,13 @@ class DatabaseSeeder extends Seeder
 
         DB::table('hair_colours')->insert([
             'hairColourName' => 'Red',
-
         ]);
 
         DB::table('hair_colours')->insert([
-            'hairColourName' => 'Grey',
-
+            'hairColourName' => 'Other',
         ]);
 
-        DB::table('hair_colours')->insert([
-            'hairColourName' => 'White',
 
-        ]);
 
         //Eye Colour Table Seed
         //https://www.edow.com/general-eye-care/eyecolor/
@@ -206,13 +220,14 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
+
         DB::table('eye_colours')->insert([
-            'eyeColourName' => 'Hazel',
+            'eyeColourName' => 'Grey',
 
         ]);
 
         DB::table('eye_colours')->insert([
-            'eyeColourName' => 'Grey',
+            'eyeColourName' => 'Other',
 
         ]);
 
@@ -234,13 +249,9 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        DB::table('drinking')->insert([
-            'drinkingPrefName' => 'Weekly',
-
-        ]);
 
         DB::table('drinking')->insert([
-            'drinkingPrefName' => 'Daily',
+            'drinkingPrefName' => 'Often',
 
         ]);
 
@@ -248,12 +259,22 @@ class DatabaseSeeder extends Seeder
 
 
         DB::table('smoking')->insert([
-            'smokingPrefName' => 'No',
+            'smokingPrefName' => 'Never',
 
         ]);
 
         DB::table('smoking')->insert([
-            'smokingPrefName' => 'Yes',
+            'smokingPrefName' => 'Rarely',
+
+        ]);
+
+        DB::table('smoking')->insert([
+            'smokingPrefName' => 'Socially',
+
+        ]);
+
+        DB::table('smoking')->insert([
+            'smokingPrefName' => 'Often',
 
         ]);
 
@@ -264,17 +285,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('education')->insert([
-            'educationName' => 'Certicate',
+            'educationName' => 'Certificate/Diploma',
 
         ]);
 
-        DB::table('education')->insert([
-            'educationName' => 'Diploma',
-
-        ]);
 
         DB::table('education')->insert([
-            'educationName' => 'Degree',
+            'educationName' => 'University',
 
         ]);
 

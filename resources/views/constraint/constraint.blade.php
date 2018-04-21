@@ -127,7 +127,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="targetMinHeight" class="col-md-4 col-form-label text-md-right">{{ __('Minimum Height (cm)') }}</label>
+                                    <label for="targetMinHeight" class="col-md-4 col-form-label text-md-right">{{ __('Minimum Stature (cm)') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="targetMinHeight" type="text" class="form-control{{ $errors->has('targetMinHeight') ? ' is-invalid' : '' }}" name="targetMinHeight" value="{{ old('targetMinHeight', $user->targetMinHeight) }}">
@@ -141,7 +141,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="targetMaxHeight" class="col-md-4 col-form-label text-md-right">{{ __('Maximum Height (cm)') }}</label>
+                                    <label for="targetMaxHeight" class="col-md-4 col-form-label text-md-right">{{ __('Maximum Stature (cm)') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="targetMaxHeight" type="text" class="form-control{{ $errors->has('targetMaxHeight') ? ' is-invalid' : '' }}" name="targetMaxHeight" value="{{ old('targetMaxHeight', $user->targetMaxHeight) }}">

@@ -74,7 +74,7 @@ class DatabaseSeeder extends Seeder
         //Body Type Table Seed
 
         DB::table('body_types')->insert([
-            'bodyTypeName' => 'Thin',
+            'bodyTypeName' => 'Slim',
 
         ]);
 

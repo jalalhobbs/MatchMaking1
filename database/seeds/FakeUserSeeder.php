@@ -130,6 +130,7 @@ class FakeUserSeeder extends Seeder
                 'targetHairColourId' => rand(1, 7),
                 'created_at' => $createdAt,
                 'updated_at' => $updatedAt,
+                'verified' => rand(0,1),
             ]);
 
         }

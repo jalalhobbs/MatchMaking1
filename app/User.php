@@ -15,6 +15,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Gender', 'id');
     }
 
+    public function stature()
+    {
+        return $this->hasOne('App\Stature', 'id');
+    }
+
     public function religion()
     {
         return $this->hasOne('App\Religion', 'id');
@@ -57,7 +62,7 @@ class User extends Authenticatable
 
     public function smoking()
     {
-        return $this->hasOne('App\Drinking', 'id');
+        return $this->hasOne('App\Smoking', 'id');
     }
 
     public function leisure()

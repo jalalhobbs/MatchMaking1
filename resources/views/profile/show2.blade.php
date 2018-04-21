@@ -100,7 +100,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Stature (cm)') }}</label>
+                                    <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Height (cm)') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="height" type="text" class="form-control{{ $errors->has('height') ? ' is-invalid' : '' }}" name="height" value="{{ old('height', $user->height) }}" required disabled>

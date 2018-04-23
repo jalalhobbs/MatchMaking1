@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('emailapi', 'EmailController')->only(['index', 'edit', 'update', 'show']);
-
+Route::resource('potentialmatch', 'PotentialMatchController')->only(['index', 'show']);
+Route::resource('weightvectormatrix', 'WeightVectorMatrixController')->only(['show']);

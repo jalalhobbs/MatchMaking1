@@ -6,7 +6,7 @@
         <div class="caption">
 
             <p class="flex-text text-muted">Gender: {{$gender}}</p>
-            <p class="flex-text text-muted">DOB: {{$dob}}</p>
+            <p class="flex-text text-muted">Age: {{$age}}</p>
             <form action="updateLikeStatus" method="post">
                 {{ csrf_field() }}
                 <input type="hidden" name="targetId" value="{{$userId}}">

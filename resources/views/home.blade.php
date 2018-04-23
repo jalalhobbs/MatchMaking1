@@ -19,7 +19,7 @@
                                     @foreach($potentialMatches as $potentialMatch)
                                         @component('profile-card', ['firstName' => $potentialMatch->firstName,
                                                                     'profilePic' => $potentialMatch->profilePicture,
-                                                                    'dob' => $potentialMatch->dob,
+                                                                    'age' => $potentialMatch->age,
                                                                     'userId' => $potentialMatch->id,
                                                                     'likeStatus' => $potentialMatch->likeStatus,
                                                                     'gender' => $potentialMatch->genderName])

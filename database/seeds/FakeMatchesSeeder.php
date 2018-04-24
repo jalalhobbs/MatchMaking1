@@ -11,8 +11,8 @@ class FakeMatchesSeeder extends Seeder
      */
     public function run()
     {
+        srand(12345678);
         $startTime = microtime(true);
-
         $users = DB::table('users')
             ->select(
                 'id',
@@ -126,7 +126,7 @@ class FakeMatchesSeeder extends Seeder
                 ->get();
 
             foreach ($usersToLike as $userToLike) {
-                array_push($matches, ['userId' => $user->id, 'targetId' => $userToLike->id, 'likeStatus' => 2]);
+                array_push($matches, ['userId' => $user->id, 'targetId' => $userToLike->id, 'likeStatus' => rand(1,5) < 5 ? 2 : 0]);
 
                 if (count($matches) >= $maxMatches) {
                     DB::table('matches')

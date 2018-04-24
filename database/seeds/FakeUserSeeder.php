@@ -340,7 +340,7 @@ class FakeUserSeeder extends Seeder
 
         $password = Hash::make("12345678");
         srand(12345678);
-        $maxUsers = 499;
+        $maxUsers = 999;
         $users = array();
         $startTime = microtime(true);
         for ($x = 0; $x < $maxUsers; $x++) {

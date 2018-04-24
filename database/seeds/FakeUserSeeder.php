@@ -437,34 +437,42 @@ class FakeUserSeeder extends Seeder
             if (rand(0, 5) > 1) {
                 $countryId = rand(1, 4);
             }
+
             // ethnicityId
             if (rand(0, 5) > 1) {
                 $ethnicityId = rand(1, 11);
             }
+
             // hairColourId
             if (rand(0, 5) > 1) {
                 $hairColourId = rand(1, 5);
             }
+
             // eyeColourId
             if (rand(0, 5) > 1) {
                 $eyeColourId = rand(1, 6);
             }
+
             // educationId
             if (rand(0, 5) > 1) {
                 $educationId = rand(1, 3);
             }
+
             // drinkingId
             if (rand(0, 5) > 1) {
                 $drinkingId = rand(1, 4);
             }
+
             // smokingId
             if (rand(0, 5) > 1) {
                 $smokingId = rand(1, 4);
             }
+
             // leisureId
             if (rand(0, 5) > 1) {
                 $leisureId = rand(1, 5);
             }
+
             // personalityTypeId
             if (rand(0, 5) > 1) {
                 $personalityTypeId = rand(1, 3);
@@ -539,6 +547,8 @@ class FakeUserSeeder extends Seeder
             // targetGenderId
             if (rand(1, 10) == 10) {
                 $targetGenderId = $genderId;
+            } elseif (rand(1, 10) == 10) {
+                $targetGenderId = null;
             } elseif ($genderId == 1) {
                 $targetGenderId = 2;
             } else {
@@ -546,13 +556,13 @@ class FakeUserSeeder extends Seeder
             }
 
             if (rand(1, 5) > 3) {
-                $targetBodyTypeId = rand(1, 5);
+                $targetBodyTypeId = rand(1, 4);
             }
             if (rand(1, 5) > 3) {
-                $targetCountryId = rand(1, 5);
+                $targetCountryId = rand(1, 4);
             }
             if (rand(1, 5) > 4) {
-                $targetEthnicityId = rand(1, 5);
+                $targetEthnicityId = rand(1, 11);
             }
             if (rand(1, 5) > 3) {
                 $targetHairColourId = rand(1, 5);

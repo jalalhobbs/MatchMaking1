@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class HomeController extends Controller
+class LikedProfilesController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -26,6 +26,7 @@ class HomeController extends Controller
     {
         $potentialMatches = DB::table('matches')
             ->where('matches.userId', '=', auth()->user()->id)
+            ->where('matches.likeStatus', '=', '2')
             ->leftJoin('users', 'matches.targetId', '=', 'users.id')
             ->leftJoin('genders', 'users.genderId', '=', 'genders.id')
             ->select('users.firstName',
@@ -33,8 +34,7 @@ class HomeController extends Controller
                 'users.profilePicture',
                 'users.dob',
                 'users.id',
-                'matches.likeStatus'
-            )
+                'matches.likeStatus')
             ->get();
 
         foreach ($potentialMatches as $key => $pot) {
@@ -44,7 +44,7 @@ class HomeController extends Controller
 
         return view('home')
             ->with('matches', $potentialMatches)
-            ->with('pageName', "Home");
+            ->with('pageName', "Liked Profiles");
     }
 
     private function getAge($dob)

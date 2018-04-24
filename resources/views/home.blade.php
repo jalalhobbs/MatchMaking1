@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Home</div>
+                <div class="card-header">{{$pageName}}</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -15,14 +15,17 @@
                     Welcome {{ Auth::user()->firstName }}!
                         <div class="container">
                             <div class="flex-row row">
-                                @if($potentialMatches)
-                                    @foreach($potentialMatches as $potentialMatch)
-                                        @component('profile-card', ['firstName' => $potentialMatch->firstName,
-                                                                    'profilePic' => $potentialMatch->profilePicture,
-                                                                    'age' => $potentialMatch->age,
-                                                                    'userId' => $potentialMatch->id,
-                                                                    'likeStatus' => $potentialMatch->likeStatus,
-                                                                    'gender' => $potentialMatch->genderName])
+                                @if($matches)
+                                    @foreach($matches as $match)
+                                        @component('profile-card', ['firstName' => $match->firstName,
+                                                                    'profilePic' => $match->profilePicture,
+                                                                    'age' => $match->age,
+                                                                    'userId' => $match->id,
+                                                                    'likeStatus' => $match->likeStatus,
+                                                                    'gender' => $match->genderName,
+                                                                    'email' => isset($match->email) ? $match->email : false
+                                                                    ]
+                                        )
                                         @endcomponent
                                     @endforeach
                                 @endif

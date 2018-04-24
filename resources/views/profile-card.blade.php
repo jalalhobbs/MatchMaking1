@@ -7,6 +7,9 @@
 
             <p class="flex-text text-muted">Gender: {{$gender}}</p>
             <p class="flex-text text-muted">Age: {{$age}}</p>
+            @if($email)
+                <p class="flex-text text-muted">Email: {{$email}}</p>
+            @endif
             <form action="updateLikeStatus" method="post">
                 {{ csrf_field() }}
                 <input type="hidden" name="targetId" value="{{$userId}}">

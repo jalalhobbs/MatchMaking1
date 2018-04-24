@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class HomeController extends Controller
+class MatchesController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,33 +24,37 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $potentialMatches = DB::table('matches')
-            ->where('matches.userId', '=', auth()->user()->id)
-            ->leftJoin('users', 'matches.targetId', '=', 'users.id')
+        $matches = DB::table('matches as their_matches')
+            ->where('their_matches.targetId', '=', auth()->user()->id)
+            ->where('their_matches.likeStatus', '=', '2')
+            ->join('matches as my_matches', 'my_matches.targetId', '=', 'their_matches.userId')
+            ->where('my_matches.likeStatus', '=', '2')
+            ->leftJoin('users', 'my_matches.targetId', '=', 'users.id')
             ->leftJoin('genders', 'users.genderId', '=', 'genders.id')
             ->select('users.firstName',
                 'genders.genderName',
                 'users.profilePicture',
                 'users.dob',
                 'users.id',
-                'matches.likeStatus'
+                'my_matches.likeStatus as likeStatus',
+                'users.email as email'
             )
             ->get();
 
-        foreach ($potentialMatches as $key => $pot) {
+        foreach ($matches as $key => $pot) {
             $age = $this->getAge($pot->dob);
-            $potentialMatches[$key]->age = $age;
+            $matches[$key]->age = $age;
         }
 
         return view('home')
-            ->with('matches', $potentialMatches)
-            ->with('pageName', "Home");
+            ->with('matches', $matches)
+            ->with('pageName', "Matches");
     }
+
 
     private function getAge($dob)
     {
         //inspired by https://stackoverflow.com/questions/35524482/calculate-age-from-date-stored-in-database-in-y-m-d-using-laravel-5-2
         return Carbon::parse($dob)->diff(Carbon::now())->format('%y');
     }
-
 }

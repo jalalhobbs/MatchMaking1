@@ -50,7 +50,12 @@
                                     <a class="dropdown-item" href="{{ route('home') }}">
                                         {{ __('Home') }}
                                     </a>
-
+                                    <a class="dropdown-item" href="{{ route('matches') }}">
+                                        {{ __('Matches') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('likedProfiles') }}">
+                                        {{ __('Liked Profiles') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('profile.edit', [Auth::user()->id]) }}">
                                         {{ __('My Profile') }}
                                     </a>

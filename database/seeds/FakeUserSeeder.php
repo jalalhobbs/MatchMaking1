@@ -337,29 +337,34 @@ class FakeUserSeeder extends Seeder
             "Diaz",
             "Hayes",
         ];
-        $targetMinAge = null;
-        $targetMaxAge = null;
-        $targetMinHeight = null;
-        $targetMaxHeight = null;
-        $bodyTypeId = null;
-        $religionId = null;
-        $countryId = null;
-        $ethnicityId = null;
-        $hairColourId = null;
-        $eyeColourId = null;
-        $educationId = null;
-        $drinkingId = null;
-        $smokingId = null;
-        $leisureId = null;
-        $personalityTypeId = null;
-        $targetReligionId = null;
+
         $password = Hash::make("12345678");
         srand(12345678);
-        $startTime = microtime(true);
         $maxUsers = 499;
         $users = array();
-
+        $startTime = microtime(true);
         for ($x = 0; $x < $maxUsers; $x++) {
+            $targetMinAge = null;
+            $targetMaxAge = null;
+            $targetMinHeight = null;
+            $targetMaxHeight = null;
+            $bodyTypeId = null;
+            $religionId = null;
+            $countryId = null;
+            $ethnicityId = null;
+            $hairColourId = null;
+            $eyeColourId = null;
+            $educationId = null;
+            $drinkingId = null;
+            $smokingId = null;
+            $leisureId = null;
+            $targetBodyTypeId = null;
+            $targetCountryId = null;
+            $targetEthnicityId = null;
+            $targetHairColourId = null;
+            $personalityTypeId = null;
+            $targetReligionId = null;
+
             // gender does not matter for these:
             $lastName = $lastNames[rand(0, count($lastNames) - 1)];
 
@@ -419,12 +424,12 @@ class FakeUserSeeder extends Seeder
                 . "-" . str_pad($dobDay, 2, "0", STR_PAD_LEFT);
 
             // bodyTypeId
-            if (rand(0, 5) > 3) {
+            if (rand(0, 5) > 1) {
                 $bodyTypeId = rand(1, 4);
             }
 
             // religionId
-            if (rand(0, 5) > 4) {
+            if (rand(0, 5) > 1) {
                 $religionId = rand(1, 9);
             }
 
@@ -433,35 +438,35 @@ class FakeUserSeeder extends Seeder
                 $countryId = rand(1, 4);
             }
             // ethnicityId
-            if (rand(0, 5) > 4) {
+            if (rand(0, 5) > 1) {
                 $ethnicityId = rand(1, 11);
             }
             // hairColourId
-            if (rand(0, 5) > 2) {
+            if (rand(0, 5) > 1) {
                 $hairColourId = rand(1, 5);
             }
             // eyeColourId
-            if (rand(0, 5) > 2) {
+            if (rand(0, 5) > 1) {
                 $eyeColourId = rand(1, 6);
             }
             // educationId
-            if (rand(0, 5) > 3) {
+            if (rand(0, 5) > 1) {
                 $educationId = rand(1, 3);
             }
             // drinkingId
-            if (rand(0, 5) > 3) {
+            if (rand(0, 5) > 1) {
                 $drinkingId = rand(1, 4);
             }
             // smokingId
-            if (rand(0, 5) > 4) {
+            if (rand(0, 5) > 1) {
                 $smokingId = rand(1, 4);
             }
             // leisureId
-            if (rand(0, 5) > 4) {
+            if (rand(0, 5) > 1) {
                 $leisureId = rand(1, 5);
             }
             // personalityTypeId
-            if (rand(0, 5) > 4) {
+            if (rand(0, 5) > 1) {
                 $personalityTypeId = rand(1, 3);
             }
 
@@ -475,16 +480,16 @@ class FakeUserSeeder extends Seeder
 
                 // targets
                 if (rand(0, 5) > 2) {
-                    $targetMaxAge = rand(18, rand((2018 - $dobYear), 120));
+                    $targetMaxAge = rand(18, rand((max(2018 - $dobYear, 18)), 120));
                     if (rand(0, 5) > 3) {
-                        $targetMinAge = rand(18, $targetMaxAge - rand(0, 7));
+                        $targetMinAge = rand(18, max($targetMaxAge - rand(0, 7), 18));
                     }
                 }
 
                 // target height
-                if (rand(0, 5) > 2) {
+                if (rand(0, 5) > 3) {
                     $targetMaxHeight = rand($height - 30, $height + 15);
-                    if (rand(0, 5) > 3) {
+                    if (rand(0, 5) > 4) {
                         $targetMinHeight = rand($height - 60, $targetMaxHeight);
                     }
                 }
@@ -497,17 +502,19 @@ class FakeUserSeeder extends Seeder
                 // female targets
                 // target age
                 if (rand(0, 5) > 3) {
-                    $targetMaxAge = rand(rand(18, (2018 - $dobYear + 7)), 120);
-                    if (rand(0, 5) > 2) {
+                    $targetMaxAge =
+                        rand(18, (min(2018 - $dobYear + 15, 120)));
+                    if (rand(0, 5) > 4) {
                         $targetMinAge = rand(18, $targetMaxAge - rand(0, 7));
                     }
                 }
 
                 // target height
-                if (rand(0, 5) > 2) {
-                    $targetMinHeight = rand($height - 15, $height + 30);
+                if (rand(0, 5) > 3) {
+                    $targetMinHeight = rand($height - 45, $height + 30);
                     if (rand(0, 5) > 4) {
                         $targetMaxHeight = rand($targetMinHeight, $height + 60);
+
                     }
                 }
             }
@@ -522,7 +529,7 @@ class FakeUserSeeder extends Seeder
 
             // targetReligionId
             if (rand(1, 5) > 4) {
-                if (rand(1, 5) < 5) {
+                if (rand(1, 10) < 10) {
                     $targetReligionId = $religionId;
                 } else {
                     $targetReligionId = rand(1, 9);
@@ -536,6 +543,19 @@ class FakeUserSeeder extends Seeder
                 $targetGenderId = 2;
             } else {
                 $targetGenderId = 1;
+            }
+
+            if (rand(1, 5) > 3) {
+                $targetBodyTypeId = rand(1, 5);
+            }
+            if (rand(1, 5) > 3) {
+                $targetCountryId = rand(1, 5);
+            }
+            if (rand(1, 5) > 4) {
+                $targetEthnicityId = rand(1, 5);
+            }
+            if (rand(1, 5) > 3) {
+                $targetHairColourId = rand(1, 5);
             }
 
             // db timestamps
@@ -567,11 +587,11 @@ class FakeUserSeeder extends Seeder
                     'targetMinAge' => $targetMinAge,
                     'targetMinHeight' => $targetMinHeight,
                     'targetMaxHeight' => $targetMaxHeight,
-                    'targetBodyTypeId' => rand(1, 4),
+                    'targetBodyTypeId' => $targetBodyTypeId,
                     'targetReligionId' => $targetReligionId,
-                    'targetCountryId' => rand(1, 4),
-                    'targetEthnicityId' => rand(1, 11),
-                    'targetHairColourId' => rand(1, 5),
+                    'targetCountryId' => $targetCountryId,
+                    'targetEthnicityId' => $targetEthnicityId,
+                    'targetHairColourId' => $targetHairColourId,
                     'created_at' => $createdAt,
                     'updated_at' => $updatedAt,
                     'verified' => rand(0, 1),

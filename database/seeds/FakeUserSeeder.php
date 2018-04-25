@@ -337,7 +337,27 @@ class FakeUserSeeder extends Seeder
             "Diaz",
             "Hayes",
         ];
-
+        $profilePictureUrlCounts = array(
+            "gender" => array(
+                "1" => array(
+                    "aged" => 4,
+                    "bodytype" => array(
+                        "1" => 8,
+                        "2" => 45,
+                        "3" => 24,
+                        "4" => 5
+                    )
+                ),
+                "2" => array(
+                    "bodytype" => array(
+                        "1" => 7,
+                        "2" => 20,
+                        "3" => 7,
+                        "4" => 7
+                    )
+                )
+            )
+        );
         $password = Hash::make("12345678");
         srand(12345678);
         $maxUsers = 999;
@@ -568,6 +588,16 @@ class FakeUserSeeder extends Seeder
                 $targetHairColourId = rand(1, 5);
             }
 
+            // profile picture
+            if (rand(1, 100) == 100) {
+                $profilePictureUrl = "https://i.pinimg.com/564x/44/30/e4/4430e41d9a72c09c6ac2c98fc6bc9c03.jpg";
+            } elseif ($genderId == 1 and $dobYear < 1958 and rand(0, 1) == 1) {
+                $profilePictureUrl = "./images/profile/gender/1/aged/" . rand(0, $profilePictureUrlCounts['gender']['1']['aged']) . ".png";
+            } else {
+                !is_null($bodyTypeId) ? $profileBodyTypeId = $bodyTypeId : $profileBodyTypeId = rand(1, 4);
+                $profilePictureUrl = "./images/profile/gender/" . $genderId . "/bodytype/" . $profileBodyTypeId . "/" .
+                    rand(0, $profilePictureUrlCounts['gender']['1']['bodytype'][$profileBodyTypeId]) . ".png";
+            }
             // db timestamps
             $createdAt = "2017" . "-" . rand(1, 12) . "-" . rand(1, 28);
             $updatedAt = "2018" . "-" . rand(1, 12) . "-" . rand(1, 28);
@@ -576,7 +606,7 @@ class FakeUserSeeder extends Seeder
                     'firstName' => $firstName,
                     'lastName' => $lastName,
                     'email' => $email,
-                    'profilePicture' => 'https://i.pinimg.com/564x/44/30/e4/4430e41d9a72c09c6ac2c98fc6bc9c03.jpg',
+                    'profilePicture' => $profilePictureUrl,
                     'password' => $password,
                     'dob' => $dob,
                     'genderId' => $genderId,
@@ -613,10 +643,12 @@ class FakeUserSeeder extends Seeder
                 $users = array();
             }
         }
+
+
+
         if (count($users)) {
             DB::table('users')->insert($users);
         }
-
         echo (PHP_EOL . microtime(true) - $startTime) * 1000 . "ms" . PHP_EOL;
     }
 }

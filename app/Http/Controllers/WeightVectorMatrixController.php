@@ -78,22 +78,10 @@ class WeightVectorMatrixController extends Controller
             "smoke" => array(),
             "drink" => array(),
             "religion" => array(),
+            "leisure" => array(),
+            "personalityType" => array()
         );
 
-        $constraints = DB::table('users')
-            ->where('id', $id)
-            ->select([
-                'users.targetMinAge as minAge',
-                'users.targetMaxAge as maxAge',
-                'users.targetMinHeight as minHeight',
-                'users.targetMaxHeight as maxHeight',
-            ])
-            ->first();
-
-        $weightVectorMatrixOutput['minAge'] = $constraints->minAge;
-        $weightVectorMatrixOutput['maxAge'] = $constraints->maxAge;
-        $weightVectorMatrixOutput['minHeight'] = $constraints->minHeight;
-        $weightVectorMatrixOutput['maxHeight'] = $constraints->maxHeight;
 
         // Like Weight multiplier
         $like_wm_gender = 1.0;
@@ -101,11 +89,7 @@ class WeightVectorMatrixController extends Controller
         $like_wm_verified = 0.9;
         $like_wm_education = 0.8;
         $like_wm_ageBucket = 0.9;
-        $like_wm_minAge = 0.8;
-        $like_wm_maxAge = 1.0;
         $like_wm_stature = 0.85;
-        $like_wm_minHeight = 0.9;
-        $like_wm_maxHeight = 0.8;
         $like_wm_bodyType = 0.7;
         $like_wm_hairColour = 0.5;
         $like_wm_eyeColour = 0.5;
@@ -113,25 +97,26 @@ class WeightVectorMatrixController extends Controller
         $like_wm_smoke = 0.7;
         $like_wm_drink = 0.7;
         $like_wm_religion = 0.8;
+        $like_wm_leisure = 0.5;
+        $like_wm_personalityType = 0.5;
 
         // DisLike Weight multiplier
-        $dislike_wm_gender = 1.0;
-        $dislike_wm_country = 1.0;
-        $dislike_wm_verified = 0.9;
-        $dislike_wm_education = 0.8;
-        $dislike_wm_ageBucket = 0.9;
-        $dislike_wm_minAge = 0.8;
-        $dislike_wm_maxAge = 1.0;
-        $dislike_wm_stature = 0.85;
-        $dislike_wm_minHeight = 0.9;
-        $dislike_wm_maxHeight = 0.8;
-        $dislike_wm_bodyType = 0.7;
-        $dislike_wm_hairColour = 0.5;
-        $dislike_wm_eyeColour = 0.5;
-        $dislike_wm_ethnicity = 0.8;
-        $dislike_wm_smoke = 0.7;
-        $dislike_wm_drink = 0.7;
-        $dislike_wm_religion = 0.8;
+        $dislike_multipler = -0.5;
+        $dislike_wm_gender = $like_wm_gender * $dislike_multipler;
+        $dislike_wm_country = $like_wm_country * $dislike_multipler;
+        $dislike_wm_verified = $like_wm_verified * $dislike_multipler;
+        $dislike_wm_education = $like_wm_education * $dislike_multipler;
+        $dislike_wm_ageBucket = $like_wm_ageBucket * $dislike_multipler;
+        $dislike_wm_stature = $like_wm_stature * $dislike_multipler;
+        $dislike_wm_bodyType = $like_wm_bodyType * $dislike_multipler;
+        $dislike_wm_hairColour = $like_wm_hairColour * $dislike_multipler;
+        $dislike_wm_eyeColour = $like_wm_eyeColour * $dislike_multipler;
+        $dislike_wm_ethnicity = $like_wm_ethnicity * $dislike_multipler;
+        $dislike_wm_smoke = $like_wm_smoke * $dislike_multipler;
+        $dislike_wm_drink = $like_wm_drink * $dislike_multipler;
+        $dislike_wm_religion = $like_wm_religion * $dislike_multipler;
+        $dislike_wm_leisure = $like_wm_leisure * $dislike_multipler;
+        $dislike_wm_personalityType = $like_wm_personalityType * $dislike_multipler;
 
         $likedOrDislikedUsers = DB::table('matches')
             ->where('userId', $id)
@@ -147,6 +132,8 @@ class WeightVectorMatrixController extends Controller
             ->leftJoin('smoking', 'users.smokingId', '=', 'smoking.id')
             ->leftJoin('drinking', 'users.drinkingId', '=', 'drinking.id')
             ->leftJoin('religions', 'users.religionId', '=', 'religions.id')
+            ->leftJoin('leisures', 'users.leisureId', '=', 'leisures.id')
+            ->leftJoin('personality_types', 'users.personalityTypeId', '=', 'personality_types.id')
             ->select([
                 'matches.targetId as id',
                 'genders.genderName as gender',
@@ -162,10 +149,12 @@ class WeightVectorMatrixController extends Controller
                 'smoking.smokingPrefName as smoke',
                 'drinking.drinkingPrefName as drink',
                 'religions.religionName as religion',
-                'matches.likeStatus as likeStatus'
+                'matches.likeStatus as likeStatus',
+                'leisures.leisureName as leisure',
+                'personality_types.personalityTypeName as personalityType'
             ])
             ->get();
-
+//return(json_encode($likedOrDislikedUsers));
         foreach ($likedOrDislikedUsers as $user) {
 
 
@@ -180,15 +169,17 @@ class WeightVectorMatrixController extends Controller
             $user->smoke = $this->removeSpaceAndCamelCase($user->smoke);
             $user->drink = $this->removeSpaceAndCamelCase($user->drink);
             $user->religion = $this->removeSpaceAndCamelCase($user->religion);
+            $user->leisure = $this->removeSpaceAndCamelCase($user->leisure);
+            $user->personalityType = $this->removeSpaceAndCamelCase($user->personalityType);
 
             // create age from dob response and add age bucket
             if (isset($user->dob)) {
                 $user->age = $this->getAge($user->dob);
-                if (isset($user->age) <= 25) {
+                if ($user->age <= 25) {
                     $user->ageBucket = "age18To25";
-                } elseif (isset($user->age) <= 35) {
+                } elseif ($user->age <= 35) {
                     $user->ageBucket = "age26To35";
-                } elseif (isset($user->age) <= 45) {
+                } elseif ($user->age <= 45) {
                     $user->ageBucket = "age36To45";
                 } else {
                     $user->ageBucket = "age46To";
@@ -196,11 +187,11 @@ class WeightVectorMatrixController extends Controller
             }
             // add stature
             if (isset($user->height)) {
-                if (isset($user->height) < 160) {
+                if ($user->height < 160) {
                     $user->stature = "short";
-                } elseif (isset($user->height) <= 180) {
+                } elseif ($user->height <= 180) {
                     $user->stature = "average";
-                } elseif (isset($user->height) > 180) {
+                } elseif ($user->height > 180) {
                     $user->stature = "tall";
                 }
             }
@@ -210,42 +201,42 @@ class WeightVectorMatrixController extends Controller
                 // gender
                 if (isset($user->gender)) {
                     if (isset($weightVectorMatrixOutput['gender'][$user->gender])) {
-                        $weightVectorMatrixOutput['gender'][$user->gender] += $like_wm_gender;
+                        $weightVectorMatrixOutput['gender'][$user->gender] += $user->likeStatus == 2 ? $like_wm_gender: $dislike_wm_gender;
                     } else {
-                        $weightVectorMatrixOutput['gender'][$user->gender] = $like_wm_gender;
+                        $weightVectorMatrixOutput['gender'][$user->gender] = $user->likeStatus == 2 ? $like_wm_gender: $dislike_wm_gender;
                     }
                 }
                 // country
                 if (isset($user->country)) {
                     if (isset($weightVectorMatrixOutput['country'][$user->country])) {
-                        $weightVectorMatrixOutput['country'][$user->country] += $like_wm_country;
+                        $weightVectorMatrixOutput['country'][$user->country] += $user->likeStatus == 2 ? $like_wm_country: $dislike_wm_country;
                     } else {
-                        $weightVectorMatrixOutput['country'][$user->country] = $like_wm_country;
+                        $weightVectorMatrixOutput['country'][$user->country] = $user->likeStatus == 2 ? $like_wm_country: $dislike_wm_country;
                     }
                 }
                 // verified
                 if (isset($user->verified)) {
                     if (isset($weightVectorMatrixOutput['verified'][$user->verified])) {
-                        $weightVectorMatrixOutput['verified'][$user->verified] += $like_wm_verified;
+                        $weightVectorMatrixOutput['verified'][$user->verified] += $user->likeStatus == 2 ? $like_wm_verified: $dislike_wm_verified;
                     } else {
-                        $weightVectorMatrixOutput['verified'][$user->verified] = $like_wm_verified;
+                        $weightVectorMatrixOutput['verified'][$user->verified] = $user->likeStatus == 2 ? $like_wm_verified: $dislike_wm_verified;
                     }
                 }
                 // education
                 if (isset($user->education)) {
                     if (isset($weightVectorMatrixOutput['education'][$user->education])) {
-                        $weightVectorMatrixOutput['education'][$user->education] += $like_wm_education;
+                        $weightVectorMatrixOutput['education'][$user->education] += $user->likeStatus == 2 ? $like_wm_education: $dislike_wm_education;
                     } else {
-                        $weightVectorMatrixOutput['education'][$user->education] = $like_wm_education;
+                        $weightVectorMatrixOutput['education'][$user->education] = $user->likeStatus == 2 ? $like_wm_education: $dislike_wm_education;
                     }
                 }
 
                 // ageBucket
                 if (isset($user->ageBucket)) {
                     if (isset($weightVectorMatrixOutput['ageBucket'][$user->ageBucket])) {
-                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucket] += $like_wm_ageBucket;
+                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucket] += $user->likeStatus == 2 ? $like_wm_ageBucket: $dislike_wm_ageBucket;
                     } else {
-                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucket] = $like_wm_ageBucket;
+                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucket] = $user->likeStatus == 2 ? $like_wm_ageBucket: $dislike_wm_ageBucket;
                     }
                 }
                 // minAge
@@ -253,9 +244,9 @@ class WeightVectorMatrixController extends Controller
                 // stature
                 if (isset($user->stature)) {
                     if (isset($weightVectorMatrixOutput['stature'][$user->stature])) {
-                        $weightVectorMatrixOutput['stature'][$user->stature] += $like_wm_stature;
+                        $weightVectorMatrixOutput['stature'][$user->stature] += $user->likeStatus == 2 ? $like_wm_stature: $dislike_wm_stature;
                     } else {
-                        $weightVectorMatrixOutput['stature'][$user->stature] = $like_wm_stature;
+                        $weightVectorMatrixOutput['stature'][$user->stature] = $user->likeStatus == 2 ? $like_wm_stature: $dislike_wm_stature;
                     }
                 }
 
@@ -264,57 +255,73 @@ class WeightVectorMatrixController extends Controller
                 // bodyType
                 if (isset($user->bodyType)) {
                     if (isset($weightVectorMatrixOutput['bodyType'][$user->bodyType])) {
-                        $weightVectorMatrixOutput['bodyType'][$user->bodyType] += $like_wm_bodyType;
+                        $weightVectorMatrixOutput['bodyType'][$user->bodyType] += $user->likeStatus == 2 ? $like_wm_bodyType: $dislike_wm_bodyType;
                     } else {
-                        $weightVectorMatrixOutput['bodyType'][$user->bodyType] = $like_wm_bodyType;
+                        $weightVectorMatrixOutput['bodyType'][$user->bodyType] = $user->likeStatus == 2 ? $like_wm_bodyType: $dislike_wm_bodyType;
                     }
                 }
                 // hairColour
                 if (isset($user->hairColour)) {
                     if (isset($weightVectorMatrixOutput['hairColour'][$user->hairColour])) {
-                        $weightVectorMatrixOutput['hairColour'][$user->hairColour] += $like_wm_hairColour;
+                        $weightVectorMatrixOutput['hairColour'][$user->hairColour] += $user->likeStatus == 2 ? $like_wm_hairColour: $dislike_wm_hairColour;
                     } else {
-                        $weightVectorMatrixOutput['hairColour'][$user->hairColour] = $like_wm_hairColour;
+                        $weightVectorMatrixOutput['hairColour'][$user->hairColour] = $user->likeStatus == 2 ? $like_wm_hairColour: $dislike_wm_hairColour;
                     }
                 }
                 // eyeColour
                 if (isset($user->eyeColour)) {
                     if (isset($weightVectorMatrixOutput['eyeColour'][$user->eyeColour])) {
-                        $weightVectorMatrixOutput['eyeColour'][$user->eyeColour] += $like_wm_eyeColour;
+                        $weightVectorMatrixOutput['eyeColour'][$user->eyeColour] += $user->likeStatus == 2 ? $like_wm_eyeColour: $dislike_wm_eyeColour;
                     } else {
-                        $weightVectorMatrixOutput['eyeColour'][$user->eyeColour] = $like_wm_eyeColour;
+                        $weightVectorMatrixOutput['eyeColour'][$user->eyeColour] = $user->likeStatus == 2 ? $like_wm_eyeColour: $dislike_wm_eyeColour;
                     }
                 }
                 // ethnicity
                 if (isset($user->ethnicity)) {
                     if (isset($weightVectorMatrixOutput['ethnicity'][$user->ethnicity])) {
-                        $weightVectorMatrixOutput['ethnicity'][$user->ethnicity] += $like_wm_ethnicity;
+                        $weightVectorMatrixOutput['ethnicity'][$user->ethnicity] += $user->likeStatus == 2 ? $like_wm_ethnicity: $dislike_wm_ethnicity;
                     } else {
-                        $weightVectorMatrixOutput['ethnicity'][$user->ethnicity] = $like_wm_ethnicity;
+                        $weightVectorMatrixOutput['ethnicity'][$user->ethnicity] = $user->likeStatus == 2 ? $like_wm_ethnicity: $dislike_wm_ethnicity;
                     }
                 }
                 // smoke
                 if (isset($user->smoke)) {
                     if (isset($weightVectorMatrixOutput['smoke'][$user->smoke])) {
-                        $weightVectorMatrixOutput['smoke'][$user->smoke] += $like_wm_smoke;
+                        $weightVectorMatrixOutput['smoke'][$user->smoke] += $user->likeStatus == 2 ? $like_wm_smoke: $dislike_wm_smoke;
                     } else {
-                        $weightVectorMatrixOutput['smoke'][$user->smoke] = $like_wm_smoke;
+                        $weightVectorMatrixOutput['smoke'][$user->smoke] = $user->likeStatus == 2 ? $like_wm_smoke: $dislike_wm_smoke;
                     }
                 }
                 // drink
                 if (isset($user->bodyType)) {
                     if (isset($weightVectorMatrixOutput['drink'][$user->drink])) {
-                        $weightVectorMatrixOutput['drink'][$user->drink] += $like_wm_drink;
+                        $weightVectorMatrixOutput['drink'][$user->drink] += $user->likeStatus == 2 ? $like_wm_drink: $dislike_wm_drink;
                     } else {
-                        $weightVectorMatrixOutput['drink'][$user->drink] = $like_wm_drink;
+                        $weightVectorMatrixOutput['drink'][$user->drink] = $user->likeStatus == 2 ? $like_wm_drink: $dislike_wm_drink;
                     }
                 }
                 // religion
                 if (isset($user->religion)) {
                     if (isset($weightVectorMatrixOutput['religion'][$user->religion])) {
-                        $weightVectorMatrixOutput['religion'][$user->religion] += $like_wm_religion;
+                        $weightVectorMatrixOutput['religion'][$user->religion] += $user->likeStatus == 2 ? $like_wm_religion: $dislike_wm_religion;
                     } else {
-                        $weightVectorMatrixOutput['religion'][$user->religion] = $like_wm_religion;
+                        $weightVectorMatrixOutput['religion'][$user->religion] = $user->likeStatus == 2 ? $like_wm_religion: $dislike_wm_religion;
+                    }
+                }
+                // leisureType
+                if (isset($user->leisure)) {
+                    if (isset($weightVectorMatrixOutput['leisure'][$user->leisure])) {
+                        $weightVectorMatrixOutput['leisure'][$user->leisure] += $user->likeStatus == 2 ? $like_wm_leisure: $dislike_wm_leisure;
+                    } else {
+                        $weightVectorMatrixOutput['leisure'][$user->leisure] = $user->likeStatus == 2 ? $like_wm_leisure: $dislike_wm_leisure;
+                    }
+                }
+
+                if (isset($user->personalityType)) {
+                    if (isset($weightVectorMatrixOutput['personalityType'][$user->personalityType])) {
+                        $weightVectorMatrixOutput['personalityType'][$user->personalityType] += $user->likeStatus == 2 ? $like_wm_personalityType: $dislike_wm_personalityType;
+                    } else {
+                        $weightVectorMatrixOutput['personalityType'][$user->personalityType] = $user->likeStatus == 2 ? $like_wm_personalityType: $dislike_wm_personalityType;
                     }
                 }
 
@@ -328,6 +335,9 @@ class WeightVectorMatrixController extends Controller
     private
     function removeSpaceAndCamelCase($word)
     {
+        if ($word == "") {
+            return null;
+        }
         return lcfirst(preg_replace('/[^A-Za-z]/', '', $word));
     }
 

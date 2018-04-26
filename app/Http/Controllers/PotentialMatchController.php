@@ -190,6 +190,7 @@ class PotentialMatchController extends Controller
             ->select(
                 [
                     'users.id as id',
+                    'users.firstName as firstName',
                     'genders.genderName as gender',
                     'countries.countryName as country',
                     'verified as verified',

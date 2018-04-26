@@ -99,6 +99,7 @@
                                                     <option selected value="{{ old('genderId') }}">{{$gender->genderName}}</option>
                                                 @elseif($user->genderId == $gender->id)
                                                     <option selected value="{{$user->genderId}}">{{$gender->genderName}}</option>
+
                                                 @else
                                                     <option value="{{$gender->id}}">{{$gender->genderName}}</option>
                                                 @endif
@@ -115,7 +116,7 @@
                                     <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Height (cm)') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="height" type="text" class="form-control{{ $errors->has('height') ? ' is-invalid' : '' }}" name="height" value="{{ old('height', $user->height) }}" required>
+                                        <input id="height" type="text" class="form-control{{ $errors->has('height') ? ' is-invalid' : '' }}" name="height" value="{{ old('height', $user->height) }}">
 
                                         @if ($errors->has('height'))
                                             <span class="invalid-feedback">
@@ -130,7 +131,7 @@
                                     <label for="countryId" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="countryId" class="form-control{{ $errors->has('countryId') ? ' is-invalid' : '' }}" name="countryId" required>
+                                        <select id="countryId" class="form-control{{ $errors->has('countryId') ? ' is-invalid' : '' }}" name="countryId">
                                             @if($user->countryId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -140,6 +141,7 @@
                                                     <option selected value="{{ old('countryId') }}">{{$country->countryName}}</option>
                                                 @elseif($user->countryId == $country->id)
                                                     <option selected value="{{$user->countryId}}">{{$country->countryName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$country->id}}">{{$country->countryName}}</option>
                                                 @endif
@@ -157,7 +159,7 @@
                                     <label for="ethnicityId" class="col-md-4 col-form-label text-md-right">{{ __('Ethnicity') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="" class="form-control{{ $errors->has('ethnicityId') ? ' is-invalid' : '' }}" name="ethnicityId" required>
+                                        <select id="" class="form-control{{ $errors->has('ethnicityId') ? ' is-invalid' : '' }}" name="ethnicityId">
                                             @if($user->ethnicityId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -167,6 +169,7 @@
                                                     <option selected value="{{ old('ethnicityId') }}">{{$ethnicity->ethnicityName}}</option>
                                                 @elseif($user->ethnicityId == $ethnicity->id)
                                                     <option selected value="{{$user->ethnicityId}}">{{$ethnicity->ethnicityName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$ethnicity->id}}">{{$ethnicity->ethnicityName}}</option>
                                                 @endif
@@ -185,7 +188,7 @@
                                     <label for="bodyTypeId" class="col-md-4 col-form-label text-md-right">{{ __('Body Type') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="bodyTypeId" class="form-control{{ $errors->has('bodyTypeId') ? ' is-invalid' : '' }}" name="bodyTypeId" required>
+                                        <select id="bodyTypeId" class="form-control{{ $errors->has('bodyTypeId') ? ' is-invalid' : '' }}" name="bodyTypeId">
                                             @if($user->bodyTypeId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -194,6 +197,7 @@
                                                     <option selected value="{{ old('bodyTypeId') }}">{{$bodyType->bodyTypeName}}</option>
                                                 @elseif($user->bodyTypeId == $bodyType->id)
                                                     <option selected value="{{$user->bodyTypeId}}">{{$bodyType->bodyTypeName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$bodyType->id}}">{{$bodyType->bodyTypeName}}</option>
                                                 @endif
@@ -210,7 +214,7 @@
                                     <label for="educationId" class="col-md-4 col-form-label text-md-right">{{ __('Education') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="educationId" class="form-control{{ $errors->has('educationId') ? ' is-invalid' : '' }}" name="educationId" required>
+                                        <select id="educationId" class="form-control{{ $errors->has('educationId') ? ' is-invalid' : '' }}" name="educationId">
                                             @if($user->educationId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -220,6 +224,7 @@
                                                     <option selected value="{{ old('educationId') }}">{{$education->educationName}}</option>
                                                 @elseif($user->educationId == $education->id)
                                                     <option selected value="{{$user->educationId}}">{{$education->educationName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$education->id}}">{{$education->educationName}}</option>
                                                 @endif
@@ -238,7 +243,7 @@
                                     <label for="religionId" class="col-md-4 col-form-label text-md-right">{{ __('Religion') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="religionId" class="form-control{{ $errors->has('religionId') ? ' is-invalid' : '' }}" name="religionId" required>
+                                        <select id="religionId" class="form-control{{ $errors->has('religionId') ? ' is-invalid' : '' }}" name="religionId">
                                             @if($user->religionId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -248,6 +253,7 @@
                                                     <option selected value="{{ old('religionId') }}">{{$religion->religionName}}</option>
                                                 @elseif($user->religionId == $religion->id)
                                                     <option selected value="{{$user->religionId}}">{{$religion->religionName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$religion->id}}">{{$religion->religionName}}</option>
                                                 @endif
@@ -266,7 +272,7 @@
                                     <label for="hairColourId" class="col-md-4 col-form-label text-md-right">{{ __('Hair Colour') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="hairColourId" class="form-control{{ $errors->has('hairColourId') ? ' is-invalid' : '' }}" name="hairColourId" required>
+                                        <select id="hairColourId" class="form-control{{ $errors->has('hairColourId') ? ' is-invalid' : '' }}" name="hairColourId">
                                             @if($user->hairColourId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -276,6 +282,7 @@
                                                     <option selected value="{{ old('hairColourId') }}">{{$hairColour->hairColourName}}</option>
                                                 @elseif($user->hairColourId == $hairColour->id)
                                                     <option selected value="{{$user->hairColourId}}">{{$hairColour->hairColourName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$hairColour->id}}">{{$hairColour->hairColourName}}</option>
                                                 @endif
@@ -294,7 +301,7 @@
                                     <label for="eyeColourId" class="col-md-4 col-form-label text-md-right">{{ __('Eye Colour') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="eyeColourId" class="form-control{{ $errors->has('eyeColourId') ? ' is-invalid' : '' }}" name="eyeColourId" required>
+                                        <select id="eyeColourId" class="form-control{{ $errors->has('eyeColourId') ? ' is-invalid' : '' }}" name="eyeColourId">
                                             @if($user->eyeColourId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -304,6 +311,7 @@
                                                     <option selected value="{{ old('eyeColourId') }}">{{$eyeColour->eyeColourName}}</option>
                                                 @elseif($user->eyeColourId == $eyeColour->id)
                                                     <option selected value="{{$user->eyeColourId}}">{{$eyeColour->eyeColourName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$eyeColour->id}}">{{$eyeColour->eyeColourName}}</option>
                                                 @endif
@@ -322,7 +330,7 @@
                                     <label for="drinkingId" class="col-md-4 col-form-label text-md-right">{{ __('Drinking') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="drinkingId" class="form-control{{ $errors->has('drinkingId') ? ' is-invalid' : '' }}" name="drinkingId" required>
+                                        <select id="drinkingId" class="form-control{{ $errors->has('drinkingId') ? ' is-invalid' : '' }}" name="drinkingId">
                                             @if($user->drinkingId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -332,6 +340,7 @@
                                                     <option selected value="{{ old('eyeColourId') }}">{{$drinking->drinkingPrefName}}</option>
                                                 @elseif($user->drinkingId == $drinking->id)
                                                     <option selected value="{{$user->drinkingId}}">{{$drinking->drinkingPrefName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$drinking->id}}">{{$drinking->drinkingPrefName}}</option>
                                                 @endif
@@ -350,7 +359,7 @@
                                     <label for="smokingId" class="col-md-4 col-form-label text-md-right">{{ __('Smoking') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="smokingId" class="form-control{{ $errors->has('smokingId') ? ' is-invalid' : '' }}" name="smokingId" required>
+                                        <select id="smokingId" class="form-control{{ $errors->has('smokingId') ? ' is-invalid' : '' }}" name="smokingId">
                                             @if($user->smokingId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -360,6 +369,7 @@
                                                     <option selected value="{{ old('smokingId') }}">{{$smoking->smokingPrefName}}</option>
                                                 @elseif($user->smokingId == $smoking->id)
                                                     <option selected value="{{$user->smokingId}}">{{$smoking->smokingPrefName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$smoking->id}}">{{$smoking->smokingPrefName}}</option>
                                                 @endif
@@ -378,7 +388,7 @@
                                     <label for="leisureId" class="col-md-4 col-form-label text-md-right">{{ __('In your leisure time would you describe yourself as') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="leisureId" class="form-control{{ $errors->has('leisureId') ? ' is-invalid' : '' }}" name="leisureId" required>
+                                        <select id="leisureId" class="form-control{{ $errors->has('leisureId') ? ' is-invalid' : '' }}" name="leisureId">
                                             @if($user->leisureId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -388,6 +398,7 @@
                                                     <option selected value="{{ old('leisureId') }}">{{$leisure->leisureName}}</option>
                                                 @elseif($user->leisureId == $leisure->id)
                                                     <option selected value="{{$user->leisureId}}">{{$leisure->leisureName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$leisure->id}}">{{$leisure->leisureName}}</option>
                                                 @endif
@@ -406,7 +417,7 @@
                                     <label for="personalityTypeId" class="col-md-4 col-form-label text-md-right">{{ __('Desribe your personality type?') }}</label>
 
                                     <div class="col-md-6">
-                                        <select id="personalityTypeId" class="form-control{{ $errors->has('personalityTypeId') ? ' is-invalid' : '' }}" name="personalityTypeId" required>
+                                        <select id="personalityTypeId" class="form-control{{ $errors->has('personalityTypeId') ? ' is-invalid' : '' }}" name="personalityTypeId">
                                             @if($user->personalityTypeId === null)
                                                 <option selected value=""></option>
                                             @endif
@@ -416,6 +427,7 @@
                                                     <option selected value="{{ old('personalityTypeId') }}">{{$personalityType->personalityTypeName}}</option>
                                                 @elseif($user->personalityTypeId == $personalityType->id)
                                                     <option selected value="{{$user->personalityTypeId}}">{{$personalityType->personalityTypeName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$personalityType->id}}">{{$personalityType->personalityTypeName}}</option>
                                                 @endif

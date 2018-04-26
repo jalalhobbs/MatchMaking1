@@ -31,6 +31,7 @@
                                                     <option selected value="{{ old('targetGenderId') }}">{{$gender->genderName}}</option>
                                                 @elseif($user->targetGenderId == $gender->id)
                                                     <option selected value="{{$user->targetGenderId}}">{{$gender->genderName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$gender->id}}">{{$gender->genderName}}</option>
                                                 @endif
@@ -86,6 +87,7 @@
                                                     <option selected value="{{ old('targetCountryId') }}">{{$country->countryName}}</option>
                                                 @elseif($user->targetCountryId == $country->id)
                                                     <option selected value="{{$user->targetCountryId}}">{{$country->countryName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$country->id}}">{{$country->countryName}}</option>
                                                 @endif
@@ -113,6 +115,7 @@
                                                     <option selected value="{{ old('targetEthnicityId') }}">{{$ethnicity->ethnicityName}}</option>
                                                 @elseif($user->targetEthnicityId == $ethnicity->id)
                                                     <option selected value="{{$user->targetEthnicityId}}">{{$ethnicity->ethnicityName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$ethnicity->id}}">{{$ethnicity->ethnicityName}}</option>
                                                 @endif
@@ -167,6 +170,7 @@
                                                         <option selected value="{{ old('targetBodyTypeId') }}">{{$bodyType->bodyTypeName}}</option>
                                                     @elseif($user->targetBodyTypeId == $bodyType->id)
                                                         <option selected value="{{$user->targetBodyTypeId}}">{{$bodyType->bodyTypeName}}</option>
+                                                        <option value=""></option>
                                                     @else
                                                         <option value="{{$bodyType->id}}">{{$bodyType->bodyTypeName}}</option>
                                                     @endif
@@ -194,6 +198,7 @@
                                                     <option selected value="{{ old('targetEducationId') }}">{{$education->educationName}}</option>
                                                 @elseif($user->targetEducationId == $education->id)
                                                     <option selected value="{{$user->targetEducationId}}">{{$education->educationName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$education->id}}">{{$education->educationName}}</option>
                                                 @endif
@@ -222,6 +227,7 @@
                                                     <option selected value="{{ old('targetReligionId') }}">{{$religion->religionName}}</option>
                                                 @elseif($user->targetReligionId == $religion->id)
                                                     <option selected value="{{$user->targetReligionId}}">{{$religion->religionName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$religion->id}}">{{$religion->religionName}}</option>
                                                 @endif
@@ -250,6 +256,7 @@
                                                     <option selected value="{{ old('targetHairColourId') }}">{{$hairColour->hairColourName}}</option>
                                                 @elseif($user->targetHairColourId == $hairColour->id)
                                                     <option selected value="{{$user->targetHairColourId}}">{{$hairColour->hairColourName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$hairColour->id}}">{{$hairColour->hairColourName}}</option>
                                                 @endif
@@ -280,6 +287,7 @@
                                                     <option selected value="{{ old('targetEyeColourId') }}">{{$eyeColour->eyeColourName}}</option>
                                                 @elseif($user->targetEyeColourId == $eyeColour->id)
                                                     <option selected value="{{$user->targetEyeColourId}}">{{$eyeColour->eyeColourName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$eyeColour->id}}">{{$eyeColour->eyeColourName}}</option>
                                                 @endif
@@ -308,6 +316,7 @@
                                                     <option selected value="{{ old('targetDrinkingId') }}">{{$drinking->drinkingPrefName}}</option>
                                                 @elseif($user->targetDrinkingId == $drinking->id)
                                                     <option selected value="{{$user->targetDrinkingId}}">{{$drinking->drinkingPrefName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$drinking->id}}">{{$drinking->drinkingPrefName}}</option>
                                                 @endif
@@ -336,6 +345,7 @@
                                                     <option selected value="{{ old('targetSmokingId') }}">{{$smoking->smokingPrefName}}</option>
                                                 @elseif($user->targetSmokingId == $smoking->id)
                                                     <option selected value="{{$user->targetSmokingId}}">{{$smoking->smokingPrefName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$smoking->id}}">{{$smoking->smokingPrefName}}</option>
                                                 @endif
@@ -364,6 +374,7 @@
                                                     <option selected value="{{ old('targetLeisureId') }}">{{$leisure->leisureName}}</option>
                                                 @elseif($user->targetLeisureId == $leisure->id)
                                                     <option selected value="{{$user->targetLeisureId}}">{{$leisure->leisureName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$leisure->id}}">{{$leisure->leisureName}}</option>
                                                 @endif
@@ -392,6 +403,7 @@
                                                     <option selected value="{{ old('targetPersonalityTypeId') }}">{{$personalityType->personalityTypeName}}</option>
                                                 @elseif($user->targetPersonalityTypeId == $personalityType->id)
                                                     <option selected value="{{$user->targetPersonalityTypeId}}">{{$personalityType->personalityTypeName}}</option>
+                                                    <option value=""></option>
                                                 @else
                                                     <option value="{{$personalityType->id}}">{{$personalityType->personalityTypeName}}</option>
                                                 @endif

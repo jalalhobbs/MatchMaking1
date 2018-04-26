@@ -213,8 +213,8 @@ class PotentialMatchController extends Controller
         if($request->query('offset')) {
             $potentialMatches->offset($request->query('offset'));
         }
-        if($request->query('limit')) {
-            $potentialMatches->limit($request->query('limit'));
+        if($request->query('results')) {
+            $potentialMatches->limit($request->query('results'));
         } else {
             $potentialMatches->limit(100);
         }

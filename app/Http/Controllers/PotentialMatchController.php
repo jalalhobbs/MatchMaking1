@@ -173,7 +173,9 @@ class PotentialMatchController extends Controller
         }
 
 
-        $potentialMatches->leftJoin('countries', 'users.countryId', '=', 'countries.id')
+        $potentialMatches
+            ->leftJoin('genders', 'users.genderId', '=', 'genders.id')
+            ->leftJoin('countries', 'users.countryId', '=', 'countries.id')
             ->leftJoin('education', 'users.educationId', '=', 'education.id')
             ->leftJoin('body_types', 'users.bodyTypeId', '=', 'body_types.id')
             ->leftJoin('hair_colours', 'users.hairColourId', '=', 'hair_colours.id')
@@ -187,6 +189,7 @@ class PotentialMatchController extends Controller
             ->select(
                 [
                     'users.id as id',
+                    'genders.genderName as gender',
                     'countries.countryName as country',
                     'verified as verified',
                     'educationName as education',
@@ -208,6 +211,11 @@ class PotentialMatchController extends Controller
 
 
             // update string responses
+            if (isset($potentialMatch->gender)) {
+                $potentialMatch->gender = $this->removeSpaceAndCamelCase($potentialMatch->gender);
+            } else {
+                $potentialMatch->gender = null;
+            }
 
             if (isset($potentialMatch->country)) {
                 $potentialMatch->country = $this->removeSpaceAndCamelCase($potentialMatch->country);

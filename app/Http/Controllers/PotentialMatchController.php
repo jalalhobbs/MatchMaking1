@@ -203,8 +203,8 @@ class PotentialMatchController extends Controller
                     'smoking.smokingPrefName as smoking',
                     'drinking.drinkingPrefName as drinking',
                     'religions.religionName as religion',
-                    'leisures.leisureName as leisureName',
-                    'personality_types.personalityTypeName as personalityTypeName'
+                    'leisures.leisureName as leisure',
+                    'personality_types.personalityTypeName as personalityType'
                 ]
             );
         if ($request->query('random') == 1) {
@@ -284,16 +284,16 @@ class PotentialMatchController extends Controller
                 $potentialMatch->religion = null;
             }
 
-            if (isset($potentialMatch->leisureName)) {
-                $potentialMatch->leisureName = $this->removeSpaceAndCamelCase($potentialMatch->leisureName);
+            if (isset($potentialMatch->leisure)) {
+                $potentialMatch->leisure = $this->removeSpaceAndCamelCase($potentialMatch->leisure);
             } else {
-                $potentialMatch->leisureName = null;
+                $potentialMatch->leisure = null;
             }
 
-            if (isset($potentialMatch->personalityTypeName)) {
-                $potentialMatch->personalityTypeName = $this->removeSpaceAndCamelCase($potentialMatch->personalityTypeName);
+            if (isset($potentialMatch->personalityType)) {
+                $potentialMatch->personalityType = $this->removeSpaceAndCamelCase($potentialMatch->personalityType);
             } else {
-                $potentialMatch->personalityTypeName = null;
+                $potentialMatch->personalityType = null;
             }
 
             // create age from dob response

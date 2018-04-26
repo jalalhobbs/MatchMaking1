@@ -145,22 +145,22 @@ class ConstraintController extends Controller
 
 
 
-            'targetGenderId' => '',
-            'targetMinAge' => 'integer|between: 18, 120|max:'.(int)$request->targetMaxAge,
-            'targetMaxAge' => 'integer|between: 18, 120|min:'.(int)$request->targetMinAge,
-            'targetMinHeight' => 'integer|between: 50, 300|max:'.(int)$request->targetMaxHeight,
-            'targetMaxHeight' => 'integer|between: 50, 300|min:'.(int)$request->targetMinHeight,
-            'targetBodyTypeId' => '',
-            'targetReligionId' => '',
-            'targetCountryId' => '',
-            'targetEthnicityId' => '',
-            'targetHairColourId' => '',
-            'targetEyeColourId' => '',
-            'targetEducationId' => '',
-            'targetDrinkingId' => '',
-            'targetSmokingId' => '',
-            'targetLeisureId' => '',
-            'targetPersonalityTypeId' => ''],
+            'targetGenderId' => 'nullable|integer|min:1',
+            'targetMinAge' => 'nullable|integer|between: 18, 120|max:'.(int)$request->targetMaxAge,
+            'targetMaxAge' => 'nullable|integer|between: 18, 120|min:'.(int)$request->targetMinAge,
+            'targetMinHeight' => 'nullable|integer|between: 50, 300|max:'.(int)$request->targetMaxHeight,
+            'targetMaxHeight' => 'nullable|integer|between: 50, 300|min:'.(int)$request->targetMinHeight,
+            'targetBodyTypeId' => 'nullable|integer|min:1',
+            'targetReligionId' => 'nullable|integer|min:1',
+            'targetCountryId' => 'nullable|integer|min:1',
+            'targetEthnicityId' => 'nullable|integer|min:1',
+            'targetHairColourId' => 'nullable|integer|min:1',
+            'targetEyeColourId' => 'nullable|integer|min:1',
+            'targetEducationId' => 'nullable|integer|min:1',
+            'targetDrinkingId' => 'nullable|integer|min:1',
+            'targetSmokingId' => 'nullable|integer|min:1',
+            'targetLeisureId' => 'nullable|integer|min:1',
+            'targetPersonalityTypeId' => 'nullable|integer|min:1'],
 
 
                 [
@@ -237,33 +237,15 @@ class ConstraintController extends Controller
         //Determines where to go next
         $userTargets = DB::table('users')->where('id', auth()->user()->id)->first();
 
-
+        //Get Ready to flash a message on the next page
+        $request->session()->flash('status', 'Your Matchmaking "Looking for a....." information has been updated.');
+        //redirect home page.
+        return redirect(route('home'));
 
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
         //Modify this when next feature is added.
-        if (($userTargets->targetGenderId === null)||
-            ($userTargets->targetMinAge === null)||
-            ($userTargets->targetMaxAge === null)||
-            ($userTargets->targetMinHeight === null)||
-            ($userTargets->targetMaxHeight === null)||
-            ($userTargets->targetBodyTypeId === null)||
-            ($userTargets->targetReligionId === null)||
-            ($userTargets->targetCountryId === null)||
-            ($userTargets->targetEthnicityId === null)||
-            ($userTargets->targetHairColourId === null))
-        {
-            //return redirect(route('lookingfor.edit'));
-            return redirect(route('home'));
-        }
-        else
-        {
-            //Account Already Setup?
-            //Get Ready to flash a message on the next page
-            $request->session()->flash('status', 'Your Matchmaking "Looking for a....." information has been updated.');
-            //redirect home page.
-            return redirect(route('home'));
-        }
+
 
 
 

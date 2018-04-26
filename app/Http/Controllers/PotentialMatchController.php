@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PotentialMatchController extends Controller
@@ -65,7 +66,7 @@ class PotentialMatchController extends Controller
      *      religion: sikh,
      *   }
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $userTargets = DB::table('users')
             ->select(
@@ -206,6 +207,18 @@ class PotentialMatchController extends Controller
                     'personality_types.personalityTypeName as personalityTypeName'
                 ]
             );
+        if ($request->query('random') == 1) {
+            $potentialMatches->inRandomOrder();
+        }
+        if($request->query('offset')) {
+            $potentialMatches->offset($request->query('offset'));
+        }
+        if($request->query('limit')) {
+            $potentialMatches->limit($request->query('limit'));
+        } else {
+            $potentialMatches->limit(100);
+        }
+
         $potentialMatches = $potentialMatches->get();
         foreach ($potentialMatches as $potentialMatch) {
 

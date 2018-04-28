@@ -189,7 +189,7 @@
         {
         <script type="text/javascript">
             var token = '{{ Session::token() }}';
-            var urlLike = '{{ route('like') }}';
+            var urlLike = '{{ route('updateLikeStatus') }}';
         </script>
         }
     @endif

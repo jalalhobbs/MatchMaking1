@@ -1,32 +1,58 @@
 var targetId = 0;
-$('.like').on('click', function(event){
+$('.btn-dislike').on('click', function(event){
 
     event.preventDefault();
-    targetId = event.target.parentNode.parentNode.dataset['targetId'];
-    var isLike = event.target.previousElementSibling == null;
+   targetId = event.target.parentNode.parentNode.dataset['userid'];
+    window.alert(targetId);
+    window.alert(0);
 
     $.ajax({
         method : 'POST',
         url: urlLike,
-        data : {isLike: isLike, targetId: targetId, _token: token}
+        data : {isLike: 0, targetId: targetId, _token: token}
     })
         .done(function(){
-
-           event.target.innerText = isLike ? event.target.innerText == 'Like' ? 'You like this post' : 'Like' : event.target.innerText == 'Dislike' ? 'You dont like this post' : 'Dislike';
-            window.alert(targetId);
-            window.alert(urlLike);
-            window.alert(event.target.innerText);
-           if(isLike){
-
-               event.target.nextElementSibling.innerText = 'Dislike';
-
-
-           }else {
-               event.target.nextElementSibling.innerText = 'Like';
-
-           }
-
+            //change the page
 
         });
-    console.log(event);
 });
+
+
+$('.btn-no-like-status').on('click', function(event){
+
+    event.preventDefault();
+    targetId = event.target.parentNode.parentNode.dataset['userid'];
+    window.alert(targetId);
+    window.alert(1);
+
+    $.ajax({
+        method : 'POST',
+        url: urlLike,
+        data : {isLike: 1, targetId: targetId, _token: token}
+    })
+        .done(function(){
+            //change the page
+
+        });
+});
+
+$('.btn-like').on('click', function(event){
+
+    event.preventDefault();
+    targetId = event.target.parentNode.parentNode.dataset['userid'];
+    window.alert(targetId);
+    window.alert(2);
+
+    $.ajax({
+        method : 'POST',
+        url: urlLike,
+        data : {isLike: 2, targetId: targetId, _token: token}
+    })
+        .done(function(){
+            //change the page
+
+        });
+});
+
+
+

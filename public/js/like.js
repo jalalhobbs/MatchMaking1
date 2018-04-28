@@ -2,9 +2,7 @@ var targetId = 0;
 $('.btn-dislike').on('click', function(event){
 
     event.preventDefault();
-   targetId = event.target.parentNode.parentNode.dataset['userid'];
-    window.alert(targetId);
-    window.alert(0);
+    targetId = event.target.parentNode.parentNode.dataset['userid'];
 
     $.ajax({
         method : 'POST',
@@ -13,7 +11,6 @@ $('.btn-dislike').on('click', function(event){
     })
         .done(function(){
             //change the page
-
         });
 });
 
@@ -22,8 +19,6 @@ $('.btn-no-like-status').on('click', function(event){
 
     event.preventDefault();
     targetId = event.target.parentNode.parentNode.dataset['userid'];
-    window.alert(targetId);
-    window.alert(1);
 
     $.ajax({
         method : 'POST',
@@ -32,7 +27,6 @@ $('.btn-no-like-status').on('click', function(event){
     })
         .done(function(){
             //change the page
-
         });
 });
 
@@ -40,8 +34,6 @@ $('.btn-like').on('click', function(event){
 
     event.preventDefault();
     targetId = event.target.parentNode.parentNode.dataset['userid'];
-    window.alert(targetId);
-    window.alert(2);
 
     $.ajax({
         method : 'POST',
@@ -50,7 +42,6 @@ $('.btn-like').on('click', function(event){
     })
         .done(function(){
             //change the page
-
         });
 });
 

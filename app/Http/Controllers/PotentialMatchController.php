@@ -205,7 +205,8 @@ class PotentialMatchController extends Controller
                     'drinking.drinkingPrefName as drinking',
                     'religions.religionName as religion',
                     'leisures.leisureName as leisure',
-                    'personality_types.personalityTypeName as personalityType'
+                    'personality_types.personalityTypeName as personalityType',
+                    'users.profilePicture as profilePictureUrl'
                 ]
             );
         if ($request->query('random') == 1) {

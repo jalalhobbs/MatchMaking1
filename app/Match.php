@@ -14,12 +14,12 @@ class Match extends Model
 
     public function userId()
     {
-        return $this->hasOne('App\User', 'id');
+        return $this->belongsTo('App\User', 'userId');
     }
 
     public function matchId()
     {
-        return $this->hasOne('App\User', 'id');
+        return $this->hasOne('App\User', 'targetId');
     }
 
 

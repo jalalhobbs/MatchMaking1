@@ -595,7 +595,7 @@ class FakeUserSeeder extends Seeder
                 $profilePictureUrl = "https://www.matchmaking1.xyz/images/profile/gender/1/aged/" . rand(0, $profilePictureUrlCounts['gender']['1']['aged']) . ".png";
             } else {
                 !is_null($bodyTypeId) ? $profileBodyTypeId = $bodyTypeId : $profileBodyTypeId = rand(1, 4);
-                $profilePictureUrl = "./images/profile/gender/" . $genderId . "/bodytype/" . $profileBodyTypeId . "/" .
+                $profilePictureUrl = "https://www.matchmaking1.xyz/images/profile/gender/" . $genderId . "/bodytype/" . $profileBodyTypeId . "/" .
                     rand(0, $profilePictureUrlCounts['gender']['1']['bodytype'][$profileBodyTypeId]) . ".png";
             }
             // db timestamps

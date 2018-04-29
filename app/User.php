@@ -169,4 +169,14 @@ class User extends Authenticatable
         return $this->dob->diffInYears(\Carbon::now());
     }
 
+    public function matches()
+    {
+        return $this->hasMany('App\Match', 'targetId');
+    }
+
+    public function targetLike()
+    {
+        return $this->hasMany('App\User');
+    }
+
 }

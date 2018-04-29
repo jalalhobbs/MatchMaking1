@@ -150,6 +150,12 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
+    @if (Request::capture()->fullUrl() === route('home'))
+    {
+        <script src="{{ asset('js/like.js') }}"></script>
+    }
+    @endif
+
     <!-- Facebook Register Button -->
 
     <script>(function(d, s, id) {
@@ -178,6 +184,18 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
+
+    @if (Request::capture()->fullUrl() === route('home'))
+        {
+        <script type="text/javascript">
+            var token = '{{ Session::token() }}';
+            var urlLike = '{{ route('updateLikeStatus') }}';
+        </script>
+        }
+    @endif
+
+
+
 
 </body>
 </html>

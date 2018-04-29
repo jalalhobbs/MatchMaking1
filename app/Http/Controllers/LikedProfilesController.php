@@ -40,6 +40,7 @@ class LikedProfilesController extends Controller
         foreach ($potentialMatches as $key => $pot) {
             $age = $this->getAge($pot->dob);
             $potentialMatches[$key]->age = $age;
+
         }
 
         return view('home')

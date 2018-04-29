@@ -23,6 +23,7 @@
                                                                     'userId' => $match->id,
                                                                     'likeStatus' => $match->likeStatus,
                                                                     'gender' => $match->genderName,
+                                                                    'bodyType' => $match->bodyType,
                                                                     'email' => isset($match->email) ? $match->email : false
                                                                     ]
                                         )

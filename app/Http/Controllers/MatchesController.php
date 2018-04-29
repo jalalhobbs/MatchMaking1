@@ -30,7 +30,8 @@ class MatchesController extends Controller
                               users.profilePicture,
                               users.dob,
                               users.id,
-                              users.email
+                              users.email,
+                              body_types.bodyTypeName as bodyType
                             FROM matches as my_matches
                               JOIN matches as their_matches
                                 ON my_matches.targetId = their_matches.userId
@@ -38,6 +39,8 @@ class MatchesController extends Controller
                                 ON my_matches.targetId = users.id
                               LEFT JOIN genders
                                 ON users.genderId = genders.id
+                              LEFT JOIN body_types
+                                ON users.bodyTypeId = body_types.id
                             WHERE my_matches.userId = '.auth()->user()->id.'
                                   AND their_matches.targetId ='.auth()->user()->id.'
                                   AND my_matches.likeStatus = 2

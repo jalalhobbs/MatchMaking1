@@ -116,7 +116,7 @@
                             }
                             // create body type
                             let bodyType = document.createElement('p');
-                            bodyType.innerHTML = `bodyType: ${profile.bodyTypeDisplay}`;
+                            bodyType.innerHTML = `Body Type: ${profile.bodyTypeDisplay}`;
                             bodyType.className = "flex-text text-muted";
                             if (profile.bodyType != null) {
                                 caption.append(bodyType);

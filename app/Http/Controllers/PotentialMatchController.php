@@ -89,139 +89,123 @@ class PotentialMatchController extends Controller
             )->where('users.id', '=', $id)
             ->first();
 
-        $potentialMatches = DB::table('users');
-
-        $potentialMatches->where('users.id', '<>', $id);
+        $query = "SELECT
+          users.id                              as id,
+          users.firstName                       as firstName,
+          genders.genderName                    as gender,
+          genders.genderName                    as genderDisplay,
+          countries.countryName                 as country,
+          verified                              as verified,
+          educationName                         as education,
+          users.dob                             as dob,
+          users.height                          as height,
+          body_types.bodyTypeName               as bodyType,
+          body_types.bodyTypeName               as bodyTypeDisplay,
+          hair_colours.hairColourName           as hairColour,
+          eye_colours.eyeColourName             as eyeColour,
+          ethnicities.ethnicityName             as ethnicity,
+          smoking.smokingPrefName               as smoking,
+          drinking.drinkingPrefName             as drinking,
+          religions.religionName                as religion,
+          leisures.leisureName                  as leisure,
+          personality_types.personalityTypeName as personalityType,
+          users.profilePicture                  as profilePictureUrl,
+          matches.likeStatus                      as likeStatus
+          
+        FROM users
+          LEFT JOIN genders ON users.genderId = genders.id
+          LEFT JOIN countries ON users.countryId = countries.id
+          LEFT JOIN education ON users.educationId = education.id
+          LEFT JOIN body_types ON users.bodyTypeId = body_types.id
+          LEFT JOIN hair_colours ON users.hairColourId = hair_colours.id
+          LEFT JOIN eye_colours ON users.eyeColourId = eye_colours.id
+          LEFT JOIN ethnicities ON users.ethnicityId = ethnicities.id
+          LEFT JOIN smoking ON users.smokingId = smoking.id
+          LEFT JOIN drinking ON users.drinkingId = drinking.id
+          LEFT JOIN religions ON users.religionId = religions.id
+          LEFT JOIN leisures ON users.leisureId = leisures.id
+          LEFT JOIN personality_types ON users.personalityTypeId = personality_types.id
+          LEFT JOIN matches ON users.id = matches.targetId
+          AND matches.userId = " . $id .
+      " WHERE users.id != " . $id .
+            " AND (matches.likeStatus = 1 OR matches.likeStatus IS NULL)";
 
         if ($userTargets->targetGenderId) {
-            $potentialMatches
-                ->where('users.genderId', '=', $userTargets->targetGenderId);
+            $query .= " AND users.genderId =" . $userTargets->targetGenderId;
         }
 
         if ($userTargets->targetMinAge) {
-            $potentialMatches
-                ->where('users.dob', '<', date('YYYY-mm-dd', strtotime($userTargets->targetMinAge . "year")));
+            $query .= " AND users.dob <" . date('YYYY-mm-dd', strtotime($userTargets->targetMinAge . "year"));
         }
 
         if ($userTargets->targetMaxAge) {
-            $potentialMatches
-                ->where('users.dob', '>', date('YYYY-mm-dd', strtotime($userTargets->targetMaxAge . "year")));
+            $query .= " AND users.dob >" . date('YYYY-mm-dd', strtotime($userTargets->targetMaxAge . "year"));
         }
 
         if ($userTargets->targetMinHeight) {
-            $potentialMatches
-                ->where('users.Height', '>=', $userTargets->targetMinHeight);
+            $query .= " AND users.Height >" . $userTargets->targetMinHeight;
         }
 
         if ($userTargets->targetMaxHeight) {
-            $potentialMatches
-                ->where('users.Height', '<=', $userTargets->targetMaxHeight);
+            $query .= " AND users.Height <" . $userTargets->targetMaxHeight;
         }
 
         if ($userTargets->targetBodyTypeId) {
-            $potentialMatches
-                ->where('users.BodyTypeId', '=', $userTargets->targetBodyTypeId);
+            $query .= " AND users.BodyTypeId =" . $userTargets->targetBodyTypeId;
         }
 
         if ($userTargets->targetReligionId) {
-            $potentialMatches
-                ->where('users.ReligionId', '=', $userTargets->targetReligionId);
+            $query .= " AND users.ReligionId =" . $userTargets->targetReligionId;
         }
 
         if ($userTargets->targetCountryId) {
-            $potentialMatches
-                ->where('users.CountryId', '=', $userTargets->targetCountryId);
+            $query .= " AND users.CountryId =" . $userTargets->targetCountryId;
         }
 
         if ($userTargets->targetEthnicityId) {
-            $potentialMatches
-                ->where('users.EthnicityId', '=', $userTargets->targetEthnicityId);
+            $query .= " AND users.EthnicityId =" . $userTargets->targetEthnicityId;
         }
 
         if ($userTargets->targetHairColourId) {
-            $potentialMatches
-                ->where('users.HairColourId', '=', $userTargets->targetHairColourId);
+            $query .= " AND users.HairColourId =" . $userTargets->targetHairColourId;
         }
 
         if ($userTargets->targetEyeColourId) {
-            $potentialMatches
-                ->where('users.EyeColourId', '=', $userTargets->targetEyeColourId);
+            $query .= " AND users.EyeColourId =" . $userTargets->targetEyeColourId;
         }
 
         if ($userTargets->targetEducationId) {
-            $potentialMatches
-                ->where('users.EducationId', '=', $userTargets->targetEducationId);
+            $query .= " AND users.EducationId =" . $userTargets->targetEducationId;
         }
 
         if ($userTargets->targetDrinkingId) {
-            $potentialMatches
-                ->where('users.DrinkingId', '=', $userTargets->targetDrinkingId);
+            $query .= " AND users.DrinkingId =" . $userTargets->targetDrinkingId;
         }
 
         if ($userTargets->targetSmokingId) {
-            $potentialMatches
-                ->where('users.SmokingId', '=', $userTargets->targetSmokingId);
+            $query .= " AND users.SmokingId =" . $userTargets->targetSmokingId;
         }
 
         if ($userTargets->targetLeisureId) {
-            $potentialMatches
-                ->where('users.LeisureId', '=', $userTargets->targetLeisureId);
+            $query .= " AND users.LeisureId =" . $userTargets->targetLeisureId;
         }
 
         if ($userTargets->targetPersonalityTypeId) {
-            $potentialMatches
-                ->where('users.PersonalityTypeId', '=', $userTargets->targetPersonalityTypeId);
+            $query .= " AND users.PersonalityTypeId =" . $userTargets->targetPersonalityTypeId;
         }
 
+//        $potentialMatches->leftJoin('matches', 'users.id', '=', $id);
+//        ->where('matches.likeStatus', '<>', '0');
 
-        $potentialMatches
-            ->leftJoin('genders', 'users.genderId', '=', 'genders.id')
-            ->leftJoin('countries', 'users.countryId', '=', 'countries.id')
-            ->leftJoin('education', 'users.educationId', '=', 'education.id')
-            ->leftJoin('body_types', 'users.bodyTypeId', '=', 'body_types.id')
-            ->leftJoin('hair_colours', 'users.hairColourId', '=', 'hair_colours.id')
-            ->leftJoin('eye_colours', 'users.eyeColourId', '=', 'eye_colours.id')
-            ->leftJoin('ethnicities', 'users.ethnicityId', '=', 'ethnicities.id')
-            ->leftJoin('smoking', 'users.smokingId', '=', 'smoking.id')
-            ->leftJoin('drinking', 'users.drinkingId', '=', 'drinking.id')
-            ->leftJoin('religions', 'users.religionId', '=', 'religions.id')
-            ->leftJoin('leisures', 'users.leisureId', '=', 'leisures.id')
-            ->leftJoin('personality_types', 'users.personalityTypeId', '=', 'personality_types.id')
-            ->select(
-                [
-                    'users.id as id',
-                    'users.firstName as firstName',
-                    'genders.genderName as gender',
-                    'countries.countryName as country',
-                    'verified as verified',
-                    'educationName as education',
-                    'users.dob as dob',
-                    'users.height as height',
-                    'body_types.bodyTypeName as bodyType',
-                    'hair_colours.hairColourName as hairColour',
-                    'eye_colours.eyeColourName as eyeColour',
-                    'ethnicities.ethnicityName as ethnicity',
-                    'smoking.smokingPrefName as smoking',
-                    'drinking.drinkingPrefName as drinking',
-                    'religions.religionName as religion',
-                    'leisures.leisureName as leisure',
-                    'personality_types.personalityTypeName as personalityType',
-                    'users.profilePicture as profilePictureUrl'
-                ]
-            );
-        if ($request->query('random') == 1) {
-            $potentialMatches->inRandomOrder();
-        }
-        if($request->query('offset')) {
-            $potentialMatches->offset($request->query('offset'));
-        }
-        if($request->query('results')) {
-            $potentialMatches->limit($request->query('results'));
+        if ($request->query('limit')) {
+            $query .= " LIMIT " . $request->query('limit');
         } else {
-            $potentialMatches->limit(100);
+            $query .= " LIMIT 100";
         }
-
-        $potentialMatches = $potentialMatches->get();
+        if ($request->query('offset')) {
+            $query .= " OFFSET " . $request->query('offset');
+        }
+        $potentialMatches = DB::select($query);
         foreach ($potentialMatches as $potentialMatch) {
 
 
@@ -329,6 +313,7 @@ class PotentialMatchController extends Controller
                 $potentialMatch->stature = null;
             }
         }
+//        echo $query;
         return json_encode($potentialMatches);
     }
 

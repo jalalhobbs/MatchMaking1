@@ -15,10 +15,58 @@
 
     <!-- Scripts -->
     {{--<script src="{{ asset('js/like.js') }}"></script>--}}
+    <script type="text/javascript">
+        var token = '{{ Session::token() }}';
+        var urlLike = '{{ route('updateLikeStatus') }}';
+        function setLikeButtons() {
+            targetId = 0;
+            $('.btn-dislike').on('click', function (event) {
+
+                event.preventDefault();
+                targetId = event.target.parentNode.parentNode.dataset['userid'];
+
+                $.ajax({
+                    method: 'POST',
+                    url: urlLike,
+                    data: {isLike: 0, targetId: targetId, _token: token}
+                })
+                    .done(function () {
+                        //change the page
+                    });
+            });
+
+
+            $('.btn-no-like-status').on('click', function (event) {
+
+                event.preventDefault();
+                targetId = event.target.parentNode.parentNode.dataset['userid'];
+
+                $.ajax({
+                    method: 'POST',
+                    url: urlLike,
+                    data: {isLike: 1, targetId: targetId, _token: token}
+                })
+                    .done(function () {
+                        //change the page
+                    });
+            });
+
+            $('.btn-like').on('click', function (event) {
+
+                event.preventDefault();
+                targetId = event.target.parentNode.parentNode.dataset['userid'];
+
+                $.ajax({
+                    method: 'POST',
+                    url: urlLike,
+                    data: {isLike: 2, targetId: targetId, _token: token}
+                })
+                    .done(function () {
+                        //change the page
+                    });
+            });
+        };
     @if (isset($pageName) and $pageName=="Home")
-        <script>
-            var token = '{{ Session::token() }}';
-            var urlLike = '{{ route('updateLikeStatus') }}';
             let profileUrl = 'http://localhost/api/potentialmatch/{{Auth::id()}}';
             const getProfiles = () => {
                 fetch(profileUrl)
@@ -54,7 +102,7 @@
 
                             // create gender
                             let gender = document.createElement('p');
-                            gender.innerHTML = `Gender: ${profile.gender}`;
+                            gender.innerHTML = `Gender: ${profile.genderDisplay}`;
                             gender.className = "flex-text text-muted";
                             if (profile.gender != null) {
                                 caption.append(gender);
@@ -68,7 +116,7 @@
                             }
                             // create body type
                             let bodyType = document.createElement('p');
-                            bodyType.innerHTML = `bodyType: ${profile.bodyType}`;
+                            bodyType.innerHTML = `bodyType: ${profile.bodyTypeDisplay}`;
                             bodyType.className = "flex-text text-muted";
                             if (profile.bodyType != null) {
                                 caption.append(bodyType);
@@ -148,70 +196,25 @@
                             content.append(caption);
                             profileCard.append(content);
                             $("#profiles").append(profileCard);
-                        }).then(setLikeButtons());
-                    });
+                        });
+                    })
+                    .then(buttons => setLikeButtons());
             };
 
-            function setLikeButtons() {
-                console.log("set like buttons happened");
-                targetId = 0;
-                $('.btn-dislike').on('click', function (event) {
-
-                    event.preventDefault();
-                    targetId = event.target.parentNode.parentNode.dataset['userid'];
-
-                    $.ajax({
-                        method: 'POST',
-                        url: urlLike,
-                        data: {isLike: 0, targetId: targetId, _token: token}
-                    })
-                        .done(function () {
-                            //change the page
-                        });
-                });
 
 
-                $('.btn-no-like-status').on('click', function (event) {
 
-                    event.preventDefault();
-                    targetId = event.target.parentNode.parentNode.dataset['userid'];
 
-                    $.ajax({
-                        method: 'POST',
-                        url: urlLike,
-                        data: {isLike: 1, targetId: targetId, _token: token}
-                    })
-                        .done(function () {
-                            //change the page
-                        });
-                });
-
-                $('.btn-like').on('click', function (event) {
-
-                    event.preventDefault();
-                    targetId = event.target.parentNode.parentNode.dataset['userid'];
-
-                    $.ajax({
-                        method: 'POST',
-                        url: urlLike,
-                        data: {isLike: 2, targetId: targetId, _token: token}
-                    })
-                        .done(function () {
-                            //change the page
-                        });
-                });
-            };
-
-            // function getProfilesSetButtons() {
-            //     getProfiles().then(
-            //     setLikeButtons());
-            // };
-
-        </script>
     @endif
 
+
+        </script>
 </head>
-<body @if (isset($pageName) and $pageName=="Home")onload="getProfiles()"@endif>
+<body onload="@if (isset($pageName) and $pageName=="Home")
+        getProfiles()
+@else
+        setLikeButtons()
+@endif">
 <div id="fb-root"></div>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
@@ -385,15 +388,15 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
-@if (Request::capture()->fullUrl() === route('home'))
-    {
-    <script type="text/javascript">
-        var token = '{{ Session::token() }}';
-        var urlLike = '{{ route('updateLikeStatus') }}';
-        // $(document).ready(getProfilesSetButtons());
-    </script>
-    }
-@endif
+{{--@if (Request::capture()->fullUrl() === route('home'))--}}
+    {{--{--}}
+    {{--<script type="text/javascript">--}}
+        {{--var token = '{{ Session::token() }}';--}}
+        {{--var urlLike = '{{ route('updateLikeStatus') }}';--}}
+        {{--$(document).ready(setLikeButtons());--}}
+    {{--</script>--}}
+    {{--}--}}
+{{--@endif--}}
 
 
 </body>

@@ -42,7 +42,7 @@ class HomeController extends Controller
         }
 
         return view('home')
-            ->with('matches', $potentialMatches)
+//            ->with('matches', $potentialMatches)
             ->with('pageName', "Home");
     }
 

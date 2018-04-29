@@ -67,7 +67,7 @@
             });
         };
     @if (isset($pageName) and $pageName=="Home")
-            let profileUrl = 'http://localhost/api/potentialmatch/{{Auth::id()}}';
+            let profileUrl = './api/potentialmatch/{{Auth::id()}}';
             const getProfiles = () => {
                 fetch(profileUrl)
                     .then(res => res.json())

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PotentialMatchController extends Controller
@@ -36,79 +37,7 @@ class PotentialMatchController extends Controller
      */
     public function index()
     {
-        if (true) {
-            $potentialMatches = DB::table('users')
-                ->select(
-                    [
-                        'users.id as id',
-                        'countries.countryName as country',
-                        'verified as verified',
-                        'educationName as education',
-                        'users.dob as dob',
-                        'users.height as height',
-                        'body_types.bodyTypeName as bodyType',
-                        'hair_colours.hairColourName as hairColour',
-                        'eye_colours.eyeColourName as eyeColour',
-                        'ethnicities.ethnicityName as ethnicity',
-                        'smoking.smokingPrefName as smoking',
-                        'drinking.drinkingPrefName as drinking',
-                        'religions.religionName as religion'
-                    ]
-                )
-                ->leftJoin('countries', 'users.countryId', '=', 'countries.id')
-                ->leftJoin('education', 'users.educationId', '=', 'education.id')
-                ->leftJoin('body_types', 'users.bodyTypeId', '=', 'body_types.id')
-                ->leftJoin('hair_colours', 'users.hairColourId', '=', 'hair_colours.id')
-                ->leftJoin('eye_colours', 'users.eyeColourId', '=', 'eye_colours.id')
-                ->leftJoin('ethnicities', 'users.ethnicityId', '=', 'ethnicities.id')
-                ->leftJoin('smoking', 'users.smokingId', '=', 'smoking.id')
-                ->leftJoin('drinking', 'users.drinkingId', '=', 'drinking.id')
-                ->leftJoin('religions', 'users.religionId', '=', 'religions.id')
-                ->get();
-            foreach ($potentialMatches as $potentialMatch) {
-
-
-                // update string responses
-                $potentialMatch->country = $this->removeSpaceAndCamelCase($potentialMatch->country);
-                $potentialMatch->education = $this->removeSpaceAndCamelCase($potentialMatch->education);
-                $potentialMatch->bodyType = $this->removeSpaceAndCamelCase($potentialMatch->bodyType);
-                $potentialMatch->hairColour = $this->removeSpaceAndCamelCase($potentialMatch->hairColour);
-                $potentialMatch->eyeColour = $this->removeSpaceAndCamelCase($potentialMatch->eyeColour);
-                $potentialMatch->ethnicity = $this->removeSpaceAndCamelCase($potentialMatch->ethnicity);
-                $potentialMatch->smoking = $this->removeSpaceAndCamelCase($potentialMatch->smoking);
-                $potentialMatch->drinking = $this->removeSpaceAndCamelCase($potentialMatch->drinking);
-                $potentialMatch->religion = $this->removeSpaceAndCamelCase($potentialMatch->religion);
-
-                // create age from dob response
-                $potentialMatch->age = $this->getAge($potentialMatch->dob);
-                // remove dob from array
-                unset($potentialMatch->dob);
-                // add age bucket
-                if ($potentialMatch->age <= 25) {
-                    $potentialMatch->ageBucket = "age18To25";
-                } elseif ($potentialMatch->age <= 35) {
-                    $potentialMatch->ageBucket = "age26To35";
-                } elseif ($potentialMatch->age <= 45) {
-                    $potentialMatch->ageBucket = "age36To45";
-                } else {
-                    $potentialMatch->ageBucket = "age46To";
-                }
-
-                // add stature
-                if ($potentialMatch->height < 160) {
-                    $potentialMatch->stature = "short";
-                } elseif ($potentialMatch->height <= 180) {
-                    $potentialMatch->stature = "average";
-                } elseif ($potentialMatch->height > 180) {
-                    $potentialMatch->stature = "tall";
-                } else {
-                    $potentialMatch->stature = "undisclosed";
-                }
-            }
-            return json_encode($potentialMatches);
-        } else {
-            return "Not authorized";
-        }
+        return "not implemented";
     }
 
 
@@ -137,75 +66,255 @@ class PotentialMatchController extends Controller
      *      religion: sikh,
      *   }
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $potentialMatch = DB::table('users')->where('users.id', '=', $id)
+        $userTargets = DB::table('users')
             ->select(
-                [
-                    'users.id as id',
-                    'countries.countryName as country',
-                    'verified as verified',
-                    'educationName as education',
-                    'users.dob as dob',
-                    'users.height as height',
-                    'body_types.bodyTypeName as bodyType',
-                    'hair_colours.hairColourName as hairColour',
-                    'eye_colours.eyeColourName as eyeColour',
-                    'ethnicities.ethnicityName as ethnicity',
-                    'smoking.smokingPrefName as smoking',
-                    'drinking.drinkingPrefName as drinking',
-                    'religions.religionName as religion'
-                ]
-            )
-            ->leftJoin('countries', 'users.countryId', '=', 'countries.id')
-            ->leftJoin('education', 'users.educationId', '=', 'education.id')
-            ->leftJoin('body_types', 'users.bodyTypeId', '=', 'body_types.id')
-            ->leftJoin('hair_colours', 'users.hairColourId', '=', 'hair_colours.id')
-            ->leftJoin('eye_colours', 'users.eyeColourId', '=', 'eye_colours.id')
-            ->leftJoin('ethnicities', 'users.ethnicityId', '=', 'ethnicities.id')
-            ->leftJoin('smoking', 'users.smokingId', '=', 'smoking.id')
-            ->leftJoin('drinking', 'users.drinkingId', '=', 'drinking.id')
-            ->leftJoin('religions', 'users.religionId', '=', 'religions.id')
-            ->get();
+                'targetGenderId',
+                'targetMinAge',
+                'targetMaxAge',
+                'targetCountryId',
+                'targetEthnicityId',
+                'targetMinHeight',
+                'targetMaxHeight',
+                'targetBodyTypeId',
+                'targetEducationId',
+                'targetReligionId',
+                'targetHairColourId',
+                'targetEyeColourId',
+                'targetDrinkingId',
+                'targetSmokingId',
+                'targetLeisureId',
+                'targetPersonalityTypeId'
+            )->where('users.id', '=', $id)
+            ->first();
 
-        // update string responses
-        $potentialMatch[0]->country = $this->removeSpaceAndCamelCase($potentialMatch[0]->country);
-        $potentialMatch[0]->education = $this->removeSpaceAndCamelCase($potentialMatch[0]->education);
-        $potentialMatch[0]->bodyType = $this->removeSpaceAndCamelCase($potentialMatch[0]->bodyType);
-        $potentialMatch[0]->hairColour = $this->removeSpaceAndCamelCase($potentialMatch[0]->hairColour);
-        $potentialMatch[0]->eyeColour = $this->removeSpaceAndCamelCase($potentialMatch[0]->eyeColour);
-        $potentialMatch[0]->ethnicity = $this->removeSpaceAndCamelCase($potentialMatch[0]->ethnicity);
-        $potentialMatch[0]->smoking = $this->removeSpaceAndCamelCase($potentialMatch[0]->smoking);
-        $potentialMatch[0]->drinking = $this->removeSpaceAndCamelCase($potentialMatch[0]->drinking);
-        $potentialMatch[0]->religion = $this->removeSpaceAndCamelCase($potentialMatch[0]->religion);
+        $query = "SELECT
+          users.id                              as id,
+          users.firstName                       as firstName,
+          genders.genderName                    as gender,
+          genders.genderName                    as genderDisplay,
+          countries.countryName                 as country,
+          verified                              as verified,
+          educationName                         as education,
+          users.dob                             as dob,
+          users.height                          as height,
+          body_types.bodyTypeName               as bodyType,
+          body_types.bodyTypeName               as bodyTypeDisplay,
+          hair_colours.hairColourName           as hairColour,
+          eye_colours.eyeColourName             as eyeColour,
+          ethnicities.ethnicityName             as ethnicity,
+          smoking.smokingPrefName               as smoking,
+          drinking.drinkingPrefName             as drinking,
+          religions.religionName                as religion,
+          leisures.leisureName                  as leisure,
+          personality_types.personalityTypeName as personalityType,
+          users.profilePicture                  as profilePictureUrl,
+          matches.likeStatus                      as likeStatus
+          
+        FROM users
+          LEFT JOIN genders ON users.genderId = genders.id
+          LEFT JOIN countries ON users.countryId = countries.id
+          LEFT JOIN education ON users.educationId = education.id
+          LEFT JOIN body_types ON users.bodyTypeId = body_types.id
+          LEFT JOIN hair_colours ON users.hairColourId = hair_colours.id
+          LEFT JOIN eye_colours ON users.eyeColourId = eye_colours.id
+          LEFT JOIN ethnicities ON users.ethnicityId = ethnicities.id
+          LEFT JOIN smoking ON users.smokingId = smoking.id
+          LEFT JOIN drinking ON users.drinkingId = drinking.id
+          LEFT JOIN religions ON users.religionId = religions.id
+          LEFT JOIN leisures ON users.leisureId = leisures.id
+          LEFT JOIN personality_types ON users.personalityTypeId = personality_types.id
+          LEFT JOIN matches ON users.id = matches.targetId
+          AND matches.userId = " . $id .
+      " WHERE users.id != " . $id .
+            " AND (matches.likeStatus = 1 OR matches.likeStatus IS NULL)";
 
-        // create age from dob response
-        $potentialMatch[0]->age = $this->getAge($potentialMatch[0]->dob);
-        // remove dob from array
-        unset($potentialMatch[0]->dob);
-        // add age bucket
-        if ($potentialMatch[0]->age <= 25) {
-            $potentialMatch[0]->ageBucket = "age18To25";
-        } elseif ($potentialMatch[0]->age <= 35) {
-            $potentialMatch[0]->ageBucket = "age26To35";
-        } elseif ($potentialMatch[0]->age <= 45) {
-            $potentialMatch[0]->ageBucket = "age36To45";
-        } else {
-            $potentialMatch[0]->ageBucket = "age46To";
+        if ($userTargets->targetGenderId) {
+            $query .= " AND users.genderId =" . $userTargets->targetGenderId;
         }
 
-        // add stature
-        if ($potentialMatch[0]->height < 160) {
-            $potentialMatch[0]->stature = "short";
-        } elseif ($potentialMatch[0]->height <= 180) {
-            $potentialMatch[0]->stature = "average";
-        } elseif ($potentialMatch[0]->height > 180) {
-            $potentialMatch[0]->stature = "tall";
-        } else {
-            $potentialMatch[0]->stature = "undisclosed";
+        if ($userTargets->targetMinAge) {
+            $query .= " AND users.dob <" . date('YYYY-mm-dd', strtotime($userTargets->targetMinAge . "year"));
         }
 
-        return json_encode($potentialMatch[0]);
+        if ($userTargets->targetMaxAge) {
+            $query .= " AND users.dob >" . date('YYYY-mm-dd', strtotime($userTargets->targetMaxAge . "year"));
+        }
+
+        if ($userTargets->targetMinHeight) {
+            $query .= " AND users.Height >" . $userTargets->targetMinHeight;
+        }
+
+        if ($userTargets->targetMaxHeight) {
+            $query .= " AND users.Height <" . $userTargets->targetMaxHeight;
+        }
+
+        if ($userTargets->targetBodyTypeId) {
+            $query .= " AND users.BodyTypeId =" . $userTargets->targetBodyTypeId;
+        }
+
+        if ($userTargets->targetReligionId) {
+            $query .= " AND users.ReligionId =" . $userTargets->targetReligionId;
+        }
+
+        if ($userTargets->targetCountryId) {
+            $query .= " AND users.CountryId =" . $userTargets->targetCountryId;
+        }
+
+        if ($userTargets->targetEthnicityId) {
+            $query .= " AND users.EthnicityId =" . $userTargets->targetEthnicityId;
+        }
+
+        if ($userTargets->targetHairColourId) {
+            $query .= " AND users.HairColourId =" . $userTargets->targetHairColourId;
+        }
+
+        if ($userTargets->targetEyeColourId) {
+            $query .= " AND users.EyeColourId =" . $userTargets->targetEyeColourId;
+        }
+
+        if ($userTargets->targetEducationId) {
+            $query .= " AND users.EducationId =" . $userTargets->targetEducationId;
+        }
+
+        if ($userTargets->targetDrinkingId) {
+            $query .= " AND users.DrinkingId =" . $userTargets->targetDrinkingId;
+        }
+
+        if ($userTargets->targetSmokingId) {
+            $query .= " AND users.SmokingId =" . $userTargets->targetSmokingId;
+        }
+
+        if ($userTargets->targetLeisureId) {
+            $query .= " AND users.LeisureId =" . $userTargets->targetLeisureId;
+        }
+
+        if ($userTargets->targetPersonalityTypeId) {
+            $query .= " AND users.PersonalityTypeId =" . $userTargets->targetPersonalityTypeId;
+        }
+
+//        $potentialMatches->leftJoin('matches', 'users.id', '=', $id);
+//        ->where('matches.likeStatus', '<>', '0');
+
+        if ($request->query('limit')) {
+            $query .= " LIMIT " . $request->query('limit');
+        } else {
+            $query .= " LIMIT 100";
+        }
+        if ($request->query('offset')) {
+            $query .= " OFFSET " . $request->query('offset');
+        }
+        $potentialMatches = DB::select($query);
+        foreach ($potentialMatches as $potentialMatch) {
+
+
+            // update string responses
+            if (isset($potentialMatch->gender)) {
+                $potentialMatch->gender = $this->removeSpaceAndCamelCase($potentialMatch->gender);
+            } else {
+                $potentialMatch->gender = null;
+            }
+
+            if (isset($potentialMatch->country)) {
+                $potentialMatch->country = $this->removeSpaceAndCamelCase($potentialMatch->country);
+            } else {
+                $potentialMatch->country = null;
+            }
+
+            if (isset($potentialMatch->education)) {
+                $potentialMatch->education = $this->removeSpaceAndCamelCase($potentialMatch->education);
+            } else {
+                $potentialMatch->education = null;
+            }
+
+            if (isset($potentialMatch->bodyType)) {
+                $potentialMatch->bodyType = $this->removeSpaceAndCamelCase($potentialMatch->bodyType);
+            } else {
+                $potentialMatch->bodyType = null;
+            }
+
+            if (isset($potentialMatch->hairColour)) {
+                $potentialMatch->hairColour = $this->removeSpaceAndCamelCase($potentialMatch->hairColour);
+            } else {
+                $potentialMatch->hairColour = null;
+            }
+
+            if (isset($potentialMatch->eyeColour)) {
+                $potentialMatch->eyeColour = $this->removeSpaceAndCamelCase($potentialMatch->eyeColour);
+            } else {
+                $potentialMatch->eyeColour = null;
+            }
+
+            if (isset($potentialMatch->ethnicity)) {
+                $potentialMatch->ethnicity = $this->removeSpaceAndCamelCase($potentialMatch->ethnicity);
+            } else {
+                $potentialMatch->ethnicity = null;
+            }
+
+            if (isset($potentialMatch->smoking)) {
+                $potentialMatch->smoking = $this->removeSpaceAndCamelCase($potentialMatch->smoking);
+            } else {
+                $potentialMatch->smoking = null;
+            }
+
+            if (isset($potentialMatch->drinking)) {
+                $potentialMatch->drinking = $this->removeSpaceAndCamelCase($potentialMatch->drinking);
+            } else {
+                $potentialMatch->drinking = null;
+            }
+
+            if (isset($potentialMatch->religion)) {
+                $potentialMatch->religion = $this->removeSpaceAndCamelCase($potentialMatch->religion);
+            } else {
+                $potentialMatch->religion = null;
+            }
+
+            if (isset($potentialMatch->leisure)) {
+                $potentialMatch->leisure = $this->removeSpaceAndCamelCase($potentialMatch->leisure);
+            } else {
+                $potentialMatch->leisure = null;
+            }
+
+            if (isset($potentialMatch->personalityType)) {
+                $potentialMatch->personalityType = $this->removeSpaceAndCamelCase($potentialMatch->personalityType);
+            } else {
+                $potentialMatch->personalityType = null;
+            }
+
+            // create age from dob response
+            if ($potentialMatch->dob) {
+                $potentialMatch->age = $this->getAge($potentialMatch->dob);
+                // remove dob from array
+                unset($potentialMatch->dob);
+                // add age bucket
+                if ($potentialMatch->age <= 25) {
+                    $potentialMatch->ageBucket = "age18To25";
+                } elseif ($potentialMatch->age <= 35) {
+                    $potentialMatch->ageBucket = "age26To35";
+                } elseif ($potentialMatch->age <= 45) {
+                    $potentialMatch->ageBucket = "age36To45";
+                } else {
+                    $potentialMatch->ageBucket = "age46To";
+                }
+            } else {
+                $potentialMatch->age = null;
+            }
+            // add stature
+            if ($potentialMatch->height) {
+                if ($potentialMatch->height < 160) {
+                    $potentialMatch->stature = "short";
+                } elseif ($potentialMatch->height <= 180) {
+                    $potentialMatch->stature = "average";
+                } elseif ($potentialMatch->height > 180) {
+                    $potentialMatch->stature = "tall";
+                }
+            } else {
+                $potentialMatch->stature = null;
+            }
+        }
+//        echo $query;
+        return json_encode($potentialMatches);
     }
 
     private function removeSpaceAndCamelCase($word)

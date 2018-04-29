@@ -24,26 +24,39 @@ class MatchesController extends Controller
      */
     public function index()
     {
-        $matches = DB::table('matches as their_matches')
-            ->where('their_matches.targetId', '=', auth()->user()->id)
-            ->where('their_matches.likeStatus', '=', '2')
-            ->join('matches as my_matches', 'my_matches.targetId', '=', 'their_matches.userId')
-            ->where('my_matches.likeStatus', '=', '2')
-            ->leftJoin('users', 'my_matches.targetId', '=', 'users.id')
-            ->leftJoin('genders', 'users.genderId', '=', 'genders.id')
-            ->select('users.firstName',
-                'genders.genderName',
-                'users.profilePicture',
-                'users.dob',
-                'users.id',
-                'my_matches.likeStatus as likeStatus',
-                'users.email as email'
-            )
-            ->get();
+        $matches = DB::select('SELECT
+                              users.firstName,
+                              genders.genderName,
+                              users.profilePicture,
+                              users.dob,
+                              users.id,
+                              users.email,
+                              body_types.bodyTypeName as bodyType
+                            FROM matches as my_matches
+                              JOIN matches as their_matches
+                                ON my_matches.targetId = their_matches.userId
+                              JOIN users
+                                ON my_matches.targetId = users.id
+                              LEFT JOIN genders
+                                ON users.genderId = genders.id
+                              LEFT JOIN body_types
+                                ON users.bodyTypeId = body_types.id
+                            WHERE my_matches.userId = '.auth()->user()->id.'
+                                  AND their_matches.targetId ='.auth()->user()->id.'
+                                  AND my_matches.likeStatus = 2
+                                  AND their_matches.likeStatus = 2');
+//        foreach ($matches as $key => $pot) {
+//            $age = $this->getAge($pot->dob);
+//            $matches[$key]->age = $age;
+//        }
 
-        foreach ($matches as $key => $pot) {
-            $age = $this->getAge($pot->dob);
-            $matches[$key]->age = $age;
+        foreach ($matches as $match) {
+            if (isset($match->dob)) {
+                $match->age = $this->getAge($match->dob);
+            } else {
+                $match->age = null;
+            }
+            $match->likeStatus = 2;
         }
 
         return view('home')

@@ -29,11 +29,13 @@ class LikedProfilesController extends Controller
             ->where('matches.likeStatus', '=', '2')
             ->leftJoin('users', 'matches.targetId', '=', 'users.id')
             ->leftJoin('genders', 'users.genderId', '=', 'genders.id')
+            ->leftJoin('body_types', 'users.bodyTypeId', '=', 'body_types.id')
             ->select('users.firstName',
                 'genders.genderName',
                 'users.profilePicture',
                 'users.dob',
                 'users.id',
+                'body_types.bodyTypeName as bodyType',
                 'matches.likeStatus')
             ->get();
 

@@ -14,8 +14,8 @@
                     @endif
                     Welcome {{ Auth::user()->firstName }}!
                         <div class="container">
-                            <div class="flex-row row">
-                                @if($matches)
+                            <div class="flex-row row" id="profiles">
+                                @if(isset($matches))
                                     @foreach($matches as $match)
                                         @component('profile-card', ['firstName' => $match->firstName,
                                                                     'profilePic' => $match->profilePicture,
@@ -23,6 +23,7 @@
                                                                     'userId' => $match->id,
                                                                     'likeStatus' => $match->likeStatus,
                                                                     'gender' => $match->genderName,
+                                                                    'bodyType' => $match->bodyType,
                                                                     'email' => isset($match->email) ? $match->email : false
                                                                     ]
                                         )

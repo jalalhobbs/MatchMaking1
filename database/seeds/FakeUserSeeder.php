@@ -592,11 +592,11 @@ class FakeUserSeeder extends Seeder
             if (rand(1, 100) == 100) {
                 $profilePictureUrl = "https://i.pinimg.com/564x/44/30/e4/4430e41d9a72c09c6ac2c98fc6bc9c03.jpg";
             } elseif ($genderId == 1 and $dobYear < 1958 and rand(0, 1) == 1) {
-                $profilePictureUrl = "./images/profile/gender/1/aged/" . rand(0, $profilePictureUrlCounts['gender']['1']['aged']) . ".png";
+                $profilePictureUrl = "https://www.matchmaking1.xyz/images/profile/gender/1/aged/" . rand(0, $profilePictureUrlCounts['gender']['1']['aged']) . ".png";
             } else {
                 !is_null($bodyTypeId) ? $profileBodyTypeId = $bodyTypeId : $profileBodyTypeId = rand(1, 4);
-                $profilePictureUrl = "./images/profile/gender/" . $genderId . "/bodytype/" . $profileBodyTypeId . "/" .
-                    rand(0, $profilePictureUrlCounts['gender']['1']['bodytype'][$profileBodyTypeId]) . ".png";
+                $profilePictureUrl = "https://www.matchmaking1.xyz/images/profile/gender/" . $genderId . "/bodytype/" . $profileBodyTypeId . "/" .
+                    rand(0, $profilePictureUrlCounts['gender'][$genderId]['bodytype'][$profileBodyTypeId]) . ".png";
             }
             // db timestamps
             $createdAt = "2017" . "-" . rand(1, 12) . "-" . rand(1, 28);

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ConstraintController extends Controller
 {
@@ -47,7 +46,7 @@ class ConstraintController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -59,7 +58,7 @@ class ConstraintController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -71,13 +70,12 @@ class ConstraintController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (auth()->user()->id == $id)
-        {
+        if (auth()->user()->id == $id) {
 
 
             $user = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -114,9 +112,7 @@ class ConstraintController extends Controller
                 ->with('personalityTypes', $personalityTypes);
 
 
-        }
-        else
-        {
+        } else {
             //Prevents other users from modifying your profile information
             return redirect('home');
 
@@ -128,8 +124,8 @@ class ConstraintController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -142,14 +138,11 @@ class ConstraintController extends Controller
         //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
 //.(int)$request->targetMaxAge .(int)$request->targetMinAge.
         $request->validate([
-
-
-
             'targetGenderId' => 'nullable|integer|min:1',
-            'targetMinAge' => 'nullable|integer|between: 18, 120|max:'.(int)$request->targetMaxAge,
-            'targetMaxAge' => 'nullable|integer|between: 18, 120|min:'.(int)$request->targetMinAge,
-            'targetMinHeight' => 'nullable|integer|between: 50, 300|max:'.(int)$request->targetMaxHeight,
-            'targetMaxHeight' => 'nullable|integer|between: 50, 300|min:'.(int)$request->targetMinHeight,
+            'targetMinAge' => 'nullable|integer|between: 18, 120|max:' . (int)$request->targetMaxAge,
+            'targetMaxAge' => 'nullable|integer|between: 18, 120|min:' . (int)$request->targetMinAge,
+            'targetMinHeight' => 'nullable|integer|between: 50, 300|max:' . (int)$request->targetMaxHeight,
+            'targetMaxHeight' => 'nullable|integer|between: 50, 300|min:' . (int)$request->targetMinHeight,
             'targetBodyTypeId' => 'nullable|integer|min:1',
             'targetReligionId' => 'nullable|integer|min:1',
             'targetCountryId' => 'nullable|integer|min:1',
@@ -163,7 +156,7 @@ class ConstraintController extends Controller
             'targetPersonalityTypeId' => 'nullable|integer|min:1'],
 
 
-                [
+            [
 
                 'targetMinAge.between' => 'Ages must be between 18 and 120 to use this site.',
                 'targetMaxAge.between' => 'Ages must be between 18 and 120 to use this site.',
@@ -179,59 +172,33 @@ class ConstraintController extends Controller
                 'targetMaxHeight.integer' => 'The maximum height must be a whole number.',
 
 
-                ]
+            ]
         );
 
 
-        //Writes update  to the DB
-        //https://stackoverflow.com/questions/17084723/how-to-pass-parameter-to-laravel-dbtransaction
-        DB::transaction(function() use ($request) {
+        // Writes update to the DB
+        DB::transaction(function () use ($request) {
             DB::table('users')
                 ->where('id', auth()->user()->id)
-                ->update(['targetGenderId' => $request->targetGenderId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetMinAge' => $request->targetMinAge]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetMaxAge' => $request->targetMaxAge]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetMinHeight' => $request->targetMinHeight]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetMaxHeight' => $request->targetMaxHeight]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetBodyTypeId' => $request->targetBodyTypeId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetReligionId' => $request->targetReligionId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetCountryId' => $request->targetCountryId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetEthnicityId' => $request->targetEthnicityId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetHairColourId' => $request->targetHairColourId]);
-
-
+                ->update([
+                    'targetGenderId' => $request->targetGenderId,
+                    'targetMinAge' => $request->targetMinAge,
+                    'targetMaxAge' => $request->targetMaxAge,
+                    'targetCountryId' => $request->targetCountryId,
+                    'targetEthnicityId' => $request->targetEthnicityId,
+                    'targetMinHeight' => $request->targetMinHeight,
+                    'targetMaxHeight' => $request->targetMaxHeight,
+                    'targetBodyTypeId' => $request->targetBodyTypeId,
+                    'targetEducationId' => $request->targetEducationId,
+                    'targetReligionId' => $request->targetReligionId,
+                    'targetHairColourId' => $request->targetHairColourId,
+                    'targetEyeColourId' => $request->targetEyeColourId,
+                    'targetDrinkingId' => $request->targetDrinkingId,
+                    'targetSmokingId' => $request->targetSmokingId,
+                    'targetLeisureId' => $request->targetLeisureId,
+                    'targetPersonalityTypeId' => $request->targetPersonalityTypeId
+                ]);
         });
-
-
-
-
 
 
         //Determines where to go next
@@ -247,21 +214,12 @@ class ConstraintController extends Controller
         //Modify this when next feature is added.
 
 
-
-
-
-
-
-
-
-
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

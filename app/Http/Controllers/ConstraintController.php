@@ -18,6 +18,7 @@ class ConstraintController extends Controller
         $this->middleware('auth');
     }
 
+
     /**
      * Display a listing of the resource.
      *
@@ -31,6 +32,7 @@ class ConstraintController extends Controller
         //https://stackoverflow.com/questions/36276634/laravel-5-redirect-to-controller-actions
 
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -107,15 +109,11 @@ class ConstraintController extends Controller
                 ->with('smokings', $smokings)
                 ->with('leisures', $leisures)
                 ->with('personalityTypes', $personalityTypes);
-
-
         } else {
             //Prevents other users from modifying your profile information
             return redirect('home');
-
         }
         //https://stackoverflow.com/questions/20110757/laravel-pass-more-than-one-variable-to-view
-
     }
 
     /**
@@ -132,25 +130,29 @@ class ConstraintController extends Controller
         //https://laravel.com/docs/5.6/validation
         //https://stackoverflow.com/questions/23081654/check-users-age-with-laravel-validation-rules
         //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
-//.(int)$request->targetMaxAge .(int)$request->targetMinAge.
+
+        $highestAllowedAge = empty($request->targetMinAge) ? 120 : $request->targetMaxAge;
+        $lowestAllowedAge = empty($request->targetMaxAge) ? 18 : $request->targetMinAge;
+        $highestAllowedHeight = empty($request->targetMinHeight) ? 300 : $request->targetMaxHeight;
+        $lowestAllowedHeight = empty($request->targetMaxHeight) ? 50 : $request->targetMinHeight;
         $request->validate(
             [
-            'targetGenderId' => 'nullable|integer|min:1',
-            'targetMinAge' => 'nullable|integer|between: 18, 120|max:' . (int)$request->targetMaxAge,
-            'targetMaxAge' => 'nullable|integer|between: 18, 120|min:' . (int)$request->targetMinAge,
-            'targetMinHeight' => 'nullable|integer|between: 50, 300|max:' . (int)$request->targetMaxHeight,
-            'targetMaxHeight' => 'nullable|integer|between: 50, 300|min:' . (int)$request->targetMinHeight,
-            'targetBodyTypeId' => 'nullable|integer|min:1',
-            'targetReligionId' => 'nullable|integer|min:1',
-            'targetCountryId' => 'nullable|integer|min:1',
-            'targetEthnicityId' => 'nullable|integer|min:1',
-            'targetHairColourId' => 'nullable|integer|min:1',
-            'targetEyeColourId' => 'nullable|integer|min:1',
-            'targetEducationId' => 'nullable|integer|min:1',
-            'targetDrinkingId' => 'nullable|integer|min:1',
-            'targetSmokingId' => 'nullable|integer|min:1',
-            'targetLeisureId' => 'nullable|integer|min:1',
-            'targetPersonalityTypeId' => 'nullable|integer|min:1'
+                'targetGenderId' => 'nullable|integer|min:1',
+                'targetMinAge' => 'nullable|integer|between: 18, 120|max:' . $highestAllowedAge,
+                'targetMaxAge' => 'nullable|integer|between: 18, 120|min:' . $lowestAllowedAge,
+                'targetMinHeight' => 'nullable|integer|between: 50, 300|max:' . $highestAllowedHeight,
+                'targetMaxHeight' => 'nullable|integer|between: 50, 300|min:' . $lowestAllowedHeight,
+                'targetBodyTypeId' => 'nullable|integer|min:1',
+                'targetReligionId' => 'nullable|integer|min:1',
+                'targetCountryId' => 'nullable|integer|min:1',
+                'targetEthnicityId' => 'nullable|integer|min:1',
+                'targetHairColourId' => 'nullable|integer|min:1',
+                'targetEyeColourId' => 'nullable|integer|min:1',
+                'targetEducationId' => 'nullable|integer|min:1',
+                'targetDrinkingId' => 'nullable|integer|min:1',
+                'targetSmokingId' => 'nullable|integer|min:1',
+                'targetLeisureId' => 'nullable|integer|min:1',
+                'targetPersonalityTypeId' => 'nullable|integer|min:1'
             ],
             [
                 'targetMinAge.between' => 'Ages must be between 18 and 120 to use this site.',

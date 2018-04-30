@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ConstraintController extends Controller
 {
@@ -18,6 +17,7 @@ class ConstraintController extends Controller
     {
         $this->middleware('auth');
     }
+
 
     /**
      * Display a listing of the resource.
@@ -33,6 +33,7 @@ class ConstraintController extends Controller
 
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -47,7 +48,7 @@ class ConstraintController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -59,7 +60,7 @@ class ConstraintController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -71,17 +72,13 @@ class ConstraintController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (auth()->user()->id == $id)
-        {
-
-
+        if (auth()->user()->id == $id) {
             $user = DB::table('users')->where('id', auth()->user()->id)->first();
-            //$userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
             $religions = DB::table('religions')->get();
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
@@ -112,59 +109,52 @@ class ConstraintController extends Controller
                 ->with('smokings', $smokings)
                 ->with('leisures', $leisures)
                 ->with('personalityTypes', $personalityTypes);
-
-
-        }
-        else
-        {
+        } else {
             //Prevents other users from modifying your profile information
             return redirect('home');
-
         }
         //https://stackoverflow.com/questions/20110757/laravel-pass-more-than-one-variable-to-view
-
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-
         //Validate the $request
         //return $request->all();
         //https://laravel.com/docs/5.6/validation
         //https://stackoverflow.com/questions/23081654/check-users-age-with-laravel-validation-rules
         //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
-//.(int)$request->targetMaxAge .(int)$request->targetMinAge.
-        $request->validate([
 
-
-
-            'targetGenderId' => 'nullable|integer|min:1',
-            'targetMinAge' => 'nullable|integer|between: 18, 120|max:'.(int)$request->targetMaxAge,
-            'targetMaxAge' => 'nullable|integer|between: 18, 120|min:'.(int)$request->targetMinAge,
-            'targetMinHeight' => 'nullable|integer|between: 50, 300|max:'.(int)$request->targetMaxHeight,
-            'targetMaxHeight' => 'nullable|integer|between: 50, 300|min:'.(int)$request->targetMinHeight,
-            'targetBodyTypeId' => 'nullable|integer|min:1',
-            'targetReligionId' => 'nullable|integer|min:1',
-            'targetCountryId' => 'nullable|integer|min:1',
-            'targetEthnicityId' => 'nullable|integer|min:1',
-            'targetHairColourId' => 'nullable|integer|min:1',
-            'targetEyeColourId' => 'nullable|integer|min:1',
-            'targetEducationId' => 'nullable|integer|min:1',
-            'targetDrinkingId' => 'nullable|integer|min:1',
-            'targetSmokingId' => 'nullable|integer|min:1',
-            'targetLeisureId' => 'nullable|integer|min:1',
-            'targetPersonalityTypeId' => 'nullable|integer|min:1'],
-
-
-                [
-
+        $highestAllowedAge = empty($request->targetMinAge) ? 120 : $request->targetMaxAge;
+        $lowestAllowedAge = empty($request->targetMaxAge) ? 18 : $request->targetMinAge;
+        $highestAllowedHeight = empty($request->targetMinHeight) ? 300 : $request->targetMaxHeight;
+        $lowestAllowedHeight = empty($request->targetMaxHeight) ? 50 : $request->targetMinHeight;
+        $request->validate(
+            [
+                'targetGenderId' => 'nullable|integer|min:1',
+                'targetMinAge' => 'nullable|integer|between: 18, 120|max:' . $highestAllowedAge,
+                'targetMaxAge' => 'nullable|integer|between: 18, 120|min:' . $lowestAllowedAge,
+                'targetMinHeight' => 'nullable|integer|between: 50, 300|max:' . $highestAllowedHeight,
+                'targetMaxHeight' => 'nullable|integer|between: 50, 300|min:' . $lowestAllowedHeight,
+                'targetBodyTypeId' => 'nullable|integer|min:1',
+                'targetReligionId' => 'nullable|integer|min:1',
+                'targetCountryId' => 'nullable|integer|min:1',
+                'targetEthnicityId' => 'nullable|integer|min:1',
+                'targetHairColourId' => 'nullable|integer|min:1',
+                'targetEyeColourId' => 'nullable|integer|min:1',
+                'targetEducationId' => 'nullable|integer|min:1',
+                'targetDrinkingId' => 'nullable|integer|min:1',
+                'targetSmokingId' => 'nullable|integer|min:1',
+                'targetLeisureId' => 'nullable|integer|min:1',
+                'targetPersonalityTypeId' => 'nullable|integer|min:1'
+            ],
+            [
                 'targetMinAge.between' => 'Ages must be between 18 and 120 to use this site.',
                 'targetMaxAge.between' => 'Ages must be between 18 and 120 to use this site.',
                 'targetMinHeight.between' => 'Heights entered should be betwen 50 to 300cm.',
@@ -177,61 +167,33 @@ class ConstraintController extends Controller
                 'targetMaxAge.integer' => 'The maximum age must be a whole number.',
                 'targetMinHeight.integer' => 'The minimum height must be a whole number.',
                 'targetMaxHeight.integer' => 'The maximum height must be a whole number.',
-
-
-                ]
+            ]
         );
 
 
-        //Writes update  to the DB
-        //https://stackoverflow.com/questions/17084723/how-to-pass-parameter-to-laravel-dbtransaction
-        DB::transaction(function() use ($request) {
+        // Writes update to the DB
+        DB::transaction(function () use ($request) {
             DB::table('users')
                 ->where('id', auth()->user()->id)
-                ->update(['targetGenderId' => $request->targetGenderId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetMinAge' => $request->targetMinAge]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetMaxAge' => $request->targetMaxAge]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetMinHeight' => $request->targetMinHeight]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetMaxHeight' => $request->targetMaxHeight]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetBodyTypeId' => $request->targetBodyTypeId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetReligionId' => $request->targetReligionId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetCountryId' => $request->targetCountryId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetEthnicityId' => $request->targetEthnicityId]);
-
-            DB::table('users')
-                ->where('id', auth()->user()->id)
-                ->update(['targetHairColourId' => $request->targetHairColourId]);
-
-
+                ->update([
+                    'targetGenderId' => $request->targetGenderId,
+                    'targetMinAge' => $request->targetMinAge,
+                    'targetMaxAge' => $request->targetMaxAge,
+                    'targetCountryId' => $request->targetCountryId,
+                    'targetEthnicityId' => $request->targetEthnicityId,
+                    'targetMinHeight' => $request->targetMinHeight,
+                    'targetMaxHeight' => $request->targetMaxHeight,
+                    'targetBodyTypeId' => $request->targetBodyTypeId,
+                    'targetEducationId' => $request->targetEducationId,
+                    'targetReligionId' => $request->targetReligionId,
+                    'targetHairColourId' => $request->targetHairColourId,
+                    'targetEyeColourId' => $request->targetEyeColourId,
+                    'targetDrinkingId' => $request->targetDrinkingId,
+                    'targetSmokingId' => $request->targetSmokingId,
+                    'targetLeisureId' => $request->targetLeisureId,
+                    'targetPersonalityTypeId' => $request->targetPersonalityTypeId
+                ]);
         });
-
-
-
-
 
 
         //Determines where to go next
@@ -245,23 +207,12 @@ class ConstraintController extends Controller
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
         //Modify this when next feature is added.
-
-
-
-
-
-
-
-
-
-
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

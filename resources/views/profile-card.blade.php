@@ -56,13 +56,40 @@
 
                                 <div class="col-lg-12">
 
-                                        <p class="flex-text text-muted">Gender: {{$gender}}</p>
-                                        <p class="flex-text text-muted">Age: {{$age}}</p>
+                                        <div class="form-group row">
+                                            <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="gender" type="text" class="form-control" name="gender" value="{{$gender}}" required disabled>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('Age') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="age" type="text" class="form-control" name="age" value="{{ $age }}" required disabled>
+                                            </div>
+                                        </div>
+
                                         @if($bodyType)
-                                            <p class="flex-text text-muted">Body Type: {{$bodyType}}</p>
+                                        <div class="form-group row">
+                                            <label for="bodyType" class="col-md-4 col-form-label text-md-right">{{ __('BodyType') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="bodyType" type="text" class="form-control" name="BodyType" value="{{ $bodyType }}" required disabled>
+                                            </div>
+                                        </div>
                                         @endif
                                         @if($email)
-                                            <p class="flex-text text-muted">Email: {{$email}}</p>
+                                        <div class="form-group row">
+                                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="bodyType" type="text" class="form-control" name="Email" value="{{ $email }}" required disabled>
+                                            </div>
+                                        </div>
                                         @endif
                                 </div>
 

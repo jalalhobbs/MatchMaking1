@@ -32,10 +32,10 @@
 
                 </div>
 
-                <button type="button" class="btn btn-info btn-md mt-4 ml-3 col-md-10" data-toggle="modal" data-target="#myModal">More Info</button>
+                <button type="button" class="btn btn-info btn-md mt-4 ml-3 col-md-10" data-toggle="modal" data-target="#myModal{{$userId}}">More Info</button>
 
                 <!-- Modal -->
-                <div id="myModal" class="modal fade" role="dialog">
+                <div id="myModal{{$userId}}" class="modal fade" role="dialog">
                     <div class="modal-dialog">
 
                         <!-- Modal content-->

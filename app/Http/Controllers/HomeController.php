@@ -54,8 +54,8 @@ class HomeController extends Controller
             "hairColour" => array(),
             "eyeColour" => array(),
             "ethnicity" => array(),
-            "smoke" => array(),
-            "drink" => array(),
+            "smoking" => array(),
+            "drinking" => array(),
             "religion" => array(),
             "leisure" => array(),
             "personalityType" => array()
@@ -184,15 +184,14 @@ class HomeController extends Controller
                 }
 
                 // ageBucket
-                if (isset($user->ageBucketId)) {
-                    if (isset($weightVectorMatrixOutput['ageBucket'][$user->ageBucketId])) {
-                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucketId] += $user->likeStatus == 2 ? $like_wm_ageBucket : $dislike_wm_ageBucket;
+                if (isset($user->ageBucket)) {
+                    if (isset($weightVectorMatrixOutput['ageBucket'][$user->ageBucket])) {
+                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucket] += $user->likeStatus == 2 ? $like_wm_ageBucket : $dislike_wm_ageBucket;
                     } else {
-                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucketId] = $user->likeStatus == 2 ? $like_wm_ageBucket : $dislike_wm_ageBucket;
+                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucket] = $user->likeStatus == 2 ? $like_wm_ageBucket : $dislike_wm_ageBucket;
                     }
                 }
-                // minAge
-                // maxAge
+
                 // stature
                 if (isset($user->stature)) {
                     if (isset($weightVectorMatrixOutput['stature'][$user->stature])) {
@@ -202,8 +201,6 @@ class HomeController extends Controller
                     }
                 }
 
-                // minHeight
-                // maxHeight
                 // bodyType
                 if (isset($user->bodyTypeId)) {
                     if (isset($weightVectorMatrixOutput['bodyType'][$user->bodyTypeId])) {
@@ -276,7 +273,6 @@ class HomeController extends Controller
                         $weightVectorMatrixOutput['personalityType'][$user->personalityTypeId] = $user->likeStatus == 2 ? $like_wm_personalityType : $dislike_wm_personalityType;
                     }
                 }
-
             }
         }
 
@@ -411,8 +407,6 @@ class HomeController extends Controller
             $query .= " AND users.PersonalityTypeId =" . $userTargets->targetPersonalityTypeId;
         }
 
-//        $potentialMatches->leftJoin('matches', 'users.id', '=', $id);
-//        ->where('matches.likeStatus', '<>', '0');
 
         $potentialMatches = DB::select($query);
         foreach ($potentialMatches as $potentialMatch) {
@@ -440,13 +434,13 @@ class HomeController extends Controller
                     $potentialMatch->stature = "tall";
                 }
             }
+            $potentialMatch->likeStatus = 1;
         }
         return $potentialMatches;
     }
 
     private function sortMatches($potentialMatches, $weightVectorMatrix)
     {
-        $weightVectorMatrix;
         foreach ($potentialMatches as $user) {
             $user->score = 0.0;
             if (isset($user->genderId)) {
@@ -532,9 +526,20 @@ class HomeController extends Controller
                     $user->score += $weightVectorMatrix['personalityType'][$user->personalityTypeId];
                 }
             }
-            $user->age = $user->score;
+
+            if (isset($user->ageBucket)) {
+                if (isset($weightVectorMatrix['ageBucket'][$user->ageBucket])) {
+                    $user->score += $weightVectorMatrix['ageBucket'][$user->ageBucket];
+                }
+            }
         }
+
+
+        $x = uasort($potentialMatches, function ($user1, $user2) {
+            return $user2->score <=> $user1->score;
+        });
 
         return $potentialMatches;
     }
+
 }

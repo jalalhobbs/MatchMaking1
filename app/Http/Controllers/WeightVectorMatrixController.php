@@ -293,7 +293,7 @@ class WeightVectorMatrixController extends Controller
                     }
                 }
                 // drink
-                if (isset($user->bodyType)) {
+                if (isset($user->drink)) {
                     if (isset($weightVectorMatrixOutput['drink'][$user->drink])) {
                         $weightVectorMatrixOutput['drink'][$user->drink] += $user->likeStatus == 2 ? $like_wm_drink: $dislike_wm_drink;
                     } else {

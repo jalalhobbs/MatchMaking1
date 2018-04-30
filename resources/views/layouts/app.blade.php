@@ -211,7 +211,7 @@
         </script>
 </head>
 <body onload="@if (isset($pageName) and $pageName=="Home")
-        getProfiles()
+
 @else
         setLikeButtons()
 @endif">

@@ -17,13 +17,13 @@
                             <div class="flex-row row" id="profiles">
                                 @if(isset($matches))
                                     @foreach($matches as $match)
-                                        @component('profile-card', ['firstName' => $match->firstName,
-                                                                    'profilePic' => $match->profilePicture,
-                                                                    'age' => $match->age,
-                                                                    'userId' => $match->id,
-                                                                    'likeStatus' => $match->likeStatus,
-                                                                    'gender' => $match->genderName,
-                                                                    'bodyType' => $match->bodyType,
+                                        @component('profile-card', ['firstName' => isset($match->firstName) ? $match->firstName : false,
+                                                                    'profilePic' => isset($match->profilePicture) ? $match->profilePicture : false,
+                                                                    'age' => isset($match->age) ? $match->age : false,
+                                                                    'userId' => isset($match->id) ? $match->id : false,
+                                                                    'likeStatus' => isset($match->likeStatus) ? $match->likeStatus : false,
+                                                                    'gender' => isset($match->genderName) ? $match->genderName : false,
+                                                                    'bodyType' => isset($match->bodyType) ? $match->bodyType : false,
                                                                     'email' => isset($match->email) ? $match->email : false
                                                                     ]
                                         )

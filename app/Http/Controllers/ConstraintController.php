@@ -76,10 +76,7 @@ class ConstraintController extends Controller
     public function edit($id)
     {
         if (auth()->user()->id == $id) {
-
-
             $user = DB::table('users')->where('id', auth()->user()->id)->first();
-            //$userTargets = DB::table('user_targets')->where('id', auth()->user()->id)->first();
             $religions = DB::table('religions')->get();
             $genders = DB::table('genders')->get();
             $bodyTypes = DB::table('body_types')->get();
@@ -130,14 +127,14 @@ class ConstraintController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         //Validate the $request
         //return $request->all();
         //https://laravel.com/docs/5.6/validation
         //https://stackoverflow.com/questions/23081654/check-users-age-with-laravel-validation-rules
         //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
 //.(int)$request->targetMaxAge .(int)$request->targetMinAge.
-        $request->validate([
+        $request->validate(
+            [
             'targetGenderId' => 'nullable|integer|min:1',
             'targetMinAge' => 'nullable|integer|between: 18, 120|max:' . (int)$request->targetMaxAge,
             'targetMaxAge' => 'nullable|integer|between: 18, 120|min:' . (int)$request->targetMinAge,
@@ -153,11 +150,9 @@ class ConstraintController extends Controller
             'targetDrinkingId' => 'nullable|integer|min:1',
             'targetSmokingId' => 'nullable|integer|min:1',
             'targetLeisureId' => 'nullable|integer|min:1',
-            'targetPersonalityTypeId' => 'nullable|integer|min:1'],
-
-
+            'targetPersonalityTypeId' => 'nullable|integer|min:1'
+            ],
             [
-
                 'targetMinAge.between' => 'Ages must be between 18 and 120 to use this site.',
                 'targetMaxAge.between' => 'Ages must be between 18 and 120 to use this site.',
                 'targetMinHeight.between' => 'Heights entered should be betwen 50 to 300cm.',
@@ -170,8 +165,6 @@ class ConstraintController extends Controller
                 'targetMaxAge.integer' => 'The maximum age must be a whole number.',
                 'targetMinHeight.integer' => 'The minimum height must be a whole number.',
                 'targetMaxHeight.integer' => 'The maximum height must be a whole number.',
-
-
             ]
         );
 
@@ -212,8 +205,6 @@ class ConstraintController extends Controller
         //Initial setup OR Incomplete information.
         //Target (constraint) attributes are null.
         //Modify this when next feature is added.
-
-
     }
 
     /**

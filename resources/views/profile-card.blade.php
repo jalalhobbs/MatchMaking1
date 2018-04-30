@@ -31,6 +31,50 @@
                     </label>
 
                 </div>
+
+                <button type="button" class="btn btn-info btn-md mt-4 ml-3 col-md-10" data-toggle="modal" data-target="#myModal">More Info</button>
+
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Name: {{ $firstName }}</h4>
+                                <button type="button"  data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-lg-12">
+                                    <div class="thumbnail">
+                                            <img src="{{$profilePic}}" alt="{{ $firstName }}" class="center" style="width:40%; margin:0 auto">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="col-lg-12">
+
+                                        <p class="flex-text text-muted">Gender: {{$gender}}</p>
+                                        <p class="flex-text text-muted">Age: {{$age}}</p>
+                                        @if($bodyType)
+                                            <p class="flex-text text-muted">Body Type: {{$bodyType}}</p>
+                                        @endif
+                                        @if($email)
+                                            <p class="flex-text text-muted">Email: {{$email}}</p>
+                                        @endif
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </form>
             </p>
 

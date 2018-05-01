@@ -315,7 +315,6 @@ class PotentialMatchController extends Controller
                 $potentialMatch->stature = null;
             }
         }
-        echo $query;
         return json_encode($potentialMatches);
     }
 

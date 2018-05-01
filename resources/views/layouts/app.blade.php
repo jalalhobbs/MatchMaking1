@@ -18,6 +18,7 @@
     <script type="text/javascript">
         var token = '{{ Session::token() }}';
         var urlLike = '{{ route('updateLikeStatus') }}';
+
         function setLikeButtons() {
             targetId = 0;
             $('.btn-dislike').on('click', function (event) {
@@ -66,155 +67,9 @@
                     });
             });
         };
-    @if (isset($pageName) and $pageName=="Home")
-            let profileUrl = './api/potentialmatch/{{Auth::id()}}';
-            const getProfiles = () => {
-                fetch(profileUrl)
-                    .then(res => res.json())
-                    .then(profiles => {
-                        return profiles.map(profile => {
-                            console.log(profile);
-
-                            // create profile card
-                            let profileCard = $("<div>", {class: "col-sm-6 col-sm-4 col-lg-3"});
-
-                            // create thumbnail
-                            let content = document.createElement('div');
-                            content.className = "thumbnail";
-                            if (profile.content != null) {
-                                profileCard.append(content);
-                            }
-
-                            // create name
-                            let firstName = document.createElement('h5');
-                            firstName.innerHTML = `Name: ${profile.firstName}`;
-                            content.append(firstName);
-
-                            // create profile pic
-                            let profilePic = document.createElement('img');
-                            profilePic.src = profile.profilePictureUrl;
-                            content.append(profilePic);
-
-
-                            // create caption
-                            let caption = document.createElement('div');
-                            caption.className = "caption";
-
-                            // create gender
-                            let gender = document.createElement('p');
-                            gender.innerHTML = `Gender: ${profile.genderDisplay}`;
-                            gender.className = "flex-text text-muted";
-                            if (profile.gender != null) {
-                                caption.append(gender);
-                            }
-                            // create age
-                            let age = document.createElement('p');
-                            age.innerHTML = `Age: ${profile.age}`;
-                            age.className = "flex-text text-muted";
-                            if (profile.age != null) {
-                                caption.append(age);
-                            }
-                            // create body type
-                            let bodyType = document.createElement('p');
-                            bodyType.innerHTML = `Body Type: ${profile.bodyTypeDisplay}`;
-                            bodyType.className = "flex-text text-muted";
-                            if (profile.bodyType != null) {
-                                caption.append(bodyType);
-                            }
-
-                            // create button form
-                            let buttonForm = document.createElement('form');
-                            buttonForm.setAttribute('action', 'updateLikeStatus');
-                            buttonForm.setAttribute('method', 'post');
-                            buttonForm.setAttribute('data-userid', profile.id);
-
-                            // create tokenInput
-                            let tokenInput = document.createElement('input');
-                            tokenInput.setAttribute('type', 'hidden');
-                            tokenInput.setAttribute('name', '_token');
-                            tokenInput.setAttribute('value', '{{ Session::token() }}');
-                            buttonForm.append(tokenInput);
-
-                            // create targetIdInput
-                            let targetIdInput = document.createElement('input');
-                            targetIdInput.setAttribute('type', 'hidden');
-                            targetIdInput.setAttribute('name', 'targetId');
-                            targetIdInput.setAttribute('value', profile.id);
-                            buttonForm.append(targetIdInput);
-
-                            // create buttons
-                            let divButtons = document.createElement('div');
-                            divButtons.setAttribute('data-toggle', 'buttons');
-                            divButtons.className = "btn-group btn-group-toggle text-center col-12";
-
-                            // create dislike button
-                            let dislikeButtonLabel = document.createElement('label');
-                            dislikeButtonLabel.className = "btn btn-dislike col-5";
-                            if (profile.likeStatus == 0) {
-                                dislikeButtonLabel.classList.add("active");
-                            }
-
-                            let dislikeInput = document.createElement('input');
-                            dislikeInput.setAttribute('type', 'radio');
-                            dislikeInput.setAttribute('autocomplete', 'off');
-                            dislikeInput.setAttribute('checked', 'checked');
-
-                            dislikeButtonLabel.append(dislikeInput);
-                            dislikeButtonLabel.append("Dislike");
-                            divButtons.append(dislikeButtonLabel);
-
-                            // create neutral button
-                            let neutralLabel = document.createElement('label');
-                            neutralLabel.className = "btn btn-no-like-status col-2";
-                            if (profile.likeStatus == 1) {
-                                neutralLabel.classList.add("active");
-                            }
-
-                            let neutralInput = document.createElement('input');
-                            neutralInput.setAttribute('type', 'radio');
-                            neutralInput.setAttribute('autocomplete', 'off');
-
-
-                            neutralLabel.append(neutralInput);
-                            divButtons.append(neutralLabel);
-
-                            // create dislike button
-                            let likeButtonLabel = document.createElement('label');
-                            likeButtonLabel.className = "btn btn-like col-5";
-
-                            let likeInput = document.createElement('input');
-                            likeInput.setAttribute('type', 'radio');
-                            likeInput.setAttribute('autocomplete', 'off');
-
-
-                            likeButtonLabel.append(likeInput);
-                            likeButtonLabel.append("Like");
-                            divButtons.append(likeButtonLabel);
-
-                            buttonForm.append(divButtons);
-                            caption.append(buttonForm);
-                            content.append(caption);
-                            profileCard.append(content);
-                            $("#profiles").append(profileCard);
-                        });
-                    })
-                    .then(buttons => setLikeButtons());
-            };
-
-
-
-
-
-    @endif
-
-
-        </script>
+    </script>
 </head>
-<body onload="@if (isset($pageName) and $pageName=="Home")
-
-@else
-        setLikeButtons()
-@endif">
+<body onload="setLikeButtons()">
 <div id="fb-root"></div>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
@@ -389,13 +244,13 @@
 </script>
 
 {{--@if (Request::capture()->fullUrl() === route('home'))--}}
-    {{--{--}}
-    {{--<script type="text/javascript">--}}
-        {{--var token = '{{ Session::token() }}';--}}
-        {{--var urlLike = '{{ route('updateLikeStatus') }}';--}}
-        {{--$(document).ready(setLikeButtons());--}}
-    {{--</script>--}}
-    {{--}--}}
+{{--{--}}
+{{--<script type="text/javascript">--}}
+{{--var token = '{{ Session::token() }}';--}}
+{{--var urlLike = '{{ route('updateLikeStatus') }}';--}}
+{{--$(document).ready(setLikeButtons());--}}
+{{--</script>--}}
+{{--}--}}
 {{--@endif--}}
 
 

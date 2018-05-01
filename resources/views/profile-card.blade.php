@@ -6,8 +6,8 @@
 
             <p class="flex-text text-muted">Gender: {{$gender}}</p>
             <p class="flex-text text-muted">Age: {{$age}}</p>
-            @if($bodyType)
-                <p class="flex-text text-muted">Body Type: {{$bodyType}}</p>
+            @if($bodyTypeName)
+                <p class="flex-text text-muted">Body Type: {{$bodyTypeName}}</p>
             @endif
             @if($email)
                 <p class="flex-text text-muted">Email: {{$email}}</p>
@@ -73,21 +73,120 @@
                                             </div>
                                         </div>
 
-                                        @if($bodyType)
+                                        @if($bodyTypeName)
                                         <div class="form-group row">
-                                            <label for="bodyType" class="col-md-4 col-form-label text-md-right">{{ __('BodyType') }}</label>
+                                            <label for="bodyTypeName" class="col-md-4 col-form-label text-md-right">{{ __('Body Type') }}</label>
 
                                             <div class="col-md-6">
-                                                <input id="bodyType" type="text" class="form-control" name="BodyType" value="{{ $bodyType }}" required disabled>
+                                                <input id="bodyTypeName" type="text" class="form-control" name="BodyTypeName" value="{{ $bodyTypeName }}" required disabled>
                                             </div>
                                         </div>
                                         @endif
+                                    @if($stature)
+                                        <div class="form-group row">
+                                            <label for="stature" class="col-md-4 col-form-label text-md-right">{{ __('Stature') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="stature" type="text" class="form-control" name="Stature" value="{{ $stature }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($countryName)
+                                        <div class="form-group row">
+                                            <label for="countryName" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="countryName" type="text" class="form-control" name="countryName" value="{{ $countryName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($ethnicityName)
+                                        <div class="form-group row">
+                                            <label for="ethnicityName" class="col-md-4 col-form-label text-md-right">{{ __('Ethnicity') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="ethnicityName" type="text" class="form-control" name="ethnicityName" value="{{ $ethnicityName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($educationName)
+                                        <div class="form-group row">
+                                            <label for="educationName" class="col-md-4 col-form-label text-md-right">{{ __('Education') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="educationName" type="text" class="form-control" name="educationName" value="{{ $educationName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($religionName)
+                                        <div class="form-group row">
+                                            <label for="ReligionName" class="col-md-4 col-form-label text-md-right">{{ __('Religion') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="ReligionName" type="text" class="form-control" name="ReligionName" value="{{ $religionName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($hairColourName)
+                                        <div class="form-group row">
+                                            <label for="HairColourName" class="col-md-4 col-form-label text-md-right">{{ __('Hair Colour') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="HairColourName" type="text" class="form-control" name="HairColourName" value="{{ $hairColourName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($eyeColourName)
+                                        <div class="form-group row">
+                                            <label for="eyeColourName" class="col-md-4 col-form-label text-md-right">{{ __('Eye Colour') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="eyeColourName" type="text" class="form-control" name="eyeColourName" value="{{ $eyeColourName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($drinkingPrefName)
+                                        <div class="form-group row">
+                                            <label for="drinkingPrefName" class="col-md-4 col-form-label text-md-right">{{ __('Drinking') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="drinkingPrefName" type="text" class="form-control" name="drinkingPrefName" value="{{ $drinkingPrefName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($smokingPrefName)
+                                        <div class="form-group row">
+                                            <label for="smokingPrefName" class="col-md-4 col-form-label text-md-right">{{ __('Smoking') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="smokingPrefName" type="text" class="form-control" name="smokingPrefName" value="{{ $smokingPrefName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($leisureName)
+                                        <div class="form-group row">
+                                            <label for="leisureName" class="col-md-4 col-form-label text-md-right">{{ __('Leisure') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="leisureName" type="text" class="form-control" name="leisureName" value="{{ $leisureName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($personalityTypeName)
+                                        <div class="form-group row">
+                                            <label for="personalityTypeName" class="col-md-4 col-form-label text-md-right">{{ __('Personality') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="personalityTypeName" type="text" class="form-control" name="personalityTypeName" value="{{ $personalityTypeName }}" required disabled>
+                                            </div>
+                                        </div>
+                                    @endif
                                         @if($email)
                                         <div class="form-group row">
                                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
 
                                             <div class="col-md-6">
-                                                <input id="bodyType" type="text" class="form-control" name="Email" value="{{ $email }}" required disabled>
+                                                <input id="bodyTypeName" type="text" class="form-control" name="Email" value="{{ $email }}" required disabled>
                                             </div>
                                         </div>
                                         @endif

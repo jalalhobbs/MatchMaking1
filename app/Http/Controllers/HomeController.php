@@ -25,8 +25,8 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->id) {
-            $potentialMatches = $this->sortMatches($this->getPotentialMatches(auth()->user()->id),
-                $this->getWeightVectorMatrix(auth()->user()->id));
+            $potentialMatches = array_slice($this->sortMatches($this->getPotentialMatches(auth()->user()->id),
+                $this->getWeightVectorMatrix(auth()->user()->id)), 0, 12);
             return view('home')
                 ->with('matches', $potentialMatches)
                 ->with('pageName', "Home");
@@ -140,11 +140,11 @@ class HomeController extends Controller
             // add stature
             if (isset($user->height)) {
                 if ($user->height < 160) {
-                    $user->stature = "short";
+                    $user->stature = "Short";
                 } elseif ($user->height <= 180) {
-                    $user->stature = "average";
+                    $user->stature = "Average";
                 } elseif ($user->height > 180) {
-                    $user->stature = "tall";
+                    $user->stature = "Tall";
                 }
             }
 
@@ -305,16 +305,13 @@ class HomeController extends Controller
 
         $query = "SELECT
           users.id,
-          users.firstName,
           users.genderId,
-          genders.genderName,
           users.countryId,
           users.verified,
           users.educationId,
           users.dob,
           users.height,
           users.bodyTypeId,
-          body_types.bodyTypeName,
           users.hairColourId,
           users.eyeColourId,
           users.ethnicityId,
@@ -323,8 +320,21 @@ class HomeController extends Controller
           users.religionId,
           users.leisureId,
           users.personalityTypeId,
+          matches.likeStatus,
+          users.firstName,
           users.profilePicture,
-          matches.likeStatus
+          genders.genderName,
+          countries.countryName,
+          ethnicities.ethnicityName,
+          education.educationName,
+          body_types.bodyTypeName,
+          religions.religionName,
+          hair_colours.hairColourName,
+          eye_colours.eyeColourName,
+          drinking.drinkingPrefName,
+          smoking.smokingPrefName,
+          leisures.leisureName,
+          personality_types.personalityTypeName
         FROM users
           LEFT JOIN genders ON users.genderId = genders.id
           LEFT JOIN countries ON users.countryId = countries.id
@@ -427,11 +437,11 @@ class HomeController extends Controller
             // add stature
             if ($potentialMatch->height) {
                 if ($potentialMatch->height < 160) {
-                    $potentialMatch->stature = "short";
+                    $potentialMatch->stature = "Short";
                 } elseif ($potentialMatch->height <= 180) {
-                    $potentialMatch->stature = "average";
+                    $potentialMatch->stature = "Average";
                 } elseif ($potentialMatch->height > 180) {
-                    $potentialMatch->stature = "tall";
+                    $potentialMatch->stature = "Tall";
                 }
             }
             $potentialMatch->likeStatus = 1;
@@ -535,7 +545,7 @@ class HomeController extends Controller
         }
 
 
-        $x = uasort($potentialMatches, function ($user1, $user2) {
+        uasort($potentialMatches, function ($user1, $user2) {
             return $user2->score <=> $user1->score;
         });
 

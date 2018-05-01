@@ -30,19 +30,52 @@ class LikedProfilesController extends Controller
             ->leftJoin('users', 'matches.targetId', '=', 'users.id')
             ->leftJoin('genders', 'users.genderId', '=', 'genders.id')
             ->leftJoin('body_types', 'users.bodyTypeId', '=', 'body_types.id')
+            ->leftJoin('countries', 'users.countryId', '=', 'countries.id')
+            ->leftJoin('ethnicities', 'users.ethnicityId', '=', 'ethnicities.id')
+            ->leftJoin('education', 'users.educationId', '=', 'education.id')
+            ->leftJoin('religions', 'users.religionId', '=', 'religions.id')
+            ->leftJoin('hair_colours','users.hairColourId', '=', 'hair_colours.id')
+            ->leftJoin('eye_colours','users.eyeColourId', '=', 'eye_colours.id')
+            ->leftJoin('drinking','users.drinkingId', '=', 'drinking.id')
+            ->leftJoin('smoking','users.smokingId', '=', 'smoking.id')
+            ->leftJoin('leisures','users.leisureId', '=', 'leisures.id')
+            ->leftJoin('personality_types','users.personalityTypeId', '=', 'personality_types.id')
             ->select('users.firstName',
                 'genders.genderName',
                 'users.profilePicture',
                 'users.dob',
                 'users.id',
-                'body_types.bodyTypeName as bodyType',
-                'matches.likeStatus')
+                'body_types.bodyTypeName',
+                'users.height',
+                'countries.countryName',
+                'ethnicities.ethnicityName',
+                'education.educationName',
+                'religions.religionName',
+                'hair_colours.hairColourName',
+                'eye_colours.eyeColourName',
+                'drinking.drinkingPrefName',
+                'smoking.smokingPrefName',
+                'leisures.leisureName',
+                'personality_types.personalityTypeName',
+                'matches.likeStatus'
+            )
             ->get();
 
-        foreach ($potentialMatches as $key => $pot) {
-            $age = $this->getAge($pot->dob);
-            $potentialMatches[$key]->age = $age;
-
+        foreach ($potentialMatches as $potentialMatch) {
+            if (isset($potentialMatch->dob)) {
+                $potentialMatch->age = $this->getAge($potentialMatch->dob);
+            } else {
+                $potentialMatch->age = null;
+            }
+            if (isset($potentialMatch->height)) {
+                if ($potentialMatch->height < 160) {
+                    $potentialMatch->stature = "short";
+                } elseif ($potentialMatch->height <= 180) {
+                    $potentialMatch->stature = "average";
+                } elseif ($potentialMatch->height > 180) {
+                    $potentialMatch->stature = "tall";
+                }
+            }
         }
 
         return view('home')

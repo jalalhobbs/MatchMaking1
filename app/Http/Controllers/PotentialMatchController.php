@@ -68,6 +68,8 @@ class PotentialMatchController extends Controller
      */
     public function show($id, Request $request)
     {
+
+
         $userTargets = DB::table('users')
             ->select(
                 'targetGenderId',
@@ -110,7 +112,7 @@ class PotentialMatchController extends Controller
           leisures.leisureName                  as leisure,
           personality_types.personalityTypeName as personalityType,
           users.profilePicture                  as profilePictureUrl,
-          matches.likeStatus                      as likeStatus
+          matches.likeStatus                    as likeStatus
           
         FROM users
           LEFT JOIN genders ON users.genderId = genders.id
@@ -127,7 +129,7 @@ class PotentialMatchController extends Controller
           LEFT JOIN personality_types ON users.personalityTypeId = personality_types.id
           LEFT JOIN matches ON users.id = matches.targetId
           AND matches.userId = " . $id .
-      " WHERE users.id != " . $id .
+            " WHERE users.id != " . $id .
             " AND (matches.likeStatus = 1 OR matches.likeStatus IS NULL)";
 
         if ($userTargets->targetGenderId) {
@@ -135,19 +137,19 @@ class PotentialMatchController extends Controller
         }
 
         if ($userTargets->targetMinAge) {
-            $query .= " AND users.dob <" . date('YYYY-mm-dd', strtotime($userTargets->targetMinAge . "year"));
+            $query .= " AND users.dob <='" . Carbon::now()->subYears($userTargets->targetMinAge)->toDateString() . "'";
         }
 
         if ($userTargets->targetMaxAge) {
-            $query .= " AND users.dob >" . date('YYYY-mm-dd', strtotime($userTargets->targetMaxAge . "year"));
+            $query .= " AND users.dob >='" . Carbon::now()->subYears($userTargets->targetMaxAge+1)->toDateString() . "'";
         }
 
         if ($userTargets->targetMinHeight) {
-            $query .= " AND users.Height >" . $userTargets->targetMinHeight;
+            $query .= " AND users.Height >=" . $userTargets->targetMinHeight;
         }
 
         if ($userTargets->targetMaxHeight) {
-            $query .= " AND users.Height <" . $userTargets->targetMaxHeight;
+            $query .= " AND users.Height <=" . $userTargets->targetMaxHeight;
         }
 
         if ($userTargets->targetBodyTypeId) {
@@ -313,7 +315,6 @@ class PotentialMatchController extends Controller
                 $potentialMatch->stature = null;
             }
         }
-//        echo $query;
         return json_encode($potentialMatches);
     }
 
@@ -326,4 +327,6 @@ class PotentialMatchController extends Controller
     {
         return Carbon::parse($dob)->diff(Carbon::now())->format('%y');
     }
+
+
 }

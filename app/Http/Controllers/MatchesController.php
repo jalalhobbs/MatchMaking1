@@ -31,24 +31,41 @@ class MatchesController extends Controller
                               users.dob,
                               users.id,
                               users.email,
-                              body_types.bodyTypeName as bodyType
+                              body_types.bodyTypeName,
+                              genders.genderName,
+                              users.height,
+                              countries.countryName,
+                              ethnicities.ethnicityName,
+                              education.educationName,
+                              body_types.bodyTypeName,
+                              religions.religionName,
+                              hair_colours.hairColourName,
+                              eye_colours.eyeColourName,
+                              drinking.drinkingPrefName,
+                              smoking.smokingPrefName,
+                              leisures.leisureName,
+                              personality_types.personalityTypeName,
+                              my_matches.likeStatus
+                              
                             FROM matches as my_matches
-                              JOIN matches as their_matches
-                                ON my_matches.targetId = their_matches.userId
-                              JOIN users
-                                ON my_matches.targetId = users.id
-                              LEFT JOIN genders
-                                ON users.genderId = genders.id
-                              LEFT JOIN body_types
-                                ON users.bodyTypeId = body_types.id
+                              JOIN matches as their_matches ON my_matches.targetId = their_matches.userId
+                              JOIN users ON my_matches.targetId = users.id
+                              LEFT JOIN genders ON users.genderId = genders.id
+                              LEFT JOIN body_types ON users.bodyTypeId = body_types.id
+                              LEFT JOIN countries ON users.countryId = countries.id
+                              LEFT JOIN education ON users.educationId = education.id
+                              LEFT JOIN hair_colours ON users.hairColourId = hair_colours.id
+                              LEFT JOIN eye_colours ON users.eyeColourId = eye_colours.id
+                              LEFT JOIN ethnicities ON users.ethnicityId = ethnicities.id
+                              LEFT JOIN smoking ON users.smokingId = smoking.id
+                              LEFT JOIN drinking ON users.drinkingId = drinking.id
+                              LEFT JOIN religions ON users.religionId = religions.id
+                              LEFT JOIN leisures ON users.leisureId = leisures.id
+                              LEFT JOIN personality_types ON users.personalityTypeId = personality_types.id
                             WHERE my_matches.userId = '.auth()->user()->id.'
                                   AND their_matches.targetId ='.auth()->user()->id.'
                                   AND my_matches.likeStatus = 2
                                   AND their_matches.likeStatus = 2');
-//        foreach ($matches as $key => $pot) {
-//            $age = $this->getAge($pot->dob);
-//            $matches[$key]->age = $age;
-//        }
 
         foreach ($matches as $match) {
             if (isset($match->dob)) {
@@ -56,7 +73,6 @@ class MatchesController extends Controller
             } else {
                 $match->age = null;
             }
-            $match->likeStatus = 2;
         }
 
         return view('home')

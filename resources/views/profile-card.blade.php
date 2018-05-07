@@ -1,17 +1,21 @@
 <div class="col-sm-6 col-sm-4 col-lg-3">
     <div class="thumbnail">
-        <h5>Name: {{ $firstName }}</h5>
+        <h4>Name: {{ $firstName }}</h4>
+        <p class="flex-text"> </p>
         <img src={{$profilePic}}>
         <div class="caption">
+            <p class="flex-text"> </p>
+            <div class="text-center .ml-1">
+                <h6>Gender: {{$gender}}</h6>
+                <h6>Age: {{$age}}</h6>
+                @if($bodyTypeName)
+                    <h6>Body Type: {{$bodyTypeName}}</h6>
+                @endif
+                @if($email)
+                    <h6>Email: {{$email}}</h6>
+                @endif
+            </div>
 
-            <p class="flex-text text-muted">Gender: {{$gender}}</p>
-            <p class="flex-text text-muted">Age: {{$age}}</p>
-            @if($bodyTypeName)
-                <p class="flex-text text-muted">Body Type: {{$bodyTypeName}}</p>
-            @endif
-            @if($email)
-                <p class="flex-text text-muted">Email: {{$email}}</p>
-            @endif
             <form action="updateLikeStatus" method="post" data-userid="{{$userId}}">
                 {{ csrf_field() }}
 
@@ -32,7 +36,7 @@
 
                 </div>
 
-                <button type="button" class="btn btn-info btn-md mt-4 ml-3 col-md-10" data-toggle="modal" data-target="#myModal{{$userId}}">More Info</button>
+                <button type="button" class="btn btn-info mt-4 col-12" data-toggle="modal" data-target="#myModal{{$userId}}">More Info</button>
 
                 <!-- Modal -->
                 <div id="myModal{{$userId}}" class="modal fade" role="dialog">

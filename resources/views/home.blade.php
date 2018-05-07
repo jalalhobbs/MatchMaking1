@@ -12,7 +12,9 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        Welcome {{ Auth::user()->firstName }}!
+                        <div class="text-center .ml-1">
+                            <h3>Welcome {{ Auth::user()->firstName }}!</h3>
+                        </div>
                         <div class="container">
                             <div class="flex-row row" id="profiles">
                                 @if(isset($matches))

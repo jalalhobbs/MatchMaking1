@@ -10050,6 +10050,10 @@ a.text-dark:focus {
   font-weight: bold;
 }
 
+.modal-dialog {
+  padding-left: 17px;
+}
+
 .navbar-laravel {
   background-color: #fab322;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -10113,6 +10117,11 @@ body {
   background-size: cover;
   background-attachment: fixed;
   height: 100%;
+  overflow-y: scroll !important;
+}
+
+body.modal-open {
+  padding-right: 0 !important;
 }
 
 .flex-row {

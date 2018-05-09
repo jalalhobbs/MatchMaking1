@@ -330,11 +330,5 @@ class ProfileController extends Controller
         //\Carbon\Carbon::parse($user->birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days');
     }
 
-    public function getDaySinceCreation($creationDateTime)
-    {
-        //inspired by https://stackoverflow.com/questions/35524482/calculate-age-from-date-stored-in-database-in-y-m-d-using-laravel-5-2
-        //return Carbon::parse($dob);
-        return Carbon::parse($creationDateTime)->diff(Carbon::now())->format('%d');
-        //\Carbon\Carbon::parse($user->birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days');
-    }
+
 }

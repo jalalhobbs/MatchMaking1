@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -24,12 +26,49 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+
         if (auth()->user()->id) {
-            $potentialMatches = array_slice($this->sortMatches($this->getPotentialMatches(auth()->user()->id),
-                $this->getWeightVectorMatrix(auth()->user()->id)), 0, 12);
-            return view('home')
-                ->with('matches', $potentialMatches)
-                ->with('pageName', "Home");
+            //Checks whether to initiate Initial account setup OR continue.
+            //Target (constraint) attributes are optional so no checking of constraints is required
+            // What needs to be checked are mandatory profile information e.g. DOB, profile pic, gender.
+
+            $user = DB::table('users')->where('id', auth()->user()->id)->first();
+
+            if (($user->dob === null) &&
+                ($user->profilePicture === null) &&
+                ($user->genderId === null))
+
+
+            {
+                //return redirect(route('lookingfor.edit'));
+                //Get Ready to flash a message on the next page
+
+                session()->flash('status', 'Please complete your profile by entering your Date of Birth, Gender and your Profile Picture.');
+
+
+
+
+
+                return redirect(route('profile.edit', [auth()->user()->id]));
+            }
+            else {
+                //Account Already Setup
+                //redirect home page.
+                //Get Ready to flash a message on the next page
+
+                //Do something.....
+                $potentialMatches = array_slice($this->sortMatches($this->getPotentialMatches(auth()->user()->id),
+                    $this->getWeightVectorMatrix(auth()->user()->id)), 0, 12);
+                return view('home')
+                    ->with('matches', $potentialMatches)
+                    ->with('pageName', "Home");
+
+
+
+            }
+
+
         } else {
             return view('home')
                 ->with('pageName', "Home");

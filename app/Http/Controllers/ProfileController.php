@@ -274,30 +274,36 @@ class ProfileController extends Controller
         $userTargets = DB::table('users')->where('id', auth()->user()->id)->first();
 
 
-        //Initial setup OR Incomplete information.
-        //Target (constraint) attributes are null.
-        //Modify this when next feature is added.
-        if (($userTargets->targetGenderId === null) ||
-            ($userTargets->targetMinAge === null) ||
-            ($userTargets->targetMaxAge === null) ||
-            ($userTargets->targetMinHeight === null) ||
-            ($userTargets->targetMaxHeight === null) ||
-            ($userTargets->targetBodyTypeId === null) ||
-            ($userTargets->targetReligionId === null) ||
-            ($userTargets->targetCountryId === null) ||
-            ($userTargets->targetEthnicityId === null) ||
-            ($userTargets->targetHairColourId === null)) {
+
+        //Constraints are not mandatory, Would be nice to know at least 1 constraint.
+
+
+
+
+
+        if (($userTargets->targetGenderId === null) &&
+            ($userTargets->targetMinAge === null) &&
+            ($userTargets->targetMaxAge === null) &&
+            ($userTargets->targetMinHeight === null) &&
+            ($userTargets->targetMaxHeight === null) &&
+            ($userTargets->targetBodyTypeId === null) &&
+            ($userTargets->targetReligionId === null) &&
+            ($userTargets->targetCountryId === null) &&
+            ($userTargets->targetEthnicityId === null) &&
+            ($userTargets->targetHairColourId === null))
+
+        {
             //return redirect(route('lookingfor.edit'));
             //Get Ready to flash a message on the next page
 
-            $request->session()->flash('status', 'Your Profile has been updated. Please complete your "Looking for a..." information below.');
+            $request->session()->flash('status', 'Your Profile has been updated. Please tell us more about who you are looking for. Leave out anything which you dont mind.');
             return redirect(route('looking-for.edit', [auth()->user()->id]));
         } else {
-            //Account Already Setup?
+            //Account Already Setup with >1 constraint
             //redirect home page.
             //Get Ready to flash a message on the next page
 
-            $request->session()->flash('status', 'Your Profile has been updated.');
+            $request->session()->flash('status', 'Your Profile has been updated. ');
             return redirect(route('home'));
         }
 
@@ -321,6 +327,14 @@ class ProfileController extends Controller
         //inspired by https://stackoverflow.com/questions/35524482/calculate-age-from-date-stored-in-database-in-y-m-d-using-laravel-5-2
         //return Carbon::parse($dob);
         return Carbon::parse($dob)->diff(Carbon::now())->format('%y');
+        //\Carbon\Carbon::parse($user->birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days');
+    }
+
+    public function getDaySinceCreation($creationDateTime)
+    {
+        //inspired by https://stackoverflow.com/questions/35524482/calculate-age-from-date-stored-in-database-in-y-m-d-using-laravel-5-2
+        //return Carbon::parse($dob);
+        return Carbon::parse($creationDateTime)->diff(Carbon::now())->format('%d');
         //\Carbon\Carbon::parse($user->birth)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days');
     }
 }

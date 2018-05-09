@@ -1,8 +1,8 @@
 <div class="col-sm-6 col-sm-4 col-lg-3">
     <div class="thumbnail">
-        <h4>Name: {{ $firstName }}</h4>
+        <h5>Name: {{ $firstName }}</h5>
         <p class="flex-text"> </p>
-        <img src={{$profilePic}}>
+        <img src="{{$profilePic}}" alt="{{ $firstName }}" style="max-height: 400px;">
         <div class="caption">
             <p class="flex-text"> </p>
             <div class="text-center .ml-1">
@@ -37,10 +37,12 @@
                 </div>
             </form>
 
-            <button type="button" class="btn btn-info mt-4 col-12" data-toggle="modal" data-target="#myModal{{$userId}}">More Info</button>
+
+            <button type="button" class="btn btn-info mt-3 mb-2" data-toggle="modal" data-target="#myModal{{$userId}}">More Info</button>
+
 
             <!-- Modal -->
-            <div id="myModal{{$userId}}" class="modal fade" role="dialog">
+            <div id="myModal{{$userId}}" class="modal fade" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
@@ -61,32 +63,31 @@
 
                             <div class="col-lg-12">
 
-                                    <div class="form-group row">
-                                        <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                                <div class="form-group row">
+                                    <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
 
-                                        <div class="col-md-6">
-                                            <input id="gender" type="text" class="form-control" name="gender" value="{{$gender}}" required disabled>
-
-                                        </div>
+                                    <div class="col-md-6">
+                                        <input id="gender" type="text" class="form-control" name="gender" value="{{$gender}}" required disabled>
                                     </div>
+                                </div>
 
-                                    <div class="form-group row">
-                                        <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('Age') }}</label>
+                                <div class="form-group row">
+                                    <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('Age') }}</label>
 
-                                        <div class="col-md-6">
-                                            <input id="age" type="text" class="form-control" name="age" value="{{ $age }}" required disabled>
-                                        </div>
+                                    <div class="col-md-6">
+                                        <input id="age" type="text" class="form-control" name="age" value="{{ $age }}" required disabled>
                                     </div>
+                                </div>
 
-                                    @if($bodyTypeName)
-                                    <div class="form-group row">
-                                        <label for="bodyTypeName" class="col-md-4 col-form-label text-md-right">{{ __('Body Type') }}</label>
+                                @if($bodyTypeName)
+                                <div class="form-group row">
+                                    <label for="bodyTypeName" class="col-md-4 col-form-label text-md-right">{{ __('Body Type') }}</label>
 
-                                        <div class="col-md-6">
-                                            <input id="bodyTypeName" type="text" class="form-control" name="BodyTypeName" value="{{ $bodyTypeName }}" required disabled>
-                                        </div>
+                                    <div class="col-md-6">
+                                        <input id="bodyTypeName" type="text" class="form-control" name="BodyTypeName" value="{{ $bodyTypeName }}" required disabled>
                                     </div>
-                                    @endif
+                                </div>
+                                @endif
                                 @if($stature)
                                     <div class="form-group row">
                                         <label for="stature" class="col-md-4 col-form-label text-md-right">{{ __('Stature') }}</label>
@@ -225,7 +226,7 @@
                 </div>
             </div>
         </div>
-        <!-- /.caption -->
+            <!-- /.caption -->
     </div>
     <!-- /.thumbnail -->
 </div>

@@ -38,7 +38,7 @@
             </form>
 
 
-            <button type="button" class="btn btn-info mt-3 mb-2" data-toggle="modal" data-target="#myModal{{$userId}}">More Info</button>
+            <button type="button" class="btn btn-info mt-3 mb-2 ml-3 mr-3" data-toggle="modal" data-target="#myModal{{$userId}}">More Info</button>
 
 
             <!-- Modal -->

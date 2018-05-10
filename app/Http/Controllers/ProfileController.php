@@ -265,6 +265,11 @@ class ProfileController extends Controller
 
         });
 
+        if(session('genderId'))
+        {
+            session()->remove('genderId');
+        }
+
 
         //Determines where to go next
         $user = DB::table('users')->where('id', auth()->user()->id)->first();

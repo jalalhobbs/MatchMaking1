@@ -215,6 +215,10 @@ class ConstraintController extends Controller
                 ]);
         });
 
+        if(session('targetGenderId'))
+        {
+            session()->remove('targetGenderId');
+        }
 
         //Determines where to go next
         $userTargets = DB::table('users')->where('id', auth()->user()->id)->first();

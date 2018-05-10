@@ -68,6 +68,50 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="genderId" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="genderId" class="form-control{{ $errors->has('genderId') ? ' is-invalid' : '' }}" name="genderId">
+                                    @if(session('genderId') === null)
+                                        <option selected value=""></option>
+
+                                    @else
+                                        <option selected value="{{session('genderId')}}" >{{session('genderId')}} </option>
+                                    @endif
+
+                                </select>
+                                @if ($errors->has('genderId'))
+                                    <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('genderId') }}</strong>
+                                            </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="targetGenderId" class="col-md-4 col-form-label text-md-right">{{ __('Target Gender') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="targetGenderId" class="form-control{{ $errors->has('targetGenderId') ? ' is-invalid' : '' }}" name="targetGenderId">
+                                    @if(session('targetGenderId') === null)
+                                        <option selected value=""></option>
+
+                                    @else
+                                        <option selected value="{{session('targetGenderId')}}" >{{session('targetGenderId')}} </option>
+                                    @endif
+
+                                </select>
+                                @if ($errors->has('targetGenderId'))
+                                    <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('genderId') }}</strong>
+                                            </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">

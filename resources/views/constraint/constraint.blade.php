@@ -33,7 +33,11 @@
                                                     <option selected value="{{$user->targetGenderId}}">{{$gender->genderName}}</option>
                                                     <option value=""></option>
                                                 @else
-                                                    <option value="{{$gender->id}}">{{$gender->genderName}}</option>
+                                                    @if(session('targetGenderId')== $gender->id)
+                                                        <option selected value="{{session('targetGenderId')}}">{{$gender->genderName}}</option>
+                                                    @else
+                                                        <option value="{{$gender->id}}">{{$gender->genderName}}</option>
+                                                        @endif
                                                 @endif
                                             @endforeach
                                         </select>

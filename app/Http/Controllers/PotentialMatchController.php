@@ -69,7 +69,258 @@ class PotentialMatchController extends Controller
     public function show($id, Request $request)
     {
 
+        $potentialMatches = array_slice($this->sortMatches($this->getPotentialMatches($id),
+            $this->getWeightVectorMatrix($id)), 0, 4);
 
+        return json_encode($potentialMatches);
+    }
+
+
+    private function getAge($dob)
+    {
+        //inspired by https://stackoverflow.com/questions/35524482/calculate-age-from-date-stored-in-database-in-y-m-d-using-laravel-5-2
+        return Carbon::parse($dob)->diff(Carbon::now())->format('%y');
+    }
+
+    private function getWeightVectorMatrix($id)
+    {
+        $weightVectorMatrixOutput = array(
+            "gender" => array(),
+            "country" => array(),
+            "verified" => array(),
+            "education" => array(),
+            "stature" => array(),
+            "bodyType" => array(),
+            "hairColour" => array(),
+            "eyeColour" => array(),
+            "ethnicity" => array(),
+            "smoking" => array(),
+            "drinking" => array(),
+            "religion" => array(),
+            "leisure" => array(),
+            "personalityType" => array()
+        );
+
+
+        // Like Weight multiplier
+        $like_wm_gender = 1.0;
+        $like_wm_country = 1.0;
+        $like_wm_verified = 0.9;
+        $like_wm_education = 0.8;
+        $like_wm_ageBucket = 0.9;
+        $like_wm_stature = 0.85;
+        $like_wm_bodyType = 0.7;
+        $like_wm_hairColour = 0.5;
+        $like_wm_eyeColour = 0.5;
+        $like_wm_ethnicity = 0.8;
+        $like_wm_smoking = 0.7;
+        $like_wm_drinking = 0.7;
+        $like_wm_religion = 0.8;
+        $like_wm_leisure = 0.5;
+        $like_wm_personalityType = 0.5;
+
+        // DisLike Weight multiplier
+        $dislike_multipler = -0.5;
+        $dislike_wm_gender = $like_wm_gender * $dislike_multipler;
+        $dislike_wm_country = $like_wm_country * $dislike_multipler;
+        $dislike_wm_verified = $like_wm_verified * $dislike_multipler;
+        $dislike_wm_education = $like_wm_education * $dislike_multipler;
+        $dislike_wm_ageBucket = $like_wm_ageBucket * $dislike_multipler;
+        $dislike_wm_stature = $like_wm_stature * $dislike_multipler;
+        $dislike_wm_bodyType = $like_wm_bodyType * $dislike_multipler;
+        $dislike_wm_hairColour = $like_wm_hairColour * $dislike_multipler;
+        $dislike_wm_eyeColour = $like_wm_eyeColour * $dislike_multipler;
+        $dislike_wm_ethnicity = $like_wm_ethnicity * $dislike_multipler;
+        $dislike_wm_smoking = $like_wm_smoking * $dislike_multipler;
+        $dislike_wm_drink = $like_wm_drinking * $dislike_multipler;
+        $dislike_wm_religion = $like_wm_religion * $dislike_multipler;
+        $dislike_wm_leisure = $like_wm_leisure * $dislike_multipler;
+        $dislike_wm_personalityType = $like_wm_personalityType * $dislike_multipler;
+
+        $likedOrDislikedUsers = DB::table('matches')
+            ->where('userId', $id)
+            ->where('matches.likeStatus', '<>', '1')
+            ->leftJoin('users', 'matches.targetId', '=', 'users.id')
+            ->select([
+                'matches.targetId as id',
+                'users.genderId',
+                'users.countryId',
+                'users.verified as verified',
+                'users.educationId',
+                'users.dob',
+                'users.height',
+                'users.bodyTypeId',
+                'users.hairColourId',
+                'users.eyeColourId',
+                'users.ethnicityId',
+                'users.smokingId',
+                'users.drinkingId',
+                'users.religionId',
+                'matches.likeStatus',
+                'users.leisureId',
+                'users.personalityTypeId'
+            ])
+            ->get();
+//return(json_encode($likedOrDislikedUsers));
+        foreach ($likedOrDislikedUsers as $user) {
+
+            // create age from dob response and add age bucket
+            if (isset($user->dob)) {
+                $user->age = $this->getAge($user->dob);
+                if ($user->age <= 25) {
+                    $user->ageBucket = "age18To25";
+                } elseif ($user->age <= 35) {
+                    $user->ageBucket = "age26To35";
+                } elseif ($user->age <= 45) {
+                    $user->ageBucket = "age36To45";
+                } else {
+                    $user->ageBucket = "age46To";
+                }
+            }
+            // add stature
+            if (isset($user->height)) {
+                if ($user->height < 160) {
+                    $user->stature = "Short";
+                } elseif ($user->height <= 180) {
+                    $user->stature = "Average";
+                } elseif ($user->height > 180) {
+                    $user->stature = "Tall";
+                }
+            }
+
+            if (isset($user->likeStatus)) { // like
+                // set outputMatrix
+                // gender
+                if (isset($user->genderId)) {
+                    if (isset($weightVectorMatrixOutput['gender'][$user->genderId])) {
+                        $weightVectorMatrixOutput['gender'][$user->genderId] += $user->likeStatus == 2 ? $like_wm_gender : $dislike_wm_gender;
+                    } else {
+                        $weightVectorMatrixOutput['gender'][$user->genderId] = $user->likeStatus == 2 ? $like_wm_gender : $dislike_wm_gender;
+                    }
+                }
+                // country
+                if (isset($user->countryId)) {
+                    if (isset($weightVectorMatrixOutput['country'][$user->countryId])) {
+                        $weightVectorMatrixOutput['country'][$user->countryId] += $user->likeStatus == 2 ? $like_wm_country : $dislike_wm_country;
+                    } else {
+                        $weightVectorMatrixOutput['country'][$user->countryId] = $user->likeStatus == 2 ? $like_wm_country : $dislike_wm_country;
+                    }
+                }
+                // verified
+                if (isset($user->verified)) {
+                    if (isset($weightVectorMatrixOutput['verified'][$user->verified])) {
+                        $weightVectorMatrixOutput['verified'][$user->verified] += $user->likeStatus == 2 ? $like_wm_verified : $dislike_wm_verified;
+                    } else {
+                        $weightVectorMatrixOutput['verified'][$user->verified] = $user->likeStatus == 2 ? $like_wm_verified : $dislike_wm_verified;
+                    }
+                }
+                // education
+                if (isset($user->educationId)) {
+                    if (isset($weightVectorMatrixOutput['education'][$user->educationId])) {
+                        $weightVectorMatrixOutput['education'][$user->educationId] += $user->likeStatus == 2 ? $like_wm_education : $dislike_wm_education;
+                    } else {
+                        $weightVectorMatrixOutput['education'][$user->educationId] = $user->likeStatus == 2 ? $like_wm_education : $dislike_wm_education;
+                    }
+                }
+
+                // ageBucket
+                if (isset($user->ageBucket)) {
+                    if (isset($weightVectorMatrixOutput['ageBucket'][$user->ageBucket])) {
+                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucket] += $user->likeStatus == 2 ? $like_wm_ageBucket : $dislike_wm_ageBucket;
+                    } else {
+                        $weightVectorMatrixOutput['ageBucket'][$user->ageBucket] = $user->likeStatus == 2 ? $like_wm_ageBucket : $dislike_wm_ageBucket;
+                    }
+                }
+
+                // stature
+                if (isset($user->stature)) {
+                    if (isset($weightVectorMatrixOutput['stature'][$user->stature])) {
+                        $weightVectorMatrixOutput['stature'][$user->stature] += $user->likeStatus == 2 ? $like_wm_stature : $dislike_wm_stature;
+                    } else {
+                        $weightVectorMatrixOutput['stature'][$user->stature] = $user->likeStatus == 2 ? $like_wm_stature : $dislike_wm_stature;
+                    }
+                }
+
+                // bodyType
+                if (isset($user->bodyTypeId)) {
+                    if (isset($weightVectorMatrixOutput['bodyType'][$user->bodyTypeId])) {
+                        $weightVectorMatrixOutput['bodyType'][$user->bodyTypeId] += $user->likeStatus == 2 ? $like_wm_bodyType : $dislike_wm_bodyType;
+                    } else {
+                        $weightVectorMatrixOutput['bodyType'][$user->bodyTypeId] = $user->likeStatus == 2 ? $like_wm_bodyType : $dislike_wm_bodyType;
+                    }
+                }
+                // hairColour
+                if (isset($user->hairColourId)) {
+                    if (isset($weightVectorMatrixOutput['hairColour'][$user->hairColourId])) {
+                        $weightVectorMatrixOutput['hairColour'][$user->hairColourId] += $user->likeStatus == 2 ? $like_wm_hairColour : $dislike_wm_hairColour;
+                    } else {
+                        $weightVectorMatrixOutput['hairColour'][$user->hairColourId] = $user->likeStatus == 2 ? $like_wm_hairColour : $dislike_wm_hairColour;
+                    }
+                }
+                // eyeColour
+                if (isset($user->eyeColourId)) {
+                    if (isset($weightVectorMatrixOutput['eyeColour'][$user->eyeColourId])) {
+                        $weightVectorMatrixOutput['eyeColour'][$user->eyeColourId] += $user->likeStatus == 2 ? $like_wm_eyeColour : $dislike_wm_eyeColour;
+                    } else {
+                        $weightVectorMatrixOutput['eyeColour'][$user->eyeColourId] = $user->likeStatus == 2 ? $like_wm_eyeColour : $dislike_wm_eyeColour;
+                    }
+                }
+                // ethnicity
+                if (isset($user->ethnicityId)) {
+                    if (isset($weightVectorMatrixOutput['ethnicity'][$user->ethnicityId])) {
+                        $weightVectorMatrixOutput['ethnicity'][$user->ethnicityId] += $user->likeStatus == 2 ? $like_wm_ethnicity : $dislike_wm_ethnicity;
+                    } else {
+                        $weightVectorMatrixOutput['ethnicity'][$user->ethnicityId] = $user->likeStatus == 2 ? $like_wm_ethnicity : $dislike_wm_ethnicity;
+                    }
+                }
+                // smoke
+                if (isset($user->smokingId)) {
+                    if (isset($weightVectorMatrixOutput['smoking'][$user->smokingId])) {
+                        $weightVectorMatrixOutput['smoking'][$user->smokingId] += $user->likeStatus == 2 ? $like_wm_smoking : $dislike_wm_smoking;
+                    } else {
+                        $weightVectorMatrixOutput['smoking'][$user->smokingId] = $user->likeStatus == 2 ? $like_wm_smoking : $dislike_wm_smoking;
+                    }
+                }
+                // drink
+                if (isset($user->drinkingId)) {
+                    if (isset($weightVectorMatrixOutput['drinking'][$user->drinkingId])) {
+                        $weightVectorMatrixOutput['drinking'][$user->drinkingId] += $user->likeStatus == 2 ? $like_wm_drinking : $dislike_wm_drink;
+                    } else {
+                        $weightVectorMatrixOutput['drinking'][$user->drinkingId] = $user->likeStatus == 2 ? $like_wm_drinking : $dislike_wm_drink;
+                    }
+                }
+                // religion
+                if (isset($user->religionId)) {
+                    if (isset($weightVectorMatrixOutput['religion'][$user->religionId])) {
+                        $weightVectorMatrixOutput['religion'][$user->religionId] += $user->likeStatus == 2 ? $like_wm_religion : $dislike_wm_religion;
+                    } else {
+                        $weightVectorMatrixOutput['religion'][$user->religionId] = $user->likeStatus == 2 ? $like_wm_religion : $dislike_wm_religion;
+                    }
+                }
+                // leisureType
+                if (isset($user->leisureId)) {
+                    if (isset($weightVectorMatrixOutput['leisure'][$user->leisureId])) {
+                        $weightVectorMatrixOutput['leisure'][$user->leisureId] += $user->likeStatus == 2 ? $like_wm_leisure : $dislike_wm_leisure;
+                    } else {
+                        $weightVectorMatrixOutput['leisure'][$user->leisureId] = $user->likeStatus == 2 ? $like_wm_leisure : $dislike_wm_leisure;
+                    }
+                }
+
+                if (isset($user->personalityTypeId)) {
+                    if (isset($weightVectorMatrixOutput['personalityType'][$user->personalityTypeId])) {
+                        $weightVectorMatrixOutput['personalityType'][$user->personalityTypeId] += $user->likeStatus == 2 ? $like_wm_personalityType : $dislike_wm_personalityType;
+                    } else {
+                        $weightVectorMatrixOutput['personalityType'][$user->personalityTypeId] = $user->likeStatus == 2 ? $like_wm_personalityType : $dislike_wm_personalityType;
+                    }
+                }
+            }
+        }
+
+        return $weightVectorMatrixOutput;
+    }
+
+    private function getPotentialMatches($id)
+    {
         $userTargets = DB::table('users')
             ->select(
                 'targetGenderId',
@@ -88,32 +339,42 @@ class PotentialMatchController extends Controller
                 'targetSmokingId',
                 'targetLeisureId',
                 'targetPersonalityTypeId'
-            )->where('users.id', '=', $id)
+            )
+            ->where('users.id', '=', $id)
             ->first();
 
         $query = "SELECT
-          users.id                              as id,
-          users.firstName                       as firstName,
-          genders.genderName                    as gender,
-          genders.genderName                    as genderDisplay,
-          countries.countryName                 as country,
-          verified                              as verified,
-          educationName                         as education,
-          users.dob                             as dob,
-          users.height                          as height,
-          body_types.bodyTypeName               as bodyType,
-          body_types.bodyTypeName               as bodyTypeDisplay,
-          hair_colours.hairColourName           as hairColour,
-          eye_colours.eyeColourName             as eyeColour,
-          ethnicities.ethnicityName             as ethnicity,
-          smoking.smokingPrefName               as smoking,
-          drinking.drinkingPrefName             as drinking,
-          religions.religionName                as religion,
-          leisures.leisureName                  as leisure,
-          personality_types.personalityTypeName as personalityType,
-          users.profilePicture                  as profilePictureUrl,
-          matches.likeStatus                    as likeStatus
-          
+          users.id,
+          users.genderId,
+          users.countryId,
+          users.verified,
+          users.educationId,
+          users.dob,
+          users.height,
+          users.bodyTypeId,
+          users.hairColourId,
+          users.eyeColourId,
+          users.ethnicityId,
+          users.smokingId,
+          users.drinkingId,
+          users.religionId,
+          users.leisureId,
+          users.personalityTypeId,
+          matches.likeStatus,
+          users.firstName,
+          users.profilePicture,
+          genders.genderName,
+          countries.countryName,
+          ethnicities.ethnicityName,
+          education.educationName,
+          body_types.bodyTypeName,
+          religions.religionName,
+          hair_colours.hairColourName,
+          eye_colours.eyeColourName,
+          drinking.drinkingPrefName,
+          smoking.smokingPrefName,
+          leisures.leisureName,
+          personality_types.personalityTypeName
         FROM users
           LEFT JOIN genders ON users.genderId = genders.id
           LEFT JOIN countries ON users.countryId = countries.id
@@ -132,163 +393,76 @@ class PotentialMatchController extends Controller
             " WHERE users.id != " . $id .
             " AND (matches.likeStatus = 1 OR matches.likeStatus IS NULL)";
 
-        if ($userTargets->targetGenderId) {
+        if (isset($userTargets->targetGenderId)) {
             $query .= " AND users.genderId =" . $userTargets->targetGenderId;
         }
 
-        if ($userTargets->targetMinAge) {
+        if (isset($userTargets->targetMinAge)) {
             $query .= " AND users.dob <='" . Carbon::now()->subYears($userTargets->targetMinAge)->toDateString() . "'";
         }
 
-        if ($userTargets->targetMaxAge) {
-            $query .= " AND users.dob >='" . Carbon::now()->subYears($userTargets->targetMaxAge+1)->toDateString() . "'";
+        if (isset($userTargets->targetMaxAge)) {
+            $query .= " AND users.dob >='" . Carbon::now()->subYears($userTargets->targetMaxAge + 1)->toDateString() . "'";
         }
 
-        if ($userTargets->targetMinHeight) {
+        if (isset($userTargets->targetMinHeight)) {
             $query .= " AND users.Height >=" . $userTargets->targetMinHeight;
         }
 
-        if ($userTargets->targetMaxHeight) {
+        if (isset($userTargets->targetMaxHeight)) {
             $query .= " AND users.Height <=" . $userTargets->targetMaxHeight;
         }
 
-        if ($userTargets->targetBodyTypeId) {
+        if (isset($userTargets->targetBodyTypeId)) {
             $query .= " AND users.BodyTypeId =" . $userTargets->targetBodyTypeId;
         }
 
-        if ($userTargets->targetReligionId) {
+        if (isset($userTargets->targetReligionId)) {
             $query .= " AND users.ReligionId =" . $userTargets->targetReligionId;
         }
 
-        if ($userTargets->targetCountryId) {
+        if (isset($userTargets->targetCountryId)) {
             $query .= " AND users.CountryId =" . $userTargets->targetCountryId;
         }
 
-        if ($userTargets->targetEthnicityId) {
+        if (isset($userTargets->targetEthnicityId)) {
             $query .= " AND users.EthnicityId =" . $userTargets->targetEthnicityId;
         }
 
-        if ($userTargets->targetHairColourId) {
+        if (isset($userTargets->targetHairColourId)) {
             $query .= " AND users.HairColourId =" . $userTargets->targetHairColourId;
         }
 
-        if ($userTargets->targetEyeColourId) {
+        if (isset($userTargets->targetEyeColourId)) {
             $query .= " AND users.EyeColourId =" . $userTargets->targetEyeColourId;
         }
 
-        if ($userTargets->targetEducationId) {
+        if (isset($userTargets->targetEducationId)) {
             $query .= " AND users.EducationId =" . $userTargets->targetEducationId;
         }
 
-        if ($userTargets->targetDrinkingId) {
+        if (isset($userTargets->targetDrinkingId)) {
             $query .= " AND users.DrinkingId =" . $userTargets->targetDrinkingId;
         }
 
-        if ($userTargets->targetSmokingId) {
+        if (isset($userTargets->targetSmokingId)) {
             $query .= " AND users.SmokingId =" . $userTargets->targetSmokingId;
         }
 
-        if ($userTargets->targetLeisureId) {
+        if (isset($userTargets->targetLeisureId)) {
             $query .= " AND users.LeisureId =" . $userTargets->targetLeisureId;
         }
 
-        if ($userTargets->targetPersonalityTypeId) {
+        if (isset($userTargets->targetPersonalityTypeId)) {
             $query .= " AND users.PersonalityTypeId =" . $userTargets->targetPersonalityTypeId;
         }
 
-//        $potentialMatches->leftJoin('matches', 'users.id', '=', $id);
-//        ->where('matches.likeStatus', '<>', '0');
 
-        if ($request->query('limit')) {
-            $query .= " LIMIT " . $request->query('limit');
-        } else {
-            $query .= " LIMIT 100";
-        }
-        if ($request->query('offset')) {
-            $query .= " OFFSET " . $request->query('offset');
-        }
         $potentialMatches = DB::select($query);
         foreach ($potentialMatches as $potentialMatch) {
-
-
-            // update string responses
-            if (isset($potentialMatch->gender)) {
-                $potentialMatch->gender = $this->removeSpaceAndCamelCase($potentialMatch->gender);
-            } else {
-                $potentialMatch->gender = null;
-            }
-
-            if (isset($potentialMatch->country)) {
-                $potentialMatch->country = $this->removeSpaceAndCamelCase($potentialMatch->country);
-            } else {
-                $potentialMatch->country = null;
-            }
-
-            if (isset($potentialMatch->education)) {
-                $potentialMatch->education = $this->removeSpaceAndCamelCase($potentialMatch->education);
-            } else {
-                $potentialMatch->education = null;
-            }
-
-            if (isset($potentialMatch->bodyType)) {
-                $potentialMatch->bodyType = $this->removeSpaceAndCamelCase($potentialMatch->bodyType);
-            } else {
-                $potentialMatch->bodyType = null;
-            }
-
-            if (isset($potentialMatch->hairColour)) {
-                $potentialMatch->hairColour = $this->removeSpaceAndCamelCase($potentialMatch->hairColour);
-            } else {
-                $potentialMatch->hairColour = null;
-            }
-
-            if (isset($potentialMatch->eyeColour)) {
-                $potentialMatch->eyeColour = $this->removeSpaceAndCamelCase($potentialMatch->eyeColour);
-            } else {
-                $potentialMatch->eyeColour = null;
-            }
-
-            if (isset($potentialMatch->ethnicity)) {
-                $potentialMatch->ethnicity = $this->removeSpaceAndCamelCase($potentialMatch->ethnicity);
-            } else {
-                $potentialMatch->ethnicity = null;
-            }
-
-            if (isset($potentialMatch->smoking)) {
-                $potentialMatch->smoking = $this->removeSpaceAndCamelCase($potentialMatch->smoking);
-            } else {
-                $potentialMatch->smoking = null;
-            }
-
-            if (isset($potentialMatch->drinking)) {
-                $potentialMatch->drinking = $this->removeSpaceAndCamelCase($potentialMatch->drinking);
-            } else {
-                $potentialMatch->drinking = null;
-            }
-
-            if (isset($potentialMatch->religion)) {
-                $potentialMatch->religion = $this->removeSpaceAndCamelCase($potentialMatch->religion);
-            } else {
-                $potentialMatch->religion = null;
-            }
-
-            if (isset($potentialMatch->leisure)) {
-                $potentialMatch->leisure = $this->removeSpaceAndCamelCase($potentialMatch->leisure);
-            } else {
-                $potentialMatch->leisure = null;
-            }
-
-            if (isset($potentialMatch->personalityType)) {
-                $potentialMatch->personalityType = $this->removeSpaceAndCamelCase($potentialMatch->personalityType);
-            } else {
-                $potentialMatch->personalityType = null;
-            }
-
             // create age from dob response
             if ($potentialMatch->dob) {
                 $potentialMatch->age = $this->getAge($potentialMatch->dob);
-                // remove dob from array
-                unset($potentialMatch->dob);
                 // add age bucket
                 if ($potentialMatch->age <= 25) {
                     $potentialMatch->ageBucket = "age18To25";
@@ -299,34 +473,125 @@ class PotentialMatchController extends Controller
                 } else {
                     $potentialMatch->ageBucket = "age46To";
                 }
-            } else {
-                $potentialMatch->age = null;
             }
             // add stature
             if ($potentialMatch->height) {
                 if ($potentialMatch->height < 160) {
-                    $potentialMatch->stature = "short";
+                    $potentialMatch->stature = "Short";
                 } elseif ($potentialMatch->height <= 180) {
-                    $potentialMatch->stature = "average";
+                    $potentialMatch->stature = "Average";
                 } elseif ($potentialMatch->height > 180) {
-                    $potentialMatch->stature = "tall";
+                    $potentialMatch->stature = "Tall";
                 }
-            } else {
-                $potentialMatch->stature = null;
+            }
+            $potentialMatch->likeStatus = 1;
+        }
+        return $potentialMatches;
+    }
+
+    private function sortMatches($potentialMatches, $weightVectorMatrix)
+    {
+        foreach ($potentialMatches as $user) {
+            $user->score = 0.0;
+            if (isset($user->genderId)) {
+                if (isset($weightVectorMatrix['gender'][$user->genderId])) {
+                    $user->score += $weightVectorMatrix['gender'][$user->genderId];
+                }
+            }
+
+            if (isset($user->countryId)) {
+                if (isset($weightVectorMatrix['country'][$user->countryId])) {
+                    $user->score += $weightVectorMatrix['country'][$user->countryId];
+                }
+            }
+
+            if (isset($user->verified)) {
+                if (isset($weightVectorMatrix['verified'][$user->verified])) {
+                    $user->score += $weightVectorMatrix['verified'][$user->verified];
+                }
+            }
+
+            if (isset($user->educationId)) {
+                if (isset($weightVectorMatrix['education'][$user->educationId])) {
+                    $user->score += $weightVectorMatrix['education'][$user->educationId];
+                }
+            }
+
+            if (isset($user->stature)) {
+                if (isset($weightVectorMatrix['stature'][$user->stature])) {
+                    $user->score += $weightVectorMatrix['stature'][$user->stature];
+                }
+            }
+
+            if (isset($user->bodyTypeId)) {
+                if (isset($weightVectorMatrix['bodyType'][$user->bodyTypeId])) {
+                    $user->score += $weightVectorMatrix['bodyType'][$user->bodyTypeId];
+                }
+            }
+
+            if (isset($user->hairColourId)) {
+                if (isset($weightVectorMatrix['hairColour'][$user->hairColourId])) {
+                    $user->score += $weightVectorMatrix['hairColour'][$user->hairColourId];
+                }
+            }
+
+            if (isset($user->eyeColourId)) {
+                if (isset($weightVectorMatrix['eyeColour'][$user->eyeColourId])) {
+                    $user->score += $weightVectorMatrix['eyeColour'][$user->eyeColourId];
+                }
+            }
+
+            if (isset($user->ethnicityId)) {
+                if (isset($weightVectorMatrix['ethnicity'][$user->ethnicityId])) {
+                    $user->score += $weightVectorMatrix['ethnicity'][$user->ethnicityId];
+                }
+            }
+
+            if (isset($user->smokingId)) {
+                if (isset($weightVectorMatrix['smoking'][$user->smokingId])) {
+                    $user->score += $weightVectorMatrix['smoking'][$user->smokingId];
+                }
+            }
+
+            if (isset($user->drinkingId)) {
+                if (isset($weightVectorMatrix['drinking'][$user->drinkingId])) {
+                    $user->score += $weightVectorMatrix['drinking'][$user->drinkingId];
+                }
+            }
+
+            if (isset($user->religionId)) {
+                if (isset($weightVectorMatrix['religion'][$user->religionId])) {
+                    $user->score += $weightVectorMatrix['religion'][$user->religionId];
+                }
+            }
+
+            if (isset($user->leisureId)) {
+                if (isset($weightVectorMatrix['leisure'][$user->leisureId])) {
+                    $user->score += $weightVectorMatrix['leisure'][$user->leisureId];
+                }
+            }
+
+            if (isset($user->personalityTypeId)) {
+                if (isset($weightVectorMatrix['personalityType'][$user->personalityTypeId])) {
+                    $user->score += $weightVectorMatrix['personalityType'][$user->personalityTypeId];
+                }
+            }
+
+            if (isset($user->ageBucket)) {
+                if (isset($weightVectorMatrix['ageBucket'][$user->ageBucket])) {
+                    $user->score += $weightVectorMatrix['ageBucket'][$user->ageBucket];
+                }
             }
         }
-        return json_encode($potentialMatches);
+
+
+        uasort($potentialMatches, function ($user1, $user2) {
+            return $user2->score <=> $user1->score;
+        });
+
+        return $potentialMatches;
     }
 
-    private function removeSpaceAndCamelCase($word)
-    {
-        return lcfirst(preg_replace('/[^A-Za-z]/', '', $word));
-    }
-
-    private function getAge($dob)
-    {
-        return Carbon::parse($dob)->diff(Carbon::now())->format('%y');
-    }
 
 
 }

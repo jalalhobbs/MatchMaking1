@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
         if (auth()->user()->id) {
             $potentialMatches = array_slice($this->sortMatches($this->getPotentialMatches(auth()->user()->id),
-                $this->getWeightVectorMatrix(auth()->user()->id)), 0, 12);
+                $this->getWeightVectorMatrix(auth()->user()->id)), 0, 4);
             return view('home')
                 ->with('matches', $potentialMatches)
                 ->with('pageName', "Home");

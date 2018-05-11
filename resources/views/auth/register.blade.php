@@ -67,7 +67,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div hidden class="form-group row">
                             <label for="genderId" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
 
                             <div class="col-md-6">
@@ -88,7 +88,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div hidden class="form-group row">
                             <label for="targetGenderId" class="col-md-4 col-form-label text-md-right">{{ __('Target Gender') }}</label>
 
                             <div class="col-md-6">
@@ -103,7 +103,7 @@
                                 </select>
                                 @if ($errors->has('targetGenderId'))
                                     <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('genderId') }}</strong>
+                                                <strong>{{ $errors->first('targetGenderId') }}</strong>
                                             </span>
                                 @endif
                             </div>

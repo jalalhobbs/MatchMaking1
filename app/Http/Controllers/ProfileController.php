@@ -173,7 +173,7 @@ class ProfileController extends Controller
         //https://stackoverflow.com/questions/25473823/laravel-regex-match-url-with-jpg-not-working
 
         $request->validate([
-            'dob' => 'required|after:1900-01-01|before:-18years',
+            'dob' => 'required|after:01-01-1905|before:-18years',
             'profilePicture' => array('required',
                 'regex:/https\:\/\/graph\.facebook\.com\/v2\.10\/[0-9]+\/picture\?type\=normal|[a-zA-Z]+\/((([\w\/-]+)\/)?[\w.-]+\.(png|svg|bmp|gif|jpe?g))$/'),
             'genderId' => 'required|integer|min:1',
@@ -301,7 +301,7 @@ class ProfileController extends Controller
             //return redirect(route('lookingfor.edit'));
             //Get Ready to flash a message on the next page
 
-            $request->session()->flash('status', 'Your Profile has been updated. Please tell us more about who you are looking for. Leave out anything which you dont mind.');
+            $request->session()->flash('status', 'Your Profile has been updated. Please tell us more about who you are looking for. Leave out anything which is optional.');
             return redirect(route('looking-for.edit', [auth()->user()->id]));
         } else {
             //Account Already Setup with >1 constraint

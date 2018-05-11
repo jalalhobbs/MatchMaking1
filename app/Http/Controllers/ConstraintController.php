@@ -79,8 +79,8 @@ class ConstraintController extends Controller
     {
         $user = DB::table('users')->where('id', auth()->user()->id)->first();
 
-        if (($user->dob === null) &&
-            ($user->profilePicture === null) &&
+        if (($user->dob === null) ||
+            ($user->profilePicture === null) ||
             ($user->genderId === null))
 
 
@@ -215,6 +215,10 @@ class ConstraintController extends Controller
                 ]);
         });
 
+        if(session('targetGenderId'))
+        {
+            session()->remove('targetGenderId');
+        }
 
         //Determines where to go next
         $userTargets = DB::table('users')->where('id', auth()->user()->id)->first();

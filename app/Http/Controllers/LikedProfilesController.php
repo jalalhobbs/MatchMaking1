@@ -29,8 +29,8 @@ class LikedProfilesController extends Controller
 
         $user = DB::table('users')->where('id', auth()->user()->id)->first();
 
-        if (($user->dob === null) &&
-            ($user->profilePicture === null) &&
+        if (($user->dob === null) ||
+            ($user->profilePicture === null) ||
             ($user->genderId === null))
 
 

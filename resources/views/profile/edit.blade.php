@@ -94,15 +94,23 @@
                                             @if($user->genderId === null)
                                                 <option selected value=""></option>
                                             @endif
+
                                             @foreach($genders as $gender)
+
                                                 @if(old('genderId') == $gender->id)
                                                     <option selected value="{{ old('genderId') }}">{{$gender->genderName}}</option>
+
                                                 @elseif($user->genderId == $gender->id)
                                                     <option selected value="{{$user->genderId}}">{{$gender->genderName}}</option>
 
                                                 @else
-                                                    <option value="{{$gender->id}}">{{$gender->genderName}}</option>
+                                                    @if(session('genderId')== $gender->id)
+                                                        <option selected value="{{session('genderId')}}">{{$gender->genderName}}</option>
+                                                    @else
+                                                        <option value="{{$gender->id}}">{{$gender->genderName}}</option>
+                                                    @endif
                                                 @endif
+
                                             @endforeach
                                         </select>
                                         @if ($errors->has('genderId'))

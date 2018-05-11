@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,8 +70,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(6);
-var isBuffer = __webpack_require__(20);
+var bind = __webpack_require__(7);
+var isBuffer = __webpack_require__(21);
 
 /*global toString:true*/
 
@@ -408,7 +408,7 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(22);
+var normalizeHeaderName = __webpack_require__(23);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -424,10 +424,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(8);
+    adapter = __webpack_require__(9);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(8);
+    adapter = __webpack_require__(9);
   }
   return adapter;
 }
@@ -502,7 +502,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 3 */
@@ -590,6 +590,83 @@ function setLikeButtons() {
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["getProfiles"] = getProfiles;
+
+function getProfiles() {
+    var token = document.head.querySelector('meta[name="csrf-token"]').content;
+    var profileUrl = './api/potentialmatch/' + document.head.querySelector('meta[name="userId"]').content;
+    fetch(profileUrl).then(function (res) {
+        return res.json();
+    }).then(function (profiles) {
+        return profiles.map(function (profile) {
+
+            var profileCard = '<div class="col-sm-6 col-sm-4 col-lg-3 profile-card"><div class="thumbnail"><h5>Name: ' + profile.firstName + '</h5><p class="flex-text"> </p><img src="' + profile.profilePicture + '" alt="' + profile.firstName + '" style="max-height: 400px;"><div class="caption"><p class="flex-text"> </p><div class="text-center .ml-1"><h6>Gender: ' + profile.genderName + '</h6><h6>Age: ' + profile.age + '</h6>';
+            if (profile.bodyTypeName != null) {
+                profileCard += '<h6>Body Type: ' + profile.bodyTypeName + '</h6>';
+            }
+
+            if (profile.email != null) {
+                profileCard += '<h6>Email: ' + profile.email + '</h6>';
+            }
+
+            profileCard += '</div><form action="updateLikeStatus" method="post" data-userid="' + profile.id + '"><input type="hidden" name="targetId" value="' + profile.id + '    "><div class="btn-group btn-group-toggle text-center col-12" data-toggle="buttons"><label class="btn btn-dislike col-5">' + '    <input type="radio" autocomplete="off" checked> Dislike</label><label class="btn btn-no-like-status active col-2"><input type="radio" autocomplete="off"></label>' + '    <label class="btn btn-like col-5"><input type="radio" autocomplete="off"> Like</label></div></form><button type="button" class="btn btn-info mt-3 mb-2 ml-3 mr-3" data-toggle="modal" data-target="#myModal' + profile.id + '">More Info</button>' + '            <div id="myModal' + profile.id + '" class="modal fade" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">' + '<div class="modal-dialog">' + '<div class="modal-content">' + '<div class="modal-header">' + '<h4 class="modal-title">Name: ' + profile.firstName + '</h4>' + '<button type="button"  data-dismiss="modal">&times;</button>' + '</div>' + '<div class="modal-body">' + '<div class="col-lg-12">' + '<div class="thumbnail">' + '<img src="' + profile.profilePicture + '" alt="' + profile.firstName + '" class="center" style="width:40%; margin:0 auto">' + '</div>' + '</div>' + '</div>' + '<div class="modal-body">' + '<div class="col-lg-12">' + '<div class="form-group row">' + '<label for="gender" class="col-md-4 col-form-label text-md-right">Gender: </label>' + '<div class="col-md-6">' + '<input id="gender" type="text" class="form-control" name="gender" value="' + profile.genderName + '" required disabled>' + '</div>' + '</div>' + '<div class="form-group row">' + '<label for="age" class="col-md-4 col-form-label text-md-right">Age </label>' + '<div class="col-md-6">' + '<input id="age" type="text" class="form-control" name="age" value="' + profile.age + '" required disabled>' + '</div>' + '</div>';
+
+            if (profile.bodyTypeDisplay != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="bodyTypeName" class="col-md-4 col-form-label text-md-right">Body Type</label>' + '        <div class="col-md-6">' + '        <input id="bodyTypeName" type="text" class="form-control" name="BodyTypeName" value="' + profile.bodyTypeDisplay + '" required disabled>' + '        </div>' + '        </div>';
+            }
+
+            if (profile.stature != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="stature" class="col-md-4 col-form-label text-md-right">Stature</label>' + '        <div class="col-md-6">' + '        <input id="stature" type="text" class="form-control" name="Stature" value="' + profile.stature + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.countryName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="countryName" class="col-md-4 col-form-label text-md-right">Country</label>' + '        <div class="col-md-6">' + '        <input id="countryName" type="text" class="form-control" name="Country" value="' + profile.countryName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.ethnicityName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="ethnicityName" class="col-md-4 col-form-label text-md-right">Ethnicity</label>' + '        <div class="col-md-6">' + '        <input id="ethnicityName" type="text" class="form-control" name="Country" value="' + profile.ethnicityName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.educationName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="educationName" class="col-md-4 col-form-label text-md-right">Education</label>' + '        <div class="col-md-6">' + '        <input id="educationName" type="text" class="form-control" name="Country" value="' + profile.educationName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.religionName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="religionName" class="col-md-4 col-form-label text-md-right">Education</label>' + '        <div class="col-md-6">' + '        <input id="religionName" type="text" class="form-control" name="Country" value="' + profile.religionName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+
+            if (profile.hairColourName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="hairColourName" class="col-md-4 col-form-label text-md-right">Hair Colour</label>' + '        <div class="col-md-6">' + '        <input id="hairColourName" type="text" class="form-control" name="Country" value="' + profile.hairColourName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.eyeColourName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="eyeColourName" class="col-md-4 col-form-label text-md-right">Eye Colour</label>' + '        <div class="col-md-6">' + '        <input id="eyeColourName" type="text" class="form-control" name="Country" value="' + profile.eyeColourName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.drinkingPrefName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="drinkingPrefName" class="col-md-4 col-form-label text-md-right">Drinking</label>' + '        <div class="col-md-6">' + '        <input id="drinkingPrefName" type="text" class="form-control" name="Country" value="' + profile.drinkingPrefName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.smokingPrefName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="smokingPrefName" class="col-md-4 col-form-label text-md-right">Smoking</label>' + '        <div class="col-md-6">' + '        <input id="smokingPrefName" type="text" class="form-control" name="Country" value="' + profile.smokingPrefName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.leisureName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="leisureName" class="col-md-4 col-form-label text-md-right">Leisure</label>' + '        <div class="col-md-6">' + '        <input id="leisureName" type="text" class="form-control" name="Country" value="' + profile.leisureName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.personalityTypeName != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="personalityTypeName" class="col-md-4 col-form-label text-md-right">Personality</label>' + '        <div class="col-md-6">' + '        <input id="personalityTypeName" type="text" class="form-control" name="Country" value="' + profile.personalityTypeName + '" required disabled>' + '        </div>' + '        </div>';
+            }
+            if (profile.email != null) {
+                profileCard += '<div class="form-group row">' + '        <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>' + '        <div class="col-md-6">' + '        <input id="email" type="text" class="form-control" name="Country" value="' + profile.email + '" required disabled>' + '        </div>' + '        </div>';
+            }
+
+            profileCard += '<form action="updateLikeStatus" method="post" data-userid="' + profile.id + '">' + '<input type="hidden" name="targetId" value="' + profile.id + '">' + '<div class="btn-group btn-group-toggle text-center col-12" data-toggle="buttons">' + '<label class="btn btn-dislike col-5">' + '<input type="radio" autocomplete="off" checked> Dislike' + '</label>' + '<label class="btn btn-no-like-status active col-2">' + '<input type="radio" autocomplete="off">' + '</label>' + '<label class="btn btn-like col-5">' + '<input type="radio" autocomplete="off"> Like' + '</label>' + '</div>' + '</form>' + '</div>' + '</div>' + '<div class="modal-footer">' + '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' + '</div>' + '</div>' + '</div>' + '</div>' + '</div>' + '</div>' + '</div>';
+            $("#profiles").append(profileCard);
+        });
+    }).then(function (buttons) {
+        return setLikeButtons();
+    });
+};
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3118,7 +3195,7 @@ Popper.Defaults = Defaults;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -13489,7 +13566,7 @@ return jQuery;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13507,7 +13584,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -13697,19 +13774,19 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(23);
-var buildURL = __webpack_require__(25);
-var parseHeaders = __webpack_require__(26);
-var isURLSameOrigin = __webpack_require__(27);
-var createError = __webpack_require__(9);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(28);
+var settle = __webpack_require__(24);
+var buildURL = __webpack_require__(26);
+var parseHeaders = __webpack_require__(27);
+var isURLSameOrigin = __webpack_require__(28);
+var createError = __webpack_require__(10);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(29);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -13806,7 +13883,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(29);
+      var cookies = __webpack_require__(30);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -13884,13 +13961,13 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(24);
+var enhanceError = __webpack_require__(25);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -13909,7 +13986,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13921,7 +13998,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13947,21 +14024,21 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(13);
-module.exports = __webpack_require__(44);
+__webpack_require__(14);
+module.exports = __webpack_require__(45);
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__likebuttons__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getprofiles__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getprofiles__ = __webpack_require__(4);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -13969,9 +14046,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(14);
+__webpack_require__(15);
 
-window.Vue = __webpack_require__(37);
+window.Vue = __webpack_require__(38);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -13983,20 +14060,20 @@ window.setLikeButtons = __WEBPACK_IMPORTED_MODULE_0__likebuttons__["setLikeButto
 
 
 window.getProfiles = __WEBPACK_IMPORTED_MODULE_1__getprofiles__["getProfiles"];
-
-Vue.component('example-component', __webpack_require__(40));
+$(document).ready(Object(__WEBPACK_IMPORTED_MODULE_0__likebuttons__["setLikeButtons"])());
+Vue.component('example-component', __webpack_require__(41));
 
 var app = new Vue({
   el: '#app'
 });
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(15);
-window.Popper = __webpack_require__(4).default;
+window._ = __webpack_require__(16);
+window.Popper = __webpack_require__(5).default;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -14005,9 +14082,9 @@ window.Popper = __webpack_require__(4).default;
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(5);
+  window.$ = window.jQuery = __webpack_require__(6);
 
-  __webpack_require__(17);
+  __webpack_require__(18);
 } catch (e) {}
 
 /**
@@ -14016,7 +14093,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(18);
+window.axios = __webpack_require__(19);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -14052,7 +14129,7 @@ if (token) {
 // });
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -31162,10 +31239,10 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(16)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(17)(module)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -31193,7 +31270,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -31202,7 +31279,7 @@ module.exports = function(module) {
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-   true ? factory(exports, __webpack_require__(5), __webpack_require__(4)) :
+   true ? factory(exports, __webpack_require__(6), __webpack_require__(5)) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
   (factory((global.bootstrap = {}),global.jQuery,global.Popper));
 }(this, (function (exports,$,Popper) { 'use strict';
@@ -35126,21 +35203,21 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(19);
+module.exports = __webpack_require__(20);
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(6);
-var Axios = __webpack_require__(21);
+var bind = __webpack_require__(7);
+var Axios = __webpack_require__(22);
 var defaults = __webpack_require__(2);
 
 /**
@@ -35174,15 +35251,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(11);
-axios.CancelToken = __webpack_require__(35);
-axios.isCancel = __webpack_require__(10);
+axios.Cancel = __webpack_require__(12);
+axios.CancelToken = __webpack_require__(36);
+axios.isCancel = __webpack_require__(11);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(36);
+axios.spread = __webpack_require__(37);
 
 module.exports = axios;
 
@@ -35191,7 +35268,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 /*!
@@ -35218,7 +35295,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35226,8 +35303,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(30);
-var dispatchRequest = __webpack_require__(31);
+var InterceptorManager = __webpack_require__(31);
+var dispatchRequest = __webpack_require__(32);
 
 /**
  * Create a new instance of Axios
@@ -35304,7 +35381,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35323,13 +35400,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(10);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -35356,7 +35433,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35384,7 +35461,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35457,7 +35534,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35517,7 +35594,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35592,7 +35669,7 @@ module.exports = (
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35635,7 +35712,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35695,7 +35772,7 @@ module.exports = (
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35754,18 +35831,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(32);
-var isCancel = __webpack_require__(10);
+var transformData = __webpack_require__(33);
+var isCancel = __webpack_require__(11);
 var defaults = __webpack_require__(2);
-var isAbsoluteURL = __webpack_require__(33);
-var combineURLs = __webpack_require__(34);
+var isAbsoluteURL = __webpack_require__(34);
+var combineURLs = __webpack_require__(35);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -35847,7 +35924,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35874,7 +35951,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35895,7 +35972,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35916,13 +35993,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(11);
+var Cancel = __webpack_require__(12);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -35980,7 +36057,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36014,7 +36091,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46977,10 +47054,10 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(38).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(39).setImmediate))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
@@ -47033,7 +47110,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(39);
+__webpack_require__(40);
 // On some exotic environments, it's not clear which object `setimmeidate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -47047,7 +47124,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -47237,18 +47314,18 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(8)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(41)
+var normalizeComponent = __webpack_require__(42)
 /* script */
-var __vue_script__ = __webpack_require__(42)
+var __vue_script__ = __webpack_require__(43)
 /* template */
-var __vue_template__ = __webpack_require__(43)
+var __vue_template__ = __webpack_require__(44)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47287,7 +47364,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -47396,7 +47473,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47425,7 +47502,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47468,89 +47545,10 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 45 */,
-/* 46 */,
-/* 47 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["getProfiles"] = getProfiles;
-
-function getProfiles() {
-    var token = document.head.querySelector('meta[name="csrf-token"]').content;
-    var profileUrl = './api/potentialmatch/' + document.head.querySelector('meta[name="userId"]').content;
-    fetch(profileUrl).then(function (res) {
-        return res.json();
-    }).then(function (profiles) {
-        return profiles.map(function (profile) {
-
-            var profileCard = '<div class="col-sm-6 col-sm-4 col-lg-3 profile-card"><div class="thumbnail"><h5>Name: ' + profile.firstName + '</h5><p class="flex-text"> </p><img src="' + profile.profilePicture + '" alt="' + profile.firstName + '" style="max-height: 400px;"><div class="caption"><p class="flex-text"> </p><div class="text-center .ml-1"><h6>Gender: ' + profile.genderName + '</h6><h6>Age: ' + profile.age + '</h6>';
-            if (profile.bodyTypeName != null) {
-                profileCard += '<h6>Body Type: ' + profile.bodyTypeName + '</h6>';
-            }
-
-            if (profile.email != null) {
-                profileCard += '<h6>Email: ' + profile.email + '</h6>';
-            }
-
-            profileCard += '</div><form action="updateLikeStatus" method="post" data-userid="' + profile.id + '"><input type="hidden" name="targetId" value="' + profile.id + '    "><div class="btn-group btn-group-toggle text-center col-12" data-toggle="buttons"><label class="btn btn-dislike col-5">' + '    <input type="radio" autocomplete="off" checked> Dislike</label><label class="btn btn-no-like-status active col-2"><input type="radio" autocomplete="off"></label>' + '    <label class="btn btn-like col-5"><input type="radio" autocomplete="off"> Like</label></div></form><button type="button" class="btn btn-info mt-3 mb-2 ml-3 mr-3" data-toggle="modal" data-target="#myModal' + profile.id + '">More Info</button>' + '            <div id="myModal' + profile.id + '" class="modal fade" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">' + '<div class="modal-dialog">' + '<div class="modal-content">' + '<div class="modal-header">' + '<h4 class="modal-title">Name: ' + profile.firstName + '</h4>' + '<button type="button"  data-dismiss="modal">&times;</button>' + '</div>' + '<div class="modal-body">' + '<div class="col-lg-12">' + '<div class="thumbnail">' + '<img src="' + profile.profilePicture + '" alt="' + profile.firstName + '" class="center" style="width:40%; margin:0 auto">' + '</div>' + '</div>' + '</div>' + '<div class="modal-body">' + '<div class="col-lg-12">' + '<div class="form-group row">' + '<label for="gender" class="col-md-4 col-form-label text-md-right">Gender: </label>' + '<div class="col-md-6">' + '<input id="gender" type="text" class="form-control" name="gender" value="' + profile.genderName + '" required disabled>' + '</div>' + '</div>' + '<div class="form-group row">' + '<label for="age" class="col-md-4 col-form-label text-md-right">Age </label>' + '<div class="col-md-6">' + '<input id="age" type="text" class="form-control" name="age" value="' + profile.age + '" required disabled>' + '</div>' + '</div>';
-
-            if (profile.bodyTypeDisplay != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="bodyTypeName" class="col-md-4 col-form-label text-md-right">Body Type</label>' + '        <div class="col-md-6">' + '        <input id="bodyTypeName" type="text" class="form-control" name="BodyTypeName" value="' + profile.bodyTypeDisplay + '" required disabled>' + '        </div>' + '        </div>';
-            }
-
-            if (profile.stature != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="stature" class="col-md-4 col-form-label text-md-right">Stature</label>' + '        <div class="col-md-6">' + '        <input id="stature" type="text" class="form-control" name="Stature" value="' + profile.stature + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.countryName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="countryName" class="col-md-4 col-form-label text-md-right">Country</label>' + '        <div class="col-md-6">' + '        <input id="countryName" type="text" class="form-control" name="Country" value="' + profile.countryName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.ethnicityName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="ethnicityName" class="col-md-4 col-form-label text-md-right">Ethnicity</label>' + '        <div class="col-md-6">' + '        <input id="ethnicityName" type="text" class="form-control" name="Country" value="' + profile.ethnicityName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.educationName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="educationName" class="col-md-4 col-form-label text-md-right">Education</label>' + '        <div class="col-md-6">' + '        <input id="educationName" type="text" class="form-control" name="Country" value="' + profile.educationName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.religionName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="religionName" class="col-md-4 col-form-label text-md-right">Education</label>' + '        <div class="col-md-6">' + '        <input id="religionName" type="text" class="form-control" name="Country" value="' + profile.religionName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-
-            if (profile.hairColourName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="hairColourName" class="col-md-4 col-form-label text-md-right">Hair Colour</label>' + '        <div class="col-md-6">' + '        <input id="hairColourName" type="text" class="form-control" name="Country" value="' + profile.hairColourName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.eyeColourName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="eyeColourName" class="col-md-4 col-form-label text-md-right">Eye Colour</label>' + '        <div class="col-md-6">' + '        <input id="eyeColourName" type="text" class="form-control" name="Country" value="' + profile.eyeColourName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.drinkingPrefName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="drinkingPrefName" class="col-md-4 col-form-label text-md-right">Drinking</label>' + '        <div class="col-md-6">' + '        <input id="drinkingPrefName" type="text" class="form-control" name="Country" value="' + profile.drinkingPrefName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.smokingPrefName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="smokingPrefName" class="col-md-4 col-form-label text-md-right">Smoking</label>' + '        <div class="col-md-6">' + '        <input id="smokingPrefName" type="text" class="form-control" name="Country" value="' + profile.smokingPrefName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.leisureName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="leisureName" class="col-md-4 col-form-label text-md-right">Leisure</label>' + '        <div class="col-md-6">' + '        <input id="leisureName" type="text" class="form-control" name="Country" value="' + profile.leisureName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.personalityTypeName != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="personalityTypeName" class="col-md-4 col-form-label text-md-right">Personality</label>' + '        <div class="col-md-6">' + '        <input id="personalityTypeName" type="text" class="form-control" name="Country" value="' + profile.personalityTypeName + '" required disabled>' + '        </div>' + '        </div>';
-            }
-            if (profile.email != null) {
-                profileCard += '<div class="form-group row">' + '        <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>' + '        <div class="col-md-6">' + '        <input id="email" type="text" class="form-control" name="Country" value="' + profile.email + '" required disabled>' + '        </div>' + '        </div>';
-            }
-
-            profileCard += '<form action="updateLikeStatus" method="post" data-userid="' + profile.id + '">' + '<input type="hidden" name="targetId" value="' + profile.id + '">' + '<div class="btn-group btn-group-toggle text-center col-12" data-toggle="buttons">' + '<label class="btn btn-dislike col-5">' + '<input type="radio" autocomplete="off" checked> Dislike' + '</label>' + '<label class="btn btn-no-like-status active col-2">' + '<input type="radio" autocomplete="off">' + '</label>' + '<label class="btn btn-like col-5">' + '<input type="radio" autocomplete="off"> Like' + '</label>' + '</div>' + '</form>' + '</div>' + '</div>' + '<div class="modal-footer">' + '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' + '</div>' + '</div>' + '</div>' + '</div>' + '</div>' + '</div>' + '</div>';
-            $("#profiles").append(profileCard);
-        });
-    }).then(function (buttons) {
-        return setLikeButtons();
-    });
-};
 
 /***/ })
 /******/ ]);

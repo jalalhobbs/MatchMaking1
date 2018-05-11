@@ -19,7 +19,7 @@ window.setLikeButtons = setLikeButtons;
 
 import { getProfiles } from './getprofiles';
 window.getProfiles = getProfiles;
-
+$(document).ready(setLikeButtons());
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 const app = new Vue({

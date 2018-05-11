@@ -41,21 +41,53 @@
                         <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                         <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                     @else
-                        <li class="nav-item dropdown">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item @if(isset($pageName) && $pageName == 'Home')active @endif">
+                                <a class="nav-link" href="{{ route('home') }}">
+                                    Home <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if(isset($pageName) && $pageName == 'Matches')active @endif"
+                                   href="{{ route('matches') }}">
+                                    Matches
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if(isset($pageName) && $pageName == 'Liked Profiles')active @endif"
+                                   href="{{ route('likedProfiles') }}">
+                                    Liked Profiles
+                                </a>
+                            </li>
+
+                            <li class="nav-item d-md-none">
+                                <a class="nav-link" href="{{ route('profile.edit', [Auth::user()->id]) }}">
+                                    {{ __('My Profile') }}
+                                </a>
+                            </li>
+
+                            <li class="nav-item d-md-none">
+                                <a class="nav-link" href="{{ route('looking-for.edit', [Auth::user()->id]) }}">
+                                    {{ __('Looking for.....') }}
+                                </a>
+                            </li>
+                            <li class="nav-item d-md-none">
+                                <a class="nav-link" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                            </li>
+
+                        </ul>
+                        <li class="nav-item dropdown d-none d-sm-none d-md-block">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}<span class="caret"></span>
                             </a>
+
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('home') }}">
-                                    {{ __('Home') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('matches') }}">
-                                    {{ __('Matches') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('likedProfiles') }}">
-                                    {{ __('Liked Profiles') }}
-                                </a>
+
                                 <a class="dropdown-item" href="{{ route('profile.edit', [Auth::user()->id]) }}">
                                     {{ __('My Profile') }}
                                 </a>

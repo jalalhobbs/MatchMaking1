@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class MatchesController extends Controller
 {
@@ -24,7 +25,25 @@ class MatchesController extends Controller
      */
     public function index()
     {
-        $matches = DB::select('SELECT
+        $user = DB::table('users')->where('id', auth()->user()->id)->first();
+
+        if (($user->dob === null) ||
+            ($user->profilePicture === null) ||
+            ($user->genderId === null))
+
+
+        {
+            //return redirect(route('lookingfor.edit'));
+            //Get Ready to flash a message on the next page
+
+
+
+            session()->flash('status', 'Please complete your profile by entering your Date of Birth, Gender and your Profile Picture.');
+            return redirect(route('profile.edit', [auth()->user()->id]));
+        }
+        else {
+
+            $matches = DB::select('SELECT
                               users.firstName,
                               genders.genderName,
                               users.profilePicture,
@@ -62,22 +81,23 @@ class MatchesController extends Controller
                               LEFT JOIN religions ON users.religionId = religions.id
                               LEFT JOIN leisures ON users.leisureId = leisures.id
                               LEFT JOIN personality_types ON users.personalityTypeId = personality_types.id
-                            WHERE my_matches.userId = '.auth()->user()->id.'
-                                  AND their_matches.targetId ='.auth()->user()->id.'
+                            WHERE my_matches.userId = ' . auth()->user()->id . '
+                                  AND their_matches.targetId =' . auth()->user()->id . '
                                   AND my_matches.likeStatus = 2
                                   AND their_matches.likeStatus = 2');
 
-        foreach ($matches as $match) {
-            if (isset($match->dob)) {
-                $match->age = $this->getAge($match->dob);
-            } else {
-                $match->age = null;
+            foreach ($matches as $match) {
+                if (isset($match->dob)) {
+                    $match->age = $this->getAge($match->dob);
+                } else {
+                    $match->age = null;
+                }
             }
-        }
 
-        return view('home')
-            ->with('matches', $matches)
-            ->with('pageName', "Matches");
+            return view('home')
+                ->with('matches', $matches)
+                ->with('pageName', "Matches");
+        }
     }
 
 

@@ -18,6 +18,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/likedProfiles', 'LikedProfilesController@index')->name('likedProfiles');
+Route::get('/likesYou', 'LikesYouController@index')->name('likesYou');
 Route::get('/matches', 'MatchesController@index')->name('matches');
 Route::post('updateLikeStatus', 'LikeController@update')->name('updateLikeStatus');
 

@@ -1,4 +1,4 @@
-<div class="col-sm-6 col-sm-4 col-lg-3">
+<div class="col-sm-6 col-sm-4 col-lg-3 profile-card">
     <div class="thumbnail">
         <h5>Name: {{ $firstName }}</h5>
         <p class="flex-text"> </p>

@@ -7,69 +7,15 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="userId" content="{{Auth::id()}}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- Scripts -->
-    {{--<script src="{{ asset('js/like.js') }}"></script>--}}
-    <script type="text/javascript">
-        var token = '{{ Session::token() }}';
-        var urlLike = '{{ route('updateLikeStatus') }}';
-
-        function setLikeButtons() {
-            targetId = 0;
-            $('.btn-dislike').on('click', function (event) {
-
-                event.preventDefault();
-                targetId = event.target.parentNode.parentNode.dataset['userid'];
-
-                $.ajax({
-                    method: 'POST',
-                    url: urlLike,
-                    data: {isLike: 0, targetId: targetId, _token: token}
-                })
-                    .done(function () {
-                        //change the page
-                    });
-            });
-
-
-            $('.btn-no-like-status').on('click', function (event) {
-
-                event.preventDefault();
-                targetId = event.target.parentNode.parentNode.dataset['userid'];
-
-                $.ajax({
-                    method: 'POST',
-                    url: urlLike,
-                    data: {isLike: 1, targetId: targetId, _token: token}
-                })
-                    .done(function () {
-                        //change the page
-                    });
-            });
-
-            $('.btn-like').on('click', function (event) {
-
-                event.preventDefault();
-                targetId = event.target.parentNode.parentNode.dataset['userid'];
-
-                $.ajax({
-                    method: 'POST',
-                    url: urlLike,
-                    data: {isLike: 2, targetId: targetId, _token: token}
-                })
-                    .done(function () {
-                        //change the page
-                    });
-            });
-        };
-    </script>
 </head>
-<body onload="setLikeButtons()">
+<body>
 <div id="fb-root"></div>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
@@ -205,54 +151,9 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
-
-@if (Request::capture()->fullUrl() === route('home'))
-    {{--<script src="{{ asset('js/like.js') }}"></script>--}}
-@endif
-
-<!-- Facebook Register Button -->
-
-<script>(function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
-<script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: 'your-app-id',
-            autoLogAppEvents: true,
-            xfbml: true,
-            version: 'v2.12'
-        });
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+<script type="text/javascript">
+    $(document).ready(setLikeButtons());
 </script>
-
-{{--@if (Request::capture()->fullUrl() === route('home'))--}}
-{{--{--}}
-{{--<script type="text/javascript">--}}
-{{--var token = '{{ Session::token() }}';--}}
-{{--var urlLike = '{{ route('updateLikeStatus') }}';--}}
-{{--$(document).ready(setLikeButtons());--}}
-{{--</script>--}}
-{{--}--}}
-{{--@endif--}}
-
 
 </body>
 </html>

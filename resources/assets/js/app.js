@@ -14,6 +14,11 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import { setLikeButtons } from './likebuttons';
+window.setLikeButtons = setLikeButtons;
+
+import { getProfiles } from './getprofiles';
+window.getProfiles = getProfiles;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
@@ -21,7 +26,3 @@ const app = new Vue({
     el: '#app'
 });
 
-$('input[name=likeStatus]').change(function() {
-    $('form').submit();
-    return false;
-});

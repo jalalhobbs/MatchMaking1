@@ -16,11 +16,10 @@
 
 </head>
 <body>
-<div id="fb-root"></div>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ route('home') }}">
                 <img class="logo" src="{{asset('/images/love.png')}}">
                 Match Maker One
             </a>
@@ -47,7 +46,6 @@
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}<span class="caret"></span>
                             </a>
-
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('home') }}">
                                     {{ __('Home') }}

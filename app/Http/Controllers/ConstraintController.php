@@ -151,10 +151,10 @@ class ConstraintController extends Controller
         //https://stackoverflow.com/questions/23081654/check-users-age-with-laravel-validation-rules
         //https://hdtuto.com/article/php-laravel-set-custom-validation-error-messages-example
 
-        $highestAllowedAge = empty($request->targetMinAge) ? 120 : $request->targetMaxAge;
-        $lowestAllowedAge = empty($request->targetMaxAge) ? 18 : $request->targetMinAge;
-        $highestAllowedHeight = empty($request->targetMinHeight) ? 300 : $request->targetMaxHeight;
-        $lowestAllowedHeight = empty($request->targetMaxHeight) ? 50 : $request->targetMinHeight;
+        $highestAllowedAge = is_null($request->targetMaxAge) ? 120 : $request->targetMaxAge;
+        $lowestAllowedAge = is_null($request->targetMinAge) ? 18 : $request->targetMinAge;
+        $highestAllowedHeight = is_null($request->targetMaxHeight) ? 300 : $request->targetMaxHeight;
+        $lowestAllowedHeight = is_null($request->targetMinHeight) ? 50 : $request->targetMinHeight;
         $request->validate(
             [
                 'targetGenderId' => 'nullable|integer|min:1',

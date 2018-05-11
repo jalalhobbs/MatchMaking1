@@ -25,10 +25,12 @@ class WelcomeController extends Controller
      */
     public function index()
     {
+        if (!isset(auth()->user()->id)) {
         $genders = DB::table('genders')->get();
-
         return view('welcome')->with('genders', $genders);
-
+        } else {
+            return redirect(route('home'));
+        }
     }
 
     public function store(Request $request)

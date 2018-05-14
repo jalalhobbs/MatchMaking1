@@ -54,6 +54,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link @if(isset($pageName) && $pageName == 'Likes You')active @endif"
+                                   href="{{ route('likesYou') }}">
+                                    Likes You
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link @if(isset($pageName) && $pageName == 'Liked Profiles')active @endif"
                                    href="{{ route('likedProfiles') }}">
                                     Liked Profiles

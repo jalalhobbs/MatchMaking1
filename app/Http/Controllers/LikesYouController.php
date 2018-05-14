@@ -66,9 +66,9 @@ class LikesYouController extends Controller
                               personality_types.personalityTypeName,
                               my_matches.likeStatus
                               
-                            FROM matches as my_matches
-                              JOIN matches as their_matches ON my_matches.targetId = their_matches.userId
-                              JOIN users ON my_matches.targetId = users.id
+                            FROM matches as their_matches
+                              LEFT JOIN matches as my_matches ON their_matches.userId = my_matches.targetId
+                              JOIN users ON their_matches.userId = users.id
                               LEFT JOIN genders ON users.genderId = genders.id
                               LEFT JOIN body_types ON users.bodyTypeId = body_types.id
                               LEFT JOIN countries ON users.countryId = countries.id
@@ -81,11 +81,16 @@ class LikesYouController extends Controller
                               LEFT JOIN religions ON users.religionId = religions.id
                               LEFT JOIN leisures ON users.leisureId = leisures.id
                               LEFT JOIN personality_types ON users.personalityTypeId = personality_types.id
-                            WHERE my_matches.userId = ' . auth()->user()->id . '
-                                  AND their_matches.targetId =' . auth()->user()->id . '
+                            WHERE their_matches.targetId = ' . auth()->user()->id . '
                                   AND my_matches.likeStatus <> 0
                                   AND their_matches.likeStatus = 2');
-
+            foreach ($likesYouProfiles as $likesYouProfile) {
+                if (isset($likesYouProfile->dob)) {
+                    $likesYouProfile->age = $this->getAge($likesYouProfile->dob);
+                } else {
+                    $likesYouProfile->age = null;
+                }
+            }
             return view('home')
                 ->with('matches', $likesYouProfiles)
                 ->with('pageName', "Likes You");

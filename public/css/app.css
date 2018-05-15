@@ -10525,6 +10525,13 @@ body {
   height: auto;
 }
 
+.footer li a,
+.footer li a:hover,
+.footer li a:active,
+.footer li a:visited {
+  color: white;
+}
+
 .footerList {
   list-style: none;
 }

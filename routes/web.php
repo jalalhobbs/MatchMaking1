@@ -22,6 +22,13 @@ Route::get('/likesYou', 'LikesYouController@index')->name('likesYou');
 Route::get('/matches', 'MatchesController@index')->name('matches');
 Route::post('updateLikeStatus', 'LikeController@update')->name('updateLikeStatus');
 
+// footer
+Route::get('/about', 'AboutMatchMakerOneController@index')->name('about');
+Route::get('/faq', 'FAQController@index')->name('faq');
+Route::get('/help', 'HelpController@index')->name('help');
+Route::get('/advice', 'DatingAdviceController@index')->name('advice');
+Route::get('/safety', 'DatingSafetyController@index')->name('safety');
+
 //Route::get('/profile', 'ProfileController@index')->name('profile');
 
 Route::resource('profile', 'ProfileController')->only(['index', 'edit', 'update', 'show']);

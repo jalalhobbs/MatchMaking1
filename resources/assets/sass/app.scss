@@ -1,19 +1,14 @@
-
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 @import url('https://fonts.googleapis.com/css?family=Berkshire+Swash');
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-
 // Variables
 @import "variables";
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
 // custom scss imports
 @import 'welcomepage';
 @import 'header';
-
 // imports
 @import 'profile-card';
 
@@ -28,6 +23,9 @@
   }
 }
 
+body {
+  height: 100vh;
+}
 
 .card {
   //opacity: 0.5;
@@ -46,7 +44,6 @@
   border-color: #49525e;
 }
 
-
 @media screen and (min-width: 768px) {
   .footer {
     position: static;
@@ -58,26 +55,26 @@
   }
 }
 
-
 .footer {
-  position: static;
-  padding-top: 15px;
-  left: 0;
-  bottom: 0;
+  position: relative;
+  padding-bottom: 0px;
+  padding-top: 10px;
+  bottom: 0px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   text-align: left;
-  max-height: 30%;
-  min-height: auto;
-  margin-top: 80vh;
+  height: auto;
+  & li {
+    & a, a:hover, a:active, a:visited {
+      color: white;
+    }
+  }
 }
-
 
 .footerList {
   list-style: none;
 }
-
 
 body {
   background-color: $body-bg;
@@ -86,13 +83,24 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  height: 100%;
-  overflow-y: scroll !important;
+
   &.modal-open {
     padding-right: 0 !important;
+    //overflow-y: scroll !important;
   }
 }
 
+#app {
+  height: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+main {
+  min-height: -webkit-calc(100% - 161px);
+  min-height: -moz-calc(100% - 161px);
+  min-height: calc(100% - 161px);
+}
 
 //flexibox starts here - ref https://codepen.io/bootstrapped/pen/OMNYpq
 
@@ -100,6 +108,7 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
+
 .flex-row > [class*='col-'] {
   display: flex;
   flex-direction: column;
@@ -113,15 +122,17 @@ body {
   height: auto;
   position: relative;
 }
+
 .flex-text {
   flex-grow: 1;
 }
+
 .flex-row img {
   min-width: 0;
   width: 100%;
 }
 
-.flex-row  {
+.flex-row {
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -136,13 +147,12 @@ body {
   height: auto;
 }
 
-
 /* Extra Media Query Below for Retina Iphones and Smaller */
-@media only screen and (max-width : 480px){
+@media only screen and (max-width: 480px) {
   .flex-row > [class*='col-'] {
     width: 100%;
   }
-  .flex-row  {
+  .flex-row {
     padding-left: 0px;
     padding-right: 0px;
   }

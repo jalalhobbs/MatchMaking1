@@ -125,20 +125,20 @@
         @yield('content')
     </main>
 
-    <footer class="footer navbar-fixed-bottom">
+    <footer class="footer">
 
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
                     <ul class="footerList">
                         <li>
-                            <a>About Match Maker One</a>
+                            <a href="{{ route('about')}}">About Match Maker One</a>
                         </li>
                         <li>
-                            <a>FAQ</a>
+                            <a href="{{ route('faq')}}">FAQ</a>
                         </li>
                         <li>
-                            <a>Help</a>
+                            <a href="{{ route('help')}}">Help</a>
                         </li>
                     </ul>
 
@@ -148,10 +148,10 @@
 
                     <ul class="footerList">
                         <li>
-                            <a>Dating Advice</a>
+                            <a href="{{ route('advice')}}">Dating Advice</a>
                         </li>
                         <li>
-                            <a>Dating Safety</a>
+                            <a href="{{ route('safety')}}">Dating Safety</a>
                         </li>
                         <li>
                             <a></a>
@@ -172,12 +172,13 @@
                             <a></a>
                         </li>
                     </ul>
-
+                    <div class="row justify-content-center">
+                        <p>&copy; 2018 Match Maker One</p>
+                    </div>
                 </div>
+
             </div>
-            <div class="row justify-content-center">
-                <p>&copy; 2018 Match Maker One</p>
-            </div>
+
 
         </div>
 

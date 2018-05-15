@@ -125,7 +125,7 @@
         @yield('content')
     </main>
 
-    <footer class="footer navbar-fixed-bottom">
+    <footer class="footer">
 
         <div class="container">
             <div class="row">
@@ -172,12 +172,13 @@
                             <a></a>
                         </li>
                     </ul>
-
+                    <div class="row justify-content-center">
+                        <p>&copy; 2018 Match Maker One</p>
+                    </div>
                 </div>
+
             </div>
-            <div class="row justify-content-center">
-                <p>&copy; 2018 Match Maker One</p>
-            </div>
+
 
         </div>
 

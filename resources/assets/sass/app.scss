@@ -66,6 +66,7 @@ body {
 .footer {
   position: relative;
   padding-bottom: 0px;
+  padding-top:10px;
   bottom: 0px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -101,7 +102,9 @@ body {
 }
 
 main {
-  min-height: calc(100% - 190px);
+  min-height: -webkit-calc(100% - 162px);
+  min-height: -moz-calc(100% - 162px);
+  min-height: calc(100% - 162px);
 }
 
 //flexibox starts here - ref https://codepen.io/bootstrapped/pen/OMNYpq

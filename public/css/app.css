@@ -10516,6 +10516,7 @@ body {
 .footer {
   position: relative;
   padding-bottom: 0px;
+  padding-top: 10px;
   bottom: 0px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -10547,7 +10548,7 @@ body.modal-open {
 }
 
 main {
-  min-height: calc(100% - 190px);
+  min-height: calc(100% - 162px);
 }
 
 .flex-row {

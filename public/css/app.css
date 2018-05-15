@@ -10548,7 +10548,7 @@ body.modal-open {
 }
 
 main {
-  min-height: calc(100% - 162px);
+  min-height: calc(100% - 161px);
 }
 
 .flex-row {

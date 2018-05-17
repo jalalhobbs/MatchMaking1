@@ -82,6 +82,54 @@ class LikedProfilesController extends Controller
                     'matches.likeStatus'
                 )
                 ->get();
+$potentialMatches = DB::select('SELECT
+  users.firstName                       as firstName,
+  genders.genderName                    as genderName,
+  users.profilePicture                  as profilePicture,
+  users.dob                             as dob,
+  users.id                              as id,
+  body_types.bodyTypeName               as bodyTypeName,
+  genders.genderName                    as genderName,
+  users.height                          as height,
+  countries.countryName                 as countryName,
+  ethnicities.ethnicityName             as ethnicityName,
+  education.educationName               as educationName,
+  body_types.bodyTypeName               as bodyTypeName,
+  religions.religionName                as religionName,
+  hair_colours.hairColourName           as hairColourName,
+  eye_colours.eyeColourName             as eyeColourName,
+  drinking.drinkingPrefName             as drinkingPrefName,
+  smoking.smokingPrefName               as smokingPrefName,
+  leisures.leisureName                  as leisureName,
+  personality_types.personalityTypeName as personalityTypeName,
+  my_matches.likeStatus                 as likeStatus
+FROM (SELECT
+        userId,
+        targetId,
+        likeStatus
+      FROM matches
+      WHERE userId = '.auth()->user()->id.' AND likeStatus = 2) as my_matches
+  LEFT JOIN (SELECT
+               userId,
+               likeStatus
+             FROM matches
+             WHERE
+               targetId = '.auth()->user()->id.') as their_matches ON my_matches.targetId = their_matches.userId
+  LEFT JOIN users ON my_matches.targetId = users.id
+  LEFT JOIN genders ON users.genderId = genders.id
+  LEFT JOIN body_types ON users.bodyTypeId = body_types.id
+  LEFT JOIN countries ON users.countryId = countries.id
+  LEFT JOIN education ON users.educationId = education.id
+  LEFT JOIN hair_colours ON users.hairColourId = hair_colours.id
+  LEFT JOIN eye_colours ON users.eyeColourId = eye_colours.id
+  LEFT JOIN ethnicities ON users.ethnicityId = ethnicities.id
+  LEFT JOIN smoking ON users.smokingId = smoking.id
+  LEFT JOIN drinking ON users.drinkingId = drinking.id
+  LEFT JOIN religions ON users.religionId = religions.id
+  LEFT JOIN leisures ON users.leisureId = leisures.id
+  LEFT JOIN personality_types ON users.personalityTypeId = personality_types.id
+WHERE ((their_matches.likeStatus = 1) OR (their_matches.likeStatus IS NULL))
+GROUP BY my_matches.targetId, their_matches.likeStatus');
 
             foreach ($potentialMatches as $potentialMatch) {
                 if (isset($potentialMatch->dob)) {

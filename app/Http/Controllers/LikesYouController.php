@@ -81,7 +81,7 @@ class LikesYouController extends Controller
                   LEFT JOIN religions ON users.religionId = religions.id
                   LEFT JOIN leisures ON users.leisureId = leisures.id
                   LEFT JOIN personality_types ON users.personalityTypeId = personality_types.id
-                WHERE ((my_matches.likeStatus <> 0) OR (my_matches.likeStatus IS NULL))
+                WHERE ((my_matches.likeStatus = 1) OR (my_matches.likeStatus IS NULL))
                 GROUP BY their_matches.userId, my_matches.likeStatus');
             foreach ($likesYouProfiles as $likesYouProfile) {
                 if (isset($likesYouProfile->dob)) {

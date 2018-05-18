@@ -12,9 +12,6 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <div class="text-center .ml-1">
-                            <h3>Welcome {{ Auth::user()->firstName }}!</h3>
-                        </div>
                         <div class="container">
                             <div class="flex-row row">
 

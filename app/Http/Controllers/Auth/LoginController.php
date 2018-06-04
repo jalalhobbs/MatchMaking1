@@ -83,7 +83,7 @@ class LoginController extends Controller
         $user = User::create([
             'firstName' => $facebookUser->user['first_name'],
             'lastName' => $facebookUser->user['last_name'],
-            'email' => $facebookUser->user['email'],
+            'email' => strtolower($facebookUser->user['email']),
             'facebookProfileLink' => $facebookUser->getId(),
             'profilePicture' => $facebookUser->getAvatar(),
             'password' => Hash::make("fakeP!assword123"),
@@ -97,10 +97,22 @@ class LoginController extends Controller
     private function facebookUserCheck($facebookUser) {
         if ($user = User::where('facebookProfileLink', $facebookUser->getId())->first()) { // find account with facebook ID attached
             return $user;
-        } elseif ($user = User::where('email', $facebookUser->user['email'])->first()) { // enforce facebook if no facebook
+        } elseif ($user = User::where('email', strtolower($facebookUser->user['email'])->first())) { // enforce facebook if no facebook
             // TODO: function enforceFacebookUserStats($facebookUser);
             return $user;
         }
         return false;
+    }
+
+    // to make up for Laravel lacking the ability to be case insensitive in regards to email, while it calls it a username
+    // https://stackoverflow.com/questions/48451166/how-to-make-email-login-case-insensitive-with-laravel-5-5-authentication
+    protected function credentials()
+    {
+        $username = $this->username();
+        $credentials = request()->only($username, 'password');
+        if (isset($credentials[$username])) {
+            $credentials[$username] = strtolower($credentials[$username]);
+        }
+        return $credentials;
     }
 }

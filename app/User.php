@@ -179,4 +179,7 @@ class User extends Authenticatable
         return $this->hasMany('App\User');
     }
 
+    public function getEmailAttribute($email) {
+        return strtolower($email);
+    }
 }
